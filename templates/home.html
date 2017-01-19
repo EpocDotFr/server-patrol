@@ -1,6 +1,24 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+    {% if monitorings %}
+        <div class="monitorings">
+        {% for monitoring in monitorings %}
+            <div class="monitoring row">
+                <div class="status center">
+                    <span class="status-chip {{ monitoring.status }}"><i class="fa fa-{% if monitoring.status == 'up' %}check{% elif monitoring.status == 'down' %}times{% elif monitoring.status == 'unknown' %}question{% endif %}"></i></span>
+                </div>
+                <div>
+                    <div class="name">{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a> <a href="{{ url_for('rss_one', monitoring_id=monitoring.id) }}"><i class="fa fa-rss"></i></a></small></div>
+                    <div class="muted info"><strong>Down for:</strong> 4 minutes <strong>Last checked:</strong> just now <strong>Next check:</strong> in 4 minutes</div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert info">No monitor to display a this moment.</div>
+    {% endif %}
+
     <div class="monitorings">
         <div class="monitoring row">
             <div class="status center">

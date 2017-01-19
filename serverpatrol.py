@@ -25,7 +25,9 @@ logging.getLogger().setLevel(logging.INFO)
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    monitorings = g.db.execute('SELECT id, name, url, check_interval, last_checked_at, last_status_change_at, status FROM monitorings').fetchall()
+
+    return render_template('home.html', monitorings=monitorings)
 
 
 @app.route('/rss/all')

@@ -25,7 +25,6 @@
         <ul>
             <li {% if request.endpoint == 'home' %}class="active"{% endif %}><a href="{{ url_for('home') }}">Home</a></li>
             <li {% if request.endpoint == 'manage_monitorings' %}class="active"{% endif %}><a href="{{ url_for('manage_monitorings') }}">Manage monitorings</a></li>
-            <li><a href="#">System configuration</a></li>
         </ul>
     </nav>
     
