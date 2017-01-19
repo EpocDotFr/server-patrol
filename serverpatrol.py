@@ -20,15 +20,8 @@ logging.getLogger().setLevel(logging.INFO)
 
 
 @app.route('/')
-@auth.login_required
 def home():
     return render_template('home.html')
-
-
-@app.route('/manage')
-@auth.login_required
-def manage():
-    return render_template('manage.html')
 
 
 @app.route('/rss/all')
@@ -41,12 +34,18 @@ def rss_one(monitoring_id):
     return None
 
 
+@app.route('/manage-monitorings')
+@auth.login_required
+def manage_monitorings():
+    return render_template('manage-monitorings.html')
+
+
 # -----------------------------------------------------------
 
 
 @auth.get_password
 def get_password(username):
-    if username in app.config['USER']:
-        return app.config['USER'].get(username)
+    if username in app.config['USERS']:
+        return app.config['USERS'].get(username)
 
     return None
