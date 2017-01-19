@@ -32,7 +32,12 @@ def manage():
 
 
 @app.route('/rss')
-def rss():
+def rss_all():
+    return None
+
+
+@app.route('/rss/<monitoring_id>')
+def rss_one(monitoring_id):
     return None
 
 
