@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <p class="center"><a href="#" class="button">New</a></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>URL</th>
+                <th>HTTP method</th>
+                <th>Verify HTTPS certificate</th>
+                <th>Check interval</th>
+                <th>Timeout</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>epoc.fr</td>
+                <td><a href="https://epoc.fr/">https://epoc.fr/</a></td>
+                <td><code>HEAD</code></td>
+                <td>Yes</td>
+                <td>60s</td>
+                <td>10s</td>
+                <td class="center"><a href="#" class="button"><i class="fa fa-pencil"></i></a> <a href="#" class="button"><i class="fa fa-trash"></i></a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p class="center"><a href="#" class="button">New</a></p>
+{% endblock %}
