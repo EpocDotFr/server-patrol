@@ -31,7 +31,7 @@ def manage():
     return render_template('manage.html')
 
 
-@app.route('/rss')
+@app.route('/rss/all')
 def rss_all():
     return None
 
