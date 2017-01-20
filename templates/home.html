@@ -1,53 +1,19 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    {% if monitorings %}
-        <div class="monitorings">
-        {% for monitoring in monitorings %}
-            <div class="monitoring row">
-                <div class="status center">
-                    <span class="status-chip {{ monitoring.status }}"><i class="fa fa-{% if monitoring.status == 'up' %}check{% elif monitoring.status == 'down' %}times{% elif monitoring.status == 'unknown' %}question{% endif %}"></i></span>
-                </div>
-                <div>
-                    <div class="name">{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a> <a href="{{ url_for('rss_one', monitoring_id=monitoring.id) }}"><i class="fa fa-rss"></i></a></small></div>
-                    <div class="muted info"><strong>Down for:</strong> 4 minutes <strong>Last checked:</strong> just now <strong>Next check:</strong> in 4 minutes</div>
-                </div>
+    {% for monitoring in monitorings %}
+        <div class="monitoring row">
+            <div class="status center">
+                <span class="status-chip {{ monitoring.status }}"><i class="fa fa-{% if monitoring.status == 'up' %}check{% elif monitoring.status == 'down' %}times{% elif monitoring.status == 'unknown' %}question{% endif %}"></i></span>
             </div>
-        {% endfor %}
+            <div>
+                <div class="name">{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a> <a href="{{ url_for('rss_one', monitoring_id=monitoring.id) }}"><i class="fa fa-rss"></i></a></small></div>
+                <div class="muted info">{% if monitoring.status == 'down' %}<strong>Down for:</strong> {{ monitoring.last_status_change_at }} • {% endif %}<strong>Last checked:</strong> {% if monitoring.last_checked_at %}{{ monitoring.last_checked_at }}{% else %}Never{% endif %} • <strong>Next check:</strong> {{ monitoring.last_checked_at }} + {{ monitoring.check_interval }}</div>
+            </div>
         </div>
     {% else %}
         <div class="alert info">No monitor to display a this moment.</div>
-    {% endif %}
-
-    <div class="monitorings">
-        <div class="monitoring row">
-            <div class="status center">
-                <span class="status-chip up"><i class="fa fa-check"></i></span>
-            </div>
-            <div>
-                <div class="name">thisiswar.online <small><a href="https://thisiswar.online/"><i class="fa fa-external-link"></i></a> <a href="#"><i class="fa fa-rss"></i></a></small></div>
-                <div class="muted info"><strong>Last checked:</strong> 6 minutes ago <strong>Next check:</strong> in 1 minute</div>
-            </div>
-        </div>
-        <div class="monitoring row">
-            <div class="status center">
-                <span class="status-chip unknown"><i class="fa fa-question"></i></span>
-            </div>
-            <div>
-                <div class="name">blog.epoc.fr <small><a href="https://blog.epoc.fr/"><i class="fa fa-external-link"></i></a> <a href="#"><i class="fa fa-rss"></i></a></small></div>
-                <div class="muted info"><strong>Last checked:</strong> Never <strong>Next check:</strong> in 5 minutes</div>
-            </div>
-        </div>
-        <div class="monitoring row">
-            <div class="status center">
-                <span class="status-chip down"><i class="fa fa-times"></i></span>
-            </div>
-            <div>
-                <div class="name">epoc.fr <small><a href="https://epoc.fr/"><i class="fa fa-external-link"></i></a> <a href="#"><i class="fa fa-rss"></i></a></small></div>
-                <div class="muted info"><strong>Down for:</strong> 4 minutes <strong>Last checked:</strong> just now <strong>Next check:</strong> in 4 minutes</div>
-            </div>
-        </div>
-    </div>
+    {% endfor %}
 
     <p class="center"><a href="{{ url_for('rss_all') }}" class="button"><i class="fa fa-rss"></i> All</a></p>
 {% endblock %}
