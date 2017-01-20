@@ -1,32 +1,40 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <p class="center"><a href="#" class="button">New</a></p>
+    <p class="center"><a href="#" class="button"><i class="fa fa-plus"></i> New</a></p>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>URL</th>
-                <th>HTTP method</th>
-                <th>Verify HTTPS certificate</th>
-                <th>Check interval</th>
-                <th>Timeout</th>
-                <th>Recipients</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>epoc.fr</td>
-                <td><a href="https://epoc.fr/">https://epoc.fr/</a></td>
-                <td><code>HEAD</code></td>
-                <td>Yes</td>
-                <td>60s</td>
-                <td>10s</td>
-                <td>contact@epoc.fr</td>
-                <td class="center"><a href="#" class="button"><i class="fa fa-pencil"></i></a> <a href="#" class="button"><i class="fa fa-trash"></i></a></td>
-            </tr>
-        </tbody>
-    </table>
+    {% if monitorings %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Active</th>
+                    <th>URL</th>
+                    <th>HTTP method</th>
+                    <th>Verify HTTPS certificate</th>
+                    <th>Check interval</th>
+                    <th>Timeout</th>
+                    <th>Recipients</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for monitoring in monitorings %}
+                <tr>
+                    <td>{{ monitoring.name }}</td>
+                    <td>{% if monitoring.is_active %}Yes{% else %}No{% endif %}</td>
+                    <td><a href="{{ monitoring.url }}">{{ monitoring.url }}</a></td>
+                    <td><code>{{ monitoring.http_method }}</code></td>
+                    <td>{% if monitoring.verify_https_cert %}Yes{% else %}No{% endif %}</td>
+                    <td>{{ monitoring.check_interval }}m</td>
+                    <td>{{ monitoring.timeout }}s</td>
+                    <td>{{ monitoring.recipients }}</td>
+                    <td class="center"><a href="#" class="button"><i class="fa fa-pencil"></i></a> <a href="#" class="button"><i class="fa fa-trash"></i></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert info">No monitorings to display a this moment.</div>
+    {% endif %}
 {% endblock %}

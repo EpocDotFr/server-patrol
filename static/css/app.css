@@ -118,7 +118,7 @@ a:focus {
 button, .button {
     border-radius: 5px;
     cursor: pointer;
-    background-color: #3A8CB2;
+    background-color: #000545;
     border: 2px solid #E6B71D;
     outline: none;
     padding: 3px 5px;
@@ -129,7 +129,7 @@ button, .button {
 
 button, .button:hover,
 button, .button:focus {
-    background-color: #3898C5;
+    background-color: #3A8CB2;
     outline: none;
 }
 
@@ -305,7 +305,7 @@ table tr:nth-child(odd) td {
 }
 
 table tr:nth-child(even) td {
-    background-color: #CCC;
+    background-color: #F5F6FF;
 }
 
 /************************************************************************

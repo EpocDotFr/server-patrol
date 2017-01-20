@@ -1,6 +1,8 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+    <p class="center"><a href="{{ url_for('rss_all') }}" class="button"><i class="fa fa-rss"></i> All</a></p>
+
     {% for monitoring in monitorings %}
         <div class="monitoring row">
             <div class="status center">
@@ -12,8 +14,6 @@
             </div>
         </div>
     {% else %}
-        <div class="alert info">No monitor to display a this moment.</div>
+        <div class="alert info">No monitorings to display a this moment.</div>
     {% endfor %}
-
-    <p class="center"><a href="{{ url_for('rss_all') }}" class="button"><i class="fa fa-rss"></i> All</a></p>
 {% endblock %}

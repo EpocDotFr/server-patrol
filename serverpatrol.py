@@ -25,7 +25,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 @app.route('/')
 def home():
-    monitorings = g.db.execute('SELECT id, name, url, check_interval, last_checked_at, last_status_change_at, status FROM monitorings').fetchall()
+    monitorings = g.db.execute('SELECT id, name, url, check_interval, last_checked_at, last_status_change_at, status FROM monitorings WHERE is_active = 1').fetchall()
 
     return render_template('home.html', monitorings=monitorings)
 
@@ -43,7 +43,9 @@ def rss_one(monitoring_id):
 @app.route('/manage-monitorings')
 @auth.login_required
 def manage_monitorings():
-    return render_template('manage-monitorings.html')
+    monitorings = g.db.execute('SELECT id, name, is_active, url, http_method, verify_https_cert, check_interval, timeout, recipients FROM monitorings').fetchall()
+
+    return render_template('manage-monitorings.html', monitorings=monitorings)
 
 
 # -----------------------------------------------------------
@@ -66,7 +68,7 @@ def connect_to_db():
         g.db.row_factory = sqlite3.Row
 
         if db_is_new:
-            g.db.execute('CREATE TABLE monitorings (id INTEGER PRIMARY KEY, name TEXT NOT NULL, url TEXT NOT NULL, http_method TEXT CHECK(http_method IN(\'GET\', \'HEAD\', \'POST\', \'PUT\', \'DELETE\')) NOT NULL DEFAULT \'GET\', verify_https_cert INTEGER NOT NULL DEFAULT 1, check_interval INTEGER NOT NULL DEFAULT 5, timeout INTEGER NOT NULL DEFAULT 10, last_checked_at TEXT DEFAULT NULL, last_status_change_at TEXT DEFAULT NULL, status TEXT CHECK(status IN(\'up\', \'down\', \'unknown\')) NOT NULL DEFAULT \'unknown\', recipients TEXT DEFAULT NULL)')
+            g.db.execute('CREATE TABLE monitorings (id INTEGER PRIMARY KEY, name TEXT NOT NULL, is_active INTEGER NOT NULL DEFAULT 0, url TEXT NOT NULL, http_method TEXT CHECK(http_method IN(\'GET\', \'HEAD\', \'POST\', \'PUT\', \'DELETE\')) NOT NULL DEFAULT \'GET\', verify_https_cert INTEGER NOT NULL DEFAULT 1, check_interval INTEGER NOT NULL DEFAULT 5, timeout INTEGER NOT NULL DEFAULT 10, last_checked_at TEXT DEFAULT NULL, last_status_change_at TEXT DEFAULT NULL, status TEXT CHECK(status IN(\'up\', \'down\', \'unknown\')) NOT NULL DEFAULT \'unknown\', recipients TEXT DEFAULT NULL, created_at TEXT NOT NULL DEFAULT (datetime(\'now\')))')
 
 
 @app.teardown_appcontext
