@@ -4,11 +4,14 @@ import logging
 import sys
 import sqlite3
 import os
+import arrow
 
 app = Flask(__name__, static_url_path='')
 app.config.from_pyfile('config.py')
 
 app.config['DB_FILE'] = 'storage/data/db.sqlite'
+
+app.jinja_env.globals.update(arrow=arrow)
 
 auth = HTTPBasicAuth()
 
@@ -25,9 +28,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 @app.route('/')
 def home():
-    monitorings = g.db.execute('SELECT id, name, url, check_interval, last_checked_at, last_status_change_at, status FROM monitorings WHERE is_active = 1').fetchall()
-
-    return render_template('home.html', monitorings=monitorings)
+    return render_template('home.html', monitorings=get_monitorings_for_home())
 
 
 @app.route('/rss/all')
@@ -43,12 +44,47 @@ def rss_one(monitoring_id):
 @app.route('/manage-monitorings')
 @auth.login_required
 def manage_monitorings():
-    monitorings = g.db.execute('SELECT id, name, is_active, url, http_method, verify_https_cert, check_interval, timeout, recipients FROM monitorings').fetchall()
-
-    return render_template('manage-monitorings.html', monitorings=monitorings)
+    return render_template('manage-monitorings.html', monitorings=get_monitorings_for_managing())
 
 
 # -----------------------------------------------------------
+
+
+def get_monitorings_for_home():
+    monitorings = g.db.execute('SELECT id, name, url, check_interval, last_checked_at, last_status_change_at, status, created_at FROM monitorings WHERE is_active = 1').fetchall()
+
+    return _get_list_monitoring(monitorings)
+
+
+def get_monitorings_for_managing():
+    monitorings = g.db.execute('SELECT id, name, is_active, url, http_method, verify_https_cert, check_interval, timeout, recipients FROM monitorings').fetchall()
+
+    return _get_list_monitoring(monitorings)
+
+
+def _get_list_monitoring(monitorings=[]):
+    if not monitorings:
+        return []
+
+    monitoring_list = []
+
+    for monitoring in monitorings:
+        monitoring_list.append(_get_one_monitoring(monitoring))
+
+    return monitoring_list
+
+
+def _get_one_monitoring(monitoring=None):
+    if not monitoring:
+        return None
+
+    monitoring = dict(monitoring)
+
+    for column in ['last_checked_at', 'last_status_change_at', 'created_at']:
+        if column in monitoring and monitoring[column] is not None:
+            monitoring[column] = arrow.get(monitoring[column])
+
+    return monitoring
 
 
 @auth.get_password
