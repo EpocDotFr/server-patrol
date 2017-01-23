@@ -1,16 +1,25 @@
-from flask import Flask, render_template, g
+from flask import Flask, render_template
 from flask_httpauth import HTTPBasicAuth
+from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import HTTPException
+from sqlalchemy_utils import ArrowType
+from enum import Enum
 import logging
 import sys
-import sqlite3
 import os
 import arrow
+
+
+# -----------------------------------------------------------
+# Boot
+
 
 app = Flask(__name__, static_url_path='')
 app.config.from_pyfile('config.py')
 
-app.config['DB_FILE'] = 'storage/data/db.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///storage/data/db.sqlite'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
 app.jinja_env.globals.update(arrow=arrow)
 
@@ -24,7 +33,9 @@ logging.basicConfig(
 
 logging.getLogger().setLevel(logging.INFO)
 
+
 # -----------------------------------------------------------
+# Routes
 
 
 @app.route('/')
@@ -49,48 +60,93 @@ def manage_monitorings():
 
 
 # -----------------------------------------------------------
+# Models
+
+
+class MonitoringHttpMethod(Enum):
+    GET = 'GET'
+    HEAD = 'HEAD'
+    POST = 'POST'
+    PUT = 'PUT'
+    DELETE = 'DELETE'
+
+
+class MonitoringStatus(Enum):
+    UNKNOWN = 'UNKNOWN'
+    UP = 'UP'
+    DOWN = 'DOWN'
+
+
+class Monitoring(db.Model):
+    __tablename__ = 'monitorings'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    name = db.Column(db.String(255), unique=True, nullable=False)
+    is_active = db.Column(db.Boolean, default=False, nullable=False)
+    is_public = db.Column(db.Boolean, default=False, nullable=False)
+    url = db.Column(db.String(255), nullable=False)
+    http_method = db.Column(db.Enum(MonitoringHttpMethod), default=MonitoringHttpMethod.GET, nullable=False)
+    verify_https_cert = db.Column(db.Boolean, default=True, nullable=False)
+    check_interval = db.Column(db.Integer, default=5, nullable=False)
+    timeout = db.Column(db.Integer, default=10, nullable=False)
+    last_checked_at = db.Column(ArrowType, default=None)
+    last_status_change_at = db.Column(ArrowType, default=None)
+    status = db.Column(db.Enum(MonitoringStatus), default=MonitoringStatus.UNKNOWN, nullable=False)
+    last_down_reason = db.Column(db.Text, default=None)
+    recipients = db.Column(db.Text, default=None)
+    created_at = db.Column(ArrowType, nullable=False)
+
+    def __init__(self, name, is_active, is_public, url, http_method, verify_https_cert, check_interval, timeout, last_checked_at, last_status_change_at, status, last_down_reason, recipients, created_at):
+        self.name = name
+        self.is_active = is_active
+        self.is_public = is_public
+        self.url = url
+        self.http_method = http_method
+        self.verify_https_cert = verify_https_cert
+        self.check_interval = check_interval
+        self.timeout = timeout
+        self.last_checked_at = last_checked_at
+        self.last_status_change_at = last_status_change_at
+        self.status = status
+        self.last_down_reason = last_down_reason
+        self.recipients = recipients
+        self.created_at = created_at
+
+    def __repr__(self):
+        return '<Monitoring> #{} : {}'.format(self.id, self.name)
 
 
 def get_monitorings_for_home():
-    sql = 'SELECT id, name, is_public, url, check_interval, last_checked_at, last_status_change_at, status, last_down_reason, created_at FROM monitorings WHERE is_active = 1'
+    q = Monitoring.query.order_by(Monitoring.name.desc())
+
+    q = q.filter(Monitoring.is_active == True)
 
     if not auth.username():
-        sql = sql + ' AND is_public = 1'
+        q = q.filter(Monitoring.is_public == True)
 
-    monitorings = g.db.execute(sql)
-
-    return _get_list_monitoring(monitorings)
+    return q.all()
 
 
 def get_monitorings_for_managing():
-    monitorings = g.db.execute('SELECT id, name, is_active, is_public, url, http_method, verify_https_cert, check_interval, timeout, recipients FROM monitorings').fetchall()
+    q = Monitoring.query.order_by(Monitoring.name.desc())
 
-    return _get_list_monitoring(monitorings)
-
-
-def _get_list_monitoring(monitorings=[]):
-    if not monitorings:
-        return []
-
-    monitoring_list = []
-
-    for monitoring in monitorings:
-        monitoring_list.append(_get_one_monitoring(monitoring))
-
-    return monitoring_list
+    return q.all()
 
 
-def _get_one_monitoring(monitoring=None):
-    if not monitoring:
-        return None
+# -----------------------------------------------------------
+# CLI commands
 
-    monitoring = dict(monitoring)
 
-    for column in ['last_checked_at', 'last_status_change_at', 'created_at']:
-        if column in monitoring and monitoring[column] is not None:
-            monitoring[column] = arrow.get(monitoring[column])
+@app.cli.command()
+def create_database():
+    """Delete then create all the database tables."""
+    db.drop_all()
+    db.create_all()
 
-    return monitoring
+
+# -----------------------------------------------------------
+# Hooks
 
 
 @auth.get_password
@@ -101,22 +157,8 @@ def get_password(username):
     return None
 
 
-@app.before_request
-def connect_to_db():
-    if not hasattr(g, 'db'):
-        db_is_new = not os.path.isfile(app.config['DB_FILE'])
-
-        g.db = sqlite3.connect(app.config['DB_FILE'])
-        g.db.row_factory = sqlite3.Row
-
-        if db_is_new:
-            g.db.execute('CREATE TABLE monitorings (id INTEGER PRIMARY KEY, name TEXT NOT NULL, is_active INTEGER NOT NULL DEFAULT 0, is_public INTEGER NOT NULL DEFAULT 0, url TEXT NOT NULL, http_method TEXT CHECK(http_method IN(\'GET\', \'HEAD\', \'POST\', \'PUT\', \'DELETE\')) NOT NULL DEFAULT \'GET\', verify_https_cert INTEGER NOT NULL DEFAULT 1, check_interval INTEGER NOT NULL DEFAULT 5, timeout INTEGER NOT NULL DEFAULT 10, last_checked_at TEXT DEFAULT NULL, last_status_change_at TEXT DEFAULT NULL, status TEXT CHECK(status IN(\'up\', \'down\', \'unknown\')) NOT NULL DEFAULT \'unknown\', last_down_reason TEXT DEFAULT NULL, recipients TEXT DEFAULT NULL, created_at TEXT NOT NULL DEFAULT (datetime(\'now\')))')
-
-
-@app.teardown_appcontext
-def close_db(error):
-    if hasattr(g, 'db'):
-        g.db.close()
+# -----------------------------------------------------------
+# HTTP errors handler
 
 
 @auth.error_handler

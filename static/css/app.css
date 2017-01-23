@@ -94,19 +94,19 @@ a:focus {
     display: inline-block;
 }
 
-.status-chip.up {
+.status-chip.UP {
     background-color: #24C933;
     color: #FFF;
     border-color: #10a81d;
 }
 
-.status-chip.down {
+.status-chip.DOWN {
     background-color: #E95E5E;
     color: #FFF;
     border-color: #ae4747;
 }
 
-.status-chip.unknown {
+.status-chip.UNKNOWN {
     background-color: #B0A9A9;
     color: #FFF;
     border-color: #877e7e;

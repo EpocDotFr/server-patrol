@@ -26,7 +26,7 @@
                     <td>{% if monitoring.is_active %}Yes{% else %}No{% endif %}</td>
                     <td>{% if monitoring.is_public %}Yes{% else %}No{% endif %}</td>
                     <td><a href="{{ monitoring.url }}">{{ monitoring.url }}</a></td>
-                    <td><code>{{ monitoring.http_method }}</code></td>
+                    <td><code>{{ monitoring.http_method.value }}</code></td>
                     <td>{% if monitoring.verify_https_cert %}Yes{% else %}No{% endif %}</td>
                     <td>{{ monitoring.check_interval }}m</td>
                     <td>{{ monitoring.timeout }}s</td>
