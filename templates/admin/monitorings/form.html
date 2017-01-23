@@ -1,0 +1,8 @@
+<div class="group">
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" value="{{ monitoring.name if monitoring }}" required>
+</div>
+
+<p>
+    <a href="{{ url_for('admin_monitorings_list') }}" class="button"><i class="fa fa-arrow-left"></i> Back</a> <button type="submit">Save</button>
+</p>

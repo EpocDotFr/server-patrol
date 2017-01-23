@@ -1,0 +1,7 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <form method="post" action="{{ url_for('admin_monitorings_create') }}">
+    {% include 'admin/monitorings/form.html' %}
+    </form>
+{% endblock %}

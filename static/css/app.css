@@ -127,8 +127,8 @@ button, .button {
     font-weight: bold;
 }
 
-button, .button:hover,
-button, .button:focus {
+button:hover, .button:hover,
+button:focus, .button:focus {
     background-color: #3A8CB2;
     outline: none;
 }
@@ -139,8 +139,35 @@ button:disabled, .button.disabled {
     color: #000;
 }
 
-button, .button.small {
+button.small, .button.small {
     padding: 2px;
+}
+
+/************************************************************************
+ * Forms */
+
+form .group {
+    margin-bottom: 15px;
+}
+
+form .group > label {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    font-weight: bold;
+}
+
+form .group > input,
+form .group > select,
+form .group > textarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+form .group div {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /************************************************************************

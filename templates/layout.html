@@ -24,7 +24,7 @@
     <nav class="center">
         <ul>
             <li {% if request.endpoint == 'home' %}class="active"{% endif %}><a href="{{ url_for('home') }}">Statuses</a></li>
-            <li {% if request.endpoint == 'admin_monitorings_list' %}class="active"{% endif %}><a href="{{ url_for('admin_monitorings_list') }}">Admin</a></li>
+            <li {% if request.path.startswith('/admin') %}class="active"{% endif %}><a href="{{ url_for('admin_monitorings_list') }}">Admin</a></li>
         </ul>
     </nav>
     

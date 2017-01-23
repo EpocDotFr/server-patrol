@@ -40,7 +40,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 @app.route('/')
 def home():
-    return render_template('home.html', monitorings=Monitoring.query.for_home())
+    return render_template('home.html', monitorings=Monitoring.query.get_for_home())
 
 
 @app.route('/admin/')
@@ -52,7 +52,7 @@ def admin():
 @app.route('/admin/monitorings')
 @auth.login_required
 def admin_monitorings_list():
-    return render_template('admin/monitorings/list.html', monitorings=Monitoring.query.for_managing())
+    return render_template('admin/monitorings/list.html', monitorings=Monitoring.query.get_for_managing())
 
 
 @app.route('/admin/monitorings/create', methods=['GET', 'POST'])
@@ -121,7 +121,7 @@ class MonitoringStatus(Enum):
 
 class Monitoring(db.Model):
     class MonitoringQuery(db.Query):
-        def for_home(self):
+        def get_for_home(self):
             q = self.order_by(Monitoring.name.desc())
 
             q = q.filter(Monitoring.is_active == True)
@@ -131,7 +131,7 @@ class Monitoring(db.Model):
 
             return q.all()
 
-        def for_managing(self):
+        def get_for_managing(self):
             q = self.order_by(Monitoring.name.desc())
 
             return q.all()
