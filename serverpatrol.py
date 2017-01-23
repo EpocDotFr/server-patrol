@@ -43,6 +43,12 @@ def home():
     return render_template('home.html', monitorings=Monitoring.query.for_home())
 
 
+@app.route('/manage-monitorings')
+@auth.login_required
+def manage_monitorings():
+    return render_template('manage-monitorings.html', monitorings=Monitoring.query.for_managing())
+
+
 @app.route('/rss/all')
 def rss_all():
     return None
@@ -51,12 +57,6 @@ def rss_all():
 @app.route('/rss/<monitoring_id>')
 def rss_one(monitoring_id):
     return None
-
-
-@app.route('/manage-monitorings')
-@auth.login_required
-def manage_monitorings():
-    return render_template('manage-monitorings.html', monitorings=Monitoring.query.for_managing())
 
 
 # -----------------------------------------------------------
