@@ -122,7 +122,7 @@ class MonitoringStatus(Enum):
 class Monitoring(db.Model):
     class MonitoringQuery(db.Query):
         def get_for_home(self):
-            q = self.order_by(Monitoring.name.desc())
+            q = self.order_by(Monitoring.name.asc())
 
             q = q.filter(Monitoring.is_active == True)
 
@@ -132,7 +132,7 @@ class Monitoring(db.Model):
             return q.all()
 
         def get_for_managing(self):
-            q = self.order_by(Monitoring.name.desc())
+            q = self.order_by(Monitoring.name.asc())
 
             return q.all()
 
@@ -185,6 +185,12 @@ def create_database():
     """Delete then create all the database tables."""
     db.drop_all()
     db.create_all()
+
+
+@app.cli.command()
+def check():
+    """Perform all checks for the active monitorings."""
+    pass
 
 
 # -----------------------------------------------------------

@@ -1,5 +1,7 @@
 {% extends 'layout.html' %}
 
+{% block meta_title %}Admin › Monitorings{% endblock %}
+
 {% block content %}
     <p class="center"><a href="{{ url_for('admin_monitorings_create') }}" class="button"><i class="fa fa-plus"></i> New</a></p>
 
@@ -9,7 +11,6 @@
                 <tr>
                     <th>Name</th>
                     <th>Active</th>
-                    <th>Public</th>
                     <th>URL</th>
                     <th>HTTP method</th>
                     <th>Verify HTTPS certificate</th>
@@ -22,9 +23,8 @@
             <tbody>
                 {% for monitoring in monitorings %}
                 <tr>
-                    <td>{{ monitoring.name }}</td>
+                    <td>{% if not monitoring.is_public %}<i class="fa fa-lock"></i> {% endif %}{{ monitoring.name }}</td>
                     <td>{% if monitoring.is_active %}Yes{% else %}No{% endif %}</td>
-                    <td>{% if monitoring.is_public %}Yes{% else %}No{% endif %}</td>
                     <td><a href="{{ monitoring.url }}">{{ monitoring.url }}</a></td>
                     <td><code>{{ monitoring.http_method.value }}</code></td>
                     <td>{% if monitoring.verify_https_cert %}Yes{% else %}No{% endif %}</td>

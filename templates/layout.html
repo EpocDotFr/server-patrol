@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}" />
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
 
-    <title>Server Patrol</title>
+    <title>{% block meta_title %}{% endblock %}{% if self.meta_title() | trim %} • {% endif %}Server Patrol</title>
 </head>
 <body>
     <header class="center">
