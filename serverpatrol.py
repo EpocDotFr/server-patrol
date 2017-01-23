@@ -40,7 +40,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 @app.route('/')
 def home():
-    return render_template('home.html', monitorings=get_monitorings_for_home())
+    return render_template('home.html', monitorings=Monitoring.query.for_home())
 
 
 @app.route('/rss/all')
@@ -56,7 +56,7 @@ def rss_one(monitoring_id):
 @app.route('/manage-monitorings')
 @auth.login_required
 def manage_monitorings():
-    return render_template('manage-monitorings.html', monitorings=get_monitorings_for_managing())
+    return render_template('manage-monitorings.html', monitorings=Monitoring.query.for_managing())
 
 
 # -----------------------------------------------------------
@@ -78,7 +78,24 @@ class MonitoringStatus(Enum):
 
 
 class Monitoring(db.Model):
+    class MonitoringQuery(db.Query):
+        def for_home(self):
+            q = self.order_by(Monitoring.name.desc())
+
+            q = q.filter(Monitoring.is_active == True)
+
+            if not auth.username():
+                q = q.filter(Monitoring.is_public == True)
+
+            return q.all()
+
+        def for_managing(self):
+            q = self.order_by(Monitoring.name.desc())
+
+            return q.all()
+
     __tablename__ = 'monitorings'
+    query_class = MonitoringQuery
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
@@ -115,23 +132,6 @@ class Monitoring(db.Model):
 
     def __repr__(self):
         return '<Monitoring> #{} : {}'.format(self.id, self.name)
-
-
-def get_monitorings_for_home():
-    q = Monitoring.query.order_by(Monitoring.name.desc())
-
-    q = q.filter(Monitoring.is_active == True)
-
-    if not auth.username():
-        q = q.filter(Monitoring.is_public == True)
-
-    return q.all()
-
-
-def get_monitorings_for_managing():
-    q = Monitoring.query.order_by(Monitoring.name.desc())
-
-    return q.all()
 
 
 # -----------------------------------------------------------
