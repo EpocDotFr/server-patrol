@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_httpauth import HTTPBasicAuth
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import HTTPException
@@ -43,10 +43,16 @@ def home():
     return render_template('home.html', monitorings=Monitoring.query.for_home())
 
 
-@app.route('/manage-monitorings')
+@app.route('/admin/')
 @auth.login_required
-def manage_monitorings():
-    return render_template('manage-monitorings.html', monitorings=Monitoring.query.for_managing())
+def admin():
+    return redirect(url_for('admin_monitorings_list'))
+
+
+@app.route('/admin/monitorings')
+@auth.login_required
+def admin_monitorings_list():
+    return render_template('admin/monitorings/list.html', monitorings=Monitoring.query.for_managing())
 
 
 @app.route('/rss/all')
