@@ -1,5 +1,6 @@
 from flask import Flask, render_template, g
 from flask_httpauth import HTTPBasicAuth
+from werkzeug.exceptions import HTTPException
 import logging
 import sys
 import sqlite3
@@ -51,13 +52,18 @@ def manage_monitorings():
 
 
 def get_monitorings_for_home():
-    monitorings = g.db.execute('SELECT id, name, url, check_interval, last_checked_at, last_status_change_at, status, created_at FROM monitorings WHERE is_active = 1').fetchall()
+    sql = 'SELECT id, name, is_public, url, check_interval, last_checked_at, last_status_change_at, status, last_down_reason, created_at FROM monitorings WHERE is_active = 1'
+
+    if not auth.username():
+        sql = sql + ' AND is_public = 1'
+
+    monitorings = g.db.execute(sql)
 
     return _get_list_monitoring(monitorings)
 
 
 def get_monitorings_for_managing():
-    monitorings = g.db.execute('SELECT id, name, is_active, url, http_method, verify_https_cert, check_interval, timeout, recipients FROM monitorings').fetchall()
+    monitorings = g.db.execute('SELECT id, name, is_active, is_public, url, http_method, verify_https_cert, check_interval, timeout, recipients FROM monitorings').fetchall()
 
     return _get_list_monitoring(monitorings)
 
@@ -104,10 +110,35 @@ def connect_to_db():
         g.db.row_factory = sqlite3.Row
 
         if db_is_new:
-            g.db.execute('CREATE TABLE monitorings (id INTEGER PRIMARY KEY, name TEXT NOT NULL, is_active INTEGER NOT NULL DEFAULT 0, url TEXT NOT NULL, http_method TEXT CHECK(http_method IN(\'GET\', \'HEAD\', \'POST\', \'PUT\', \'DELETE\')) NOT NULL DEFAULT \'GET\', verify_https_cert INTEGER NOT NULL DEFAULT 1, check_interval INTEGER NOT NULL DEFAULT 5, timeout INTEGER NOT NULL DEFAULT 10, last_checked_at TEXT DEFAULT NULL, last_status_change_at TEXT DEFAULT NULL, status TEXT CHECK(status IN(\'up\', \'down\', \'unknown\')) NOT NULL DEFAULT \'unknown\', recipients TEXT DEFAULT NULL, created_at TEXT NOT NULL DEFAULT (datetime(\'now\')))')
+            g.db.execute('CREATE TABLE monitorings (id INTEGER PRIMARY KEY, name TEXT NOT NULL, is_active INTEGER NOT NULL DEFAULT 0, is_public INTEGER NOT NULL DEFAULT 0, url TEXT NOT NULL, http_method TEXT CHECK(http_method IN(\'GET\', \'HEAD\', \'POST\', \'PUT\', \'DELETE\')) NOT NULL DEFAULT \'GET\', verify_https_cert INTEGER NOT NULL DEFAULT 1, check_interval INTEGER NOT NULL DEFAULT 5, timeout INTEGER NOT NULL DEFAULT 10, last_checked_at TEXT DEFAULT NULL, last_status_change_at TEXT DEFAULT NULL, status TEXT CHECK(status IN(\'up\', \'down\', \'unknown\')) NOT NULL DEFAULT \'unknown\', last_down_reason TEXT DEFAULT NULL, recipients TEXT DEFAULT NULL, created_at TEXT NOT NULL DEFAULT (datetime(\'now\')))')
 
 
 @app.teardown_appcontext
 def close_db(error):
     if hasattr(g, 'db'):
         g.db.close()
+
+
+@auth.error_handler
+def auth_error():
+    return http_error_handler(403, without_code=True)
+
+
+@app.errorhandler(401)
+@app.errorhandler(403)
+@app.errorhandler(404)
+@app.errorhandler(500)
+@app.errorhandler(503)
+def http_error_handler(error, without_code=False):
+    if isinstance(error, HTTPException):
+        error = error.code
+    else:
+        error = 500
+
+
+    ret = (render_template('errors/{}.html'.format(error)),)
+
+    if not without_code:
+        ret = ret + (error,)
+
+    return ret

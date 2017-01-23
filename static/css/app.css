@@ -223,7 +223,6 @@ nav {
     border-bottom: 4px solid #E6B71D;
     color: #FFF;
     font-weight: bold;
-    margin-bottom: 15px;
 }
 
 nav > ul {
@@ -312,9 +311,7 @@ table tr:nth-child(even) td {
  * Page content */
 
 #page {
-    max-width: 1000px;
-    margin: 0 auto;
-    margin-bottom: 15px;
+    padding: 10px;
 }
 
 /************************************************************************

@@ -9,6 +9,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Active</th>
+                    <th>Public</th>
                     <th>URL</th>
                     <th>HTTP method</th>
                     <th>Verify HTTPS certificate</th>
@@ -23,6 +24,7 @@
                 <tr>
                     <td>{{ monitoring.name }}</td>
                     <td>{% if monitoring.is_active %}Yes{% else %}No{% endif %}</td>
+                    <td>{% if monitoring.is_public %}Yes{% else %}No{% endif %}</td>
                     <td><a href="{{ monitoring.url }}">{{ monitoring.url }}</a></td>
                     <td><code>{{ monitoring.http_method }}</code></td>
                     <td>{% if monitoring.verify_https_cert %}Yes{% else %}No{% endif %}</td>
