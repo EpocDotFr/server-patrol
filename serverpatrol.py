@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, flash, abort
 from flask_httpauth import HTTPBasicAuth
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import HTTPException
@@ -53,6 +53,42 @@ def admin():
 @auth.login_required
 def admin_monitorings_list():
     return render_template('admin/monitorings/list.html', monitorings=Monitoring.query.for_managing())
+
+
+@app.route('/admin/monitorings/create', methods=['GET', 'POST'])
+@auth.login_required
+def admin_monitorings_create():
+    return render_template('admin/monitorings/create.html')
+
+
+@app.route('/admin/monitorings/edit/<monitoring_id>', methods=['GET', 'POST'])
+@auth.login_required
+def admin_monitorings_edit(monitoring_id):
+    monitoring = Monitoring.query.get(monitoring_id)
+
+    if monitoring is None:
+        abort(404)
+
+    return render_template('admin/monitorings/edit.html', monitoring=monitoring)
+
+
+@app.route('/admin/monitorings/delete/<monitoring_id>')
+@auth.login_required
+def admin_monitorings_delete(monitoring_id):
+    monitoring = Monitoring.query.get(monitoring_id)
+
+    if monitoring is None:
+        abort(404)
+
+    try:
+        db.session.delete(monitoring)
+        db.session.commit()
+
+        flash('Monitoring deleted successfuly.', 'success')
+    except Exception as e:
+        flash('Error deleting this monitoring.', 'error')
+
+    return redirect(url_for('admin_monitorings_list'))
 
 
 @app.route('/rss/all')

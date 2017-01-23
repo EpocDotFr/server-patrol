@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <p class="center"><a href="#" class="button"><i class="fa fa-plus"></i> New</a></p>
+    <p class="center"><a href="{{ url_for('admin_monitorings_create') }}" class="button"><i class="fa fa-plus"></i> New</a></p>
 
     {% if monitorings %}
         <table>
@@ -31,7 +31,7 @@
                     <td>{{ monitoring.check_interval }}m</td>
                     <td>{{ monitoring.timeout }}s</td>
                     <td>{{ monitoring.recipients }}</td>
-                    <td class="center"><a href="#" class="button"><i class="fa fa-pencil"></i></a> <a href="#" class="button"><i class="fa fa-trash"></i></a></td>
+                    <td class="center"><a href="{{ url_for('admin_monitorings_edit', monitoring_id=monitoring.id) }}" class="button"><i class="fa fa-pencil"></i></a> <a href="{{ url_for('admin_monitorings_delete', monitoring_id=monitoring.id) }}" class="button" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i></a></td>
                 </tr>
                 {% endfor %}
             </tbody>
