@@ -218,21 +218,21 @@ small.alert {
  * Header */
 
 header {
-    font-size: 36px;
     padding: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-style: italic;
-}
-
-header img {
-    vertical-align: middle;
 }
 
 header a {
+    font-size: 42px;
     text-decoration: none;
     color: inherit;
     border: none;
+    background-image: url("/images/logo.png");
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 50px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-style: italic;
 }
 
 header a:hover {
@@ -293,7 +293,7 @@ nav.main > ul > li.active > a:hover {
  * Secondary navigation */
 
 nav.secondary > ul {
-    background-color: #3A8CB2;
+    background-color: #3898C5;
     border-bottom: 4px solid #E6B71D;
     border-left: 4px solid #E6B71D;
     border-right: 4px solid #E6B71D;
@@ -304,7 +304,7 @@ nav.secondary > ul {
 }
 
 nav.secondary > ul > li.active a {
-    background-color: #5BA9CE;
+    background-color: #3A8CB2;
 }
 
 nav.secondary > ul > li.active:first-child a {
@@ -316,7 +316,7 @@ nav.secondary > ul > li.active:last-child a {
 }
 
 nav.secondary > ul > li.active > a:hover {
-    background-color: #4597BD;
+    background-color: #3898C5;
 }
 
 /************************************************************************
@@ -372,7 +372,7 @@ table tr:nth-child(even) td {
 
 #page {
     padding: 10px;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
