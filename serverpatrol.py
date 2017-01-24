@@ -142,25 +142,25 @@ class Monitoring(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     name = db.Column(db.String(255), unique=True, nullable=False)
-    is_active = db.Column(db.Boolean, default=False, nullable=False)
-    is_public = db.Column(db.Boolean, default=False, nullable=False)
+    is_active = db.Column(db.Boolean, default=False)
+    is_public = db.Column(db.Boolean, default=False)
     url = db.Column(db.String(255), nullable=False)
-    http_method = db.Column(db.Enum(MonitoringHttpMethod), default=MonitoringHttpMethod.GET, nullable=False)
-    verify_https_cert = db.Column(db.Boolean, default=True, nullable=False)
-    check_interval = db.Column(db.Integer, default=5, nullable=False)
-    timeout = db.Column(db.Integer, default=10, nullable=False)
+    http_method = db.Column(db.Enum(MonitoringHttpMethod), default=MonitoringHttpMethod.GET)
+    verify_https_cert = db.Column(db.Boolean, default=True)
+    check_interval = db.Column(db.Integer, default=5)
+    timeout = db.Column(db.Integer, default=10)
     last_checked_at = db.Column(ArrowType, default=None)
     last_status_change_at = db.Column(ArrowType, default=None)
-    status = db.Column(db.Enum(MonitoringStatus), default=MonitoringStatus.UNKNOWN, nullable=False)
+    status = db.Column(db.Enum(MonitoringStatus), default=MonitoringStatus.UNKNOWN)
     last_down_reason = db.Column(db.Text, default=None)
     recipients = db.Column(db.Text, default=None)
-    created_at = db.Column(ArrowType, nullable=False)
+    created_at = db.Column(ArrowType, default=arrow.now())
 
-    def __init__(self, name, is_active, is_public, url, http_method, verify_https_cert, check_interval, timeout, last_checked_at, last_status_change_at, status, last_down_reason, recipients, created_at):
+    def __init__(self, name, url, is_active=False, is_public=False, http_method=MonitoringHttpMethod.GET, verify_https_cert=True, check_interval=5, timeout=10, last_checked_at=None, last_status_change_at=None, status=MonitoringStatus.UNKNOWN, last_down_reason=None, recipients=None, created_at=arrow.now()):
         self.name = name
+        self.url = url
         self.is_active = is_active
         self.is_public = is_public
-        self.url = url
         self.http_method = http_method
         self.verify_https_cert = verify_https_cert
         self.check_interval = check_interval

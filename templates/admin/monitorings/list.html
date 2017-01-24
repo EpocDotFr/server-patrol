@@ -3,7 +3,7 @@
 {% block meta_title %}Admin › Monitorings{% endblock %}
 
 {% block content %}
-    <p class="center"><a href="{{ url_for('admin_monitorings_create') }}" class="button"><i class="fa fa-plus"></i> New</a></p>
+    <p class="center"><a href="{{ url_for('admin_monitorings_create') }}" class="button"><i class="fa fa-plus"></i> New monitoring</a></p>
 
     {% if monitorings %}
         <table>
@@ -37,6 +37,6 @@
             </tbody>
         </table>
     {% else %}
-        <div class="alert info">No monitorings to display a this moment.</div>
+        <div class="alert info">No monitoring to display a this moment.</div>
     {% endif %}
 {% endblock %}

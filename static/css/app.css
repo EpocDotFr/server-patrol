@@ -12,6 +12,7 @@ body {
     padding: 0;
     cursor: default;
     color: #000545;
+    line-height: 1.42857143;
 }
 
 .muted {
@@ -33,6 +34,15 @@ body {
 .row > div {
     display: table-cell;
     vertical-align: top;
+    padding: 10px;
+}
+
+.row > div:first-child {
+    padding-left: 0;
+}
+
+.row > div:last-child {
+    padding-right: 0;
 }
 
 /************************************************************************
@@ -42,10 +52,6 @@ body {
     padding-bottom: 15px;
 }
 
-.monitoring:last-child {
-    padding-bottom: 0;
-}
-
 .monitoring > .status {
     width: 60px;
     vertical-align: middle;
@@ -53,7 +59,6 @@ body {
 
 .monitoring .name {
     font-weight: bold;
-    padding-bottom: 2px;
     font-size: 18px;
 }
 
@@ -63,7 +68,6 @@ body {
 
 .monitoring .info {
     font-size: 14px;
-    padding-top: 2px;
 }
 
 /************************************************************************
@@ -144,6 +148,26 @@ button.small, .button.small {
 }
 
 /************************************************************************
+ * Inputs */
+
+input,
+select,
+textarea {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    background-color: #FFF;
+    padding: 5px 10px;
+    border: 2px solid #E6B71D;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+}
+
+/************************************************************************
  * Forms */
 
 form .group {
@@ -153,21 +177,18 @@ form .group {
 form .group > label {
     display: block;
     width: 100%;
-    box-sizing: border-box;
     font-weight: bold;
 }
 
-form .group > input,
+form .group > input:not([type="checkbox"]),
 form .group > select,
 form .group > textarea {
     display: block;
     width: 100%;
-    box-sizing: border-box;
 }
 
 form .group div {
     width: 100%;
-    box-sizing: border-box;
 }
 
 /************************************************************************
@@ -273,7 +294,7 @@ nav.secondary > ul > li > a {
     text-decoration: none;
     text-transform: uppercase;
     display: inline-block;
-    padding: 10px;
+    padding: 8px;
 }
 
 nav.main > ul > li > a:hover {
@@ -329,7 +350,6 @@ nav.secondary > ul > li.active > a:hover {
 table {
     width: 100%;
     border-collapse: collapse;
-    box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     margin-bottom: 10px;
 }
