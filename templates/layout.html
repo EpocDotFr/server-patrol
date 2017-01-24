@@ -21,12 +21,14 @@
         <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo.png') }}"> Server Patrol</a>
     </header>
 
-    <nav class="center">
+    <nav class="main center">
         <ul>
             <li {% if request.endpoint == 'home' %}class="active"{% endif %}><a href="{{ url_for('home') }}">Statuses</a></li>
-            <li {% if request.path.startswith('/admin') %}class="active"{% endif %}><a href="{{ url_for('admin_monitorings_list') }}">Admin</a></li>
+            <li {% if request.path.startswith('/admin') %}class="active"{% endif %}><a href="{{ url_for('admin') }}">Admin</a></li>
         </ul>
     </nav>
+
+    {% block secondary_nav %} {% endblock %}
     
     <div id="page">
         {% with flash_messages = get_flashed_messages(with_categories=true) %}

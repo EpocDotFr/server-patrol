@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+
+{% block secondary_nav %}
+    <nav class="secondary center">
+        <ul>
+            <li {% if request.path.startswith('/admin/monitorings') %}class="active"{% endif %}><a href="{{ url_for('admin_monitorings_list') }}">Monitorings</a></li>
+        </ul>
+    </nav>
+{% endblock %}
