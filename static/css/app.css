@@ -303,6 +303,21 @@ nav.secondary > ul {
     font-weight: bold;
 }
 
+nav.secondary > ul > li.active a {
+    background-color: #5BA9CE;
+}
+
+nav.secondary > ul > li.active:first-child a {
+    border-bottom-left-radius: 10px;
+}
+
+nav.secondary > ul > li.active:last-child a {
+    border-bottom-right-radius: 10px;
+}
+
+nav.secondary > ul > li.active > a:hover {
+    background-color: #4597BD;
+}
 
 /************************************************************************
  * Tables */
@@ -357,6 +372,8 @@ table tr:nth-child(even) td {
 
 #page {
     padding: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /************************************************************************

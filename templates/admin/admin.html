@@ -4,6 +4,7 @@
     <nav class="secondary center">
         <ul>
             <li {% if request.path.startswith('/admin/monitorings') %}class="active"{% endif %}><a href="{{ url_for('admin_monitorings_list') }}">Monitorings</a></li>
+            <li {% if request.path.startswith('/admin/system') %}class="active"{% endif %}><a href="#">Settings</a></li>
         </ul>
     </nav>
 {% endblock %}
