@@ -136,6 +136,13 @@ class Monitoring(db.Model):
 
             return q.all()
 
+        def get_for_checking(self):
+            q = self.order_by(Monitoring.name.asc())
+
+            q = q.filter(Monitoring.is_active == True)
+
+            return q.all()
+
     __tablename__ = 'monitorings'
     query_class = MonitoringQuery
 
@@ -190,7 +197,7 @@ def create_database():
 @app.cli.command()
 def check():
     """Perform all checks for the active monitorings."""
-    pass
+    monitorings = Monitoring.query.get_for_checking()
 
 
 # -----------------------------------------------------------
