@@ -378,14 +378,6 @@ table th {
     text-align: left;
 }
 
-table thead th {
-    border-bottom-width: 4px;
-}
-
-table tfoot th {
-    border-top-width: 4px;
-}
-
 table tr:nth-child(odd) td {
     
 }
