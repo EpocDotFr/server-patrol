@@ -126,7 +126,7 @@ class Monitoring(db.Model):
 
             q = q.filter(Monitoring.is_active == True)
 
-            if not auth.username():
+            if auth.username() == '' or not auth.username():
                 q = q.filter(Monitoring.is_public == True)
 
             return q.all()

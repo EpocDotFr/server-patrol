@@ -2,13 +2,13 @@
     <div style="width:50%">
         <div class="group">
             <label for="name">Name *</label>
-            <input type="text" name="name" id="name" value="{{ monitoring.name if monitoring else request.form.name }}" required>
+            <input type="text" name="name" id="name" value="{{ request.form.name if request.form.name else monitoring.name if monitoring else '' }}" required>
         </div>
     </div>
     <div style="width:50%">
         <div class="group">
             <label for="url">URL to check *</label>
-            <input type="url" name="url" id="url" value="{{ monitoring.url if monitoring else request.form.url }}" required>
+            <input type="url" name="url" id="url" value="{{ request.form.url if request.form.url else monitoring.url if monitoring else '' }}" required>
         </div>
     </div>
 </div>
@@ -16,17 +16,17 @@
 <div class="row">
     <div style="width:33%">
         <div class="group">
-            <label for="is_active"><input type="checkbox" name="is_active" id="is_active"> Active?</label>
+            <label for="is_active"><input type="checkbox" name="is_active" id="is_active" {{ 'checked' if request.form.is_active else 'checked' if monitoring and monitoring.is_active else '' }}> Active?</label>
         </div>
     </div>
     <div style="width:33%">
         <div class="group">
-            <label for="is_public"><input type="checkbox" name="is_public" id="is_public"> Visible to anyone?</label>
+            <label for="is_public"><input type="checkbox" name="is_public" id="is_public" {{ 'checked' if request.form.is_public else 'checked' if monitoring and monitoring.is_public else '' }}> Public?</label>
         </div>
     </div>
     <div style="width:33%">
         <div class="group">
-            <label for="verify_https_cert"><input type="checkbox" name="verify_https_cert" id="verify_https_cert"> Verify HTTPS certificate?</label>
+            <label for="verify_https_cert"><input type="checkbox" name="verify_https_cert" id="verify_https_cert" {{ 'checked' if request.form.verify_https_cert else 'checked' if monitoring and monitoring.verify_https_cert else '' }}> Verify HTTPS certificate?</label>
         </div>
     </div>
 </div>
@@ -36,31 +36,31 @@
         <div class="group">
             <label for="http_method">HTTP method to use</label>
             <select name="http_method" id="http_method">
-                <option value="GET">GET</option>
-                <option value="HEAD">HEAD</option>
-                <option value="POST">POST</option>
-                <option value="PUT">PUT</option>
-                <option value="DELETE">DELETE</option>
+                <option value="GET" {{ 'selected' if request.form.http_method == 'GET' else 'selected' if monitoring and monitoring.http_method.value == 'GET' else '' }}>GET</option>
+                <option value="HEAD" {{ 'selected' if request.form.http_method == 'HEAD' else 'selected' if monitoring and monitoring.http_method.value == 'HEAD' else '' }}>HEAD</option>
+                <option value="POST" {{ 'selected' if request.form.http_method == 'POST' else 'selected' if monitoring and monitoring.http_method.value == 'POST' else '' }}>POST</option>
+                <option value="PUT" {{ 'selected' if request.form.http_method == 'PUT' else 'selected' if monitoring and monitoring.http_method.value == 'PUT' else '' }}>PUT</option>
+                <option value="DELETE" {{ 'selected' if request.form.http_method == 'DELETE' else 'selected' if monitoring and monitoring.http_method.value == 'DELETE' else '' }}>DELETE</option>
             </select>
         </div>
     </div>
     <div style="width:33%">
         <div class="group">
             <label for="timeout">Connection timeout (seconds)</label>
-            <input type="number" name="timeout" id="timeout" value="{{ monitoring.timeout if monitoring else request.form.timeout }}" placeholder="Defaults to 10" min="3">
+            <input type="number" name="timeout" id="timeout" value="{{ request.form.timeout if request.form.timeout else monitoring.timeout if monitoring else '' }}" placeholder="Defaults to 10, min 3" min="3">
         </div>
     </div>
     <div style="width:33%">
         <div class="group">
             <label for="check_interval">Check interval (minutes)</label>
-            <input type="number" name="check_interval" id="check_interval" value="{{ monitoring.check_interval if monitoring else request.form.check_interval }}" placeholder="Defaults to 5" min="1">
+            <input type="number" name="check_interval" id="check_interval" value="{{ request.form.check_interval if request.form.check_interval else monitoring.check_interval if monitoring else '' }}" placeholder="Defaults to 5, min 1" min="1">
         </div>
     </div>
 </div>
 
 <div class="group">
     <label for="recipients">Recipients of the email alerts</label>
-    <textarea name="recipients" id="recipients" required placeholder="Comma-separated list of email addresses">{{ monitoring.recipients if monitoring else request.form.recipients }}</textarea>
+    <textarea name="recipients" id="recipients" required placeholder="Comma-separated list of email addresses">{{ request.form.recipients if request.form.recipients else monitoring.recipients if monitoring else '' }}</textarea>
 </div>
 
 <p class="center">
