@@ -34,7 +34,7 @@ body {
 .row > div {
     display: table-cell;
     vertical-align: top;
-    padding: 10px;
+    padding: 5px;
 }
 
 .row > div:first-child {
@@ -49,11 +49,18 @@ body {
  * Monitorings */
 
 .monitoring {
-    padding-bottom: 15px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: 475px;
+    display: inline-block;
+    position: relative;
+    border: 2px solid #E6B71D;
+    border-radius: 5px;
+    padding: 5px;
 }
 
-.monitoring > .status {
-    width: 60px;
+.monitoring .status {
+    width: 55px;
     vertical-align: middle;
 }
 

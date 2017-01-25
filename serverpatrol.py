@@ -1,6 +1,7 @@
-from flask import Flask, render_template, redirect, url_for, flash, abort
-from flask_httpauth import HTTPBasicAuth
+from flask import Flask, render_template, redirect, url_for, flash, abort, request
+from flask_login import LoginManager, login_required, current_user, login_user
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail
 from werkzeug.exceptions import HTTPException
 from sqlalchemy_utils import ArrowType
 from enum import Enum
@@ -19,11 +20,12 @@ app.config.from_pyfile('config.py')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///storage/data/db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
 
 app.jinja_env.globals.update(arrow=arrow)
 
-auth = HTTPBasicAuth()
+db = SQLAlchemy(app)
+login_manager = LoginManager(app)
+mail = Mail(app)
 
 logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -43,26 +45,36 @@ def home():
     return render_template('home.html', monitorings=Monitoring.query.get_for_home())
 
 
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        pass
+
+    return render_template('admin/login.html')
+
+
 @app.route('/admin/')
-@auth.login_required
 def admin():
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
+
     return redirect(url_for('admin_monitorings_list'))
 
 
 @app.route('/admin/monitorings')
-@auth.login_required
+@login_required
 def admin_monitorings_list():
     return render_template('admin/monitorings/list.html', monitorings=Monitoring.query.get_for_managing())
 
 
 @app.route('/admin/monitorings/create', methods=['GET', 'POST'])
-@auth.login_required
+@login_required
 def admin_monitorings_create():
     return render_template('admin/monitorings/create.html')
 
 
 @app.route('/admin/monitorings/edit/<monitoring_id>', methods=['GET', 'POST'])
-@auth.login_required
+@login_required
 def admin_monitorings_edit(monitoring_id):
     monitoring = Monitoring.query.get(monitoring_id)
 
@@ -73,7 +85,7 @@ def admin_monitorings_edit(monitoring_id):
 
 
 @app.route('/admin/monitorings/delete/<monitoring_id>')
-@auth.login_required
+@login_required
 def admin_monitorings_delete(monitoring_id):
     monitoring = Monitoring.query.get(monitoring_id)
 
@@ -126,8 +138,8 @@ class Monitoring(db.Model):
 
             q = q.filter(Monitoring.is_active == True)
 
-            if auth.username() == '' or not auth.username():
-                q = q.filter(Monitoring.is_public == True)
+            #if not current_user.is_authenticated:
+            #    q = q.filter(Monitoring.is_public == True)
 
             return q.all()
 
@@ -204,21 +216,16 @@ def check():
 # Hooks
 
 
-@auth.get_password
-def get_password(username):
-    if username in app.config['USERS']:
-        return app.config['USERS'].get(username)
+@login_manager.user_loader
+def load_user(user_id):
+    if user_id in app.config['USERS']:
+        return app.config['USERS'].get(user_id)
 
     return None
 
 
 # -----------------------------------------------------------
 # HTTP errors handler
-
-
-@auth.error_handler
-def auth_error():
-    return http_error_handler(403, without_code=True)
 
 
 @app.errorhandler(401)

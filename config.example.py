@@ -1,5 +1,11 @@
 SECRET_KEY = 'secretkeyhere'
 DEBUG = False
 LOGGER_HANDLER_POLICY = 'production'
-USERS = {'username': 'password'}
-SMTP = {'LOGIN': 'hey', 'PASSWORD': 'hey', 'HOST': 'hey.com', 'PORT': 666, 'TLS': True}
+USERS = {1: {'username': 'password'}}
+MAIL_SERVER = 'localhost'
+MAIL_PORT = 25
+MAIL_USE_TLS = False
+MAIL_USE_SSL = False
+MAIL_USERNAME = 'username'
+MAIL_PASSWORD = 'password'
+MAIL_DEFAULT_SENDER = ('Server Patrol', 'noreply@localhost')
