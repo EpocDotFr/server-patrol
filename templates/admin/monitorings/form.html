@@ -36,7 +36,7 @@
         <div class="group">
             <label for="http_method">HTTP method to use</label>
             <select name="http_method" id="http_method">
-                <option value="GET" {{ 'selected' if request.form.http_method == 'GET' else 'selected' if monitoring and monitoring.http_method.value == 'GET' else '' }}>GET</option>
+                <option value="GET" {{ 'selected' if request.form.http_method == 'GET' else 'selected' if monitoring and monitoring.http_method.value == 'GET' else 'selected' }}>GET</option>
                 <option value="HEAD" {{ 'selected' if request.form.http_method == 'HEAD' else 'selected' if monitoring and monitoring.http_method.value == 'HEAD' else '' }}>HEAD</option>
                 <option value="POST" {{ 'selected' if request.form.http_method == 'POST' else 'selected' if monitoring and monitoring.http_method.value == 'POST' else '' }}>POST</option>
                 <option value="PUT" {{ 'selected' if request.form.http_method == 'PUT' else 'selected' if monitoring and monitoring.http_method.value == 'PUT' else '' }}>PUT</option>
@@ -60,7 +60,7 @@
 
 <div class="group">
     <label for="recipients">Recipients of the email alerts</label>
-    <textarea name="recipients" id="recipients" required placeholder="Comma-separated list of email addresses">{{ request.form.recipients if request.form.recipients else monitoring.recipients if monitoring else '' }}</textarea>
+    <textarea name="recipients" id="recipients" placeholder="Comma-separated list of email addresses">{{ request.form.recipients if request.form.recipients else monitoring.recipients if monitoring else '' }}</textarea>
 </div>
 
 <p class="center">

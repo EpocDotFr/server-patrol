@@ -59,6 +59,47 @@ def admin_monitorings_list():
 @app.route('/admin/monitorings/create', methods=['GET', 'POST'])
 @auth.login_required
 def admin_monitorings_create():
+    if request.method == 'POST':
+        try:
+            monitoring = Monitoring(
+                name=request.form['name'],
+                url=request.form['url']
+            )
+
+            if 'is_active' in request.form:
+                monitoring.is_active = True
+            else:
+                monitoring.is_active = False
+
+            if 'is_public' in request.form:
+                monitoring.is_public = True
+            else:
+                monitoring.is_public = False
+
+            if 'verify_https_cert' in request.form:
+                monitoring.verify_https_cert = True
+            else:
+                monitoring.verify_https_cert = False
+
+            monitoring.http_method = request.form['http_method']
+
+            if request.form['timeout']:
+                monitoring.timeout = request.form['timeout']
+
+            if request.form['check_interval']:
+                monitoring.check_interval = request.form['check_interval']
+
+            monitoring.recipients = request.form['recipients']
+
+            db.session.add(monitoring)
+            db.session.commit()
+
+            flash('Monitoring created successfuly.', 'success')
+
+            return redirect(url_for('admin_monitorings_edit', monitoring_id=monitoring.id))
+        except Exception as e:
+            flash('Error creating this monitoring.', 'error')
+
     return render_template('admin/monitorings/create.html')
 
 
@@ -67,8 +108,48 @@ def admin_monitorings_create():
 def admin_monitorings_edit(monitoring_id):
     monitoring = Monitoring.query.get(monitoring_id)
 
-    if monitoring is None:
+    if not monitoring:
         abort(404)
+
+    if request.method == 'POST':
+        try:
+            monitoring.name = request.form['name']
+            monitoring.url = request.form['url']
+
+            if 'is_active' in request.form:
+                monitoring.is_active = True
+            else:
+                monitoring.is_active = False
+
+            if 'is_public' in request.form:
+                monitoring.is_public = True
+            else:
+                monitoring.is_public = False
+
+            if 'verify_https_cert' in request.form:
+                monitoring.verify_https_cert = True
+            else:
+                monitoring.verify_https_cert = False
+
+            monitoring.http_method = request.form['http_method']
+
+            if request.form['timeout']:
+                monitoring.timeout = request.form['timeout']
+
+            if request.form['check_interval']:
+                monitoring.check_interval = request.form['check_interval']
+
+            monitoring.recipients = request.form['recipients']
+
+            db.session.add(monitoring)
+            db.session.commit()
+
+            flash('Monitoring edited successfuly.', 'success')
+
+            return redirect(url_for('admin_monitorings_edit', monitoring_id=monitoring.id))
+        except Exception as e:
+            flash('Error editing this monitoring.', 'error')
+
 
     return render_template('admin/monitorings/edit.html', monitoring=monitoring)
 
@@ -78,7 +159,7 @@ def admin_monitorings_edit(monitoring_id):
 def admin_monitorings_delete(monitoring_id):
     monitoring = Monitoring.query.get(monitoring_id)
 
-    if monitoring is None:
+    if not monitoring:
         abort(404)
 
     try:
@@ -160,8 +241,8 @@ class Monitoring(db.Model):
     last_checked_at = db.Column(ArrowType, default=None)
     last_status_change_at = db.Column(ArrowType, default=None)
     status = db.Column(db.Enum(MonitoringStatus), default=MonitoringStatus.UNKNOWN)
-    last_down_reason = db.Column(db.Text, default=None)
-    recipients = db.Column(db.Text, default=None)
+    last_down_reason = db.Column(db.Text, default='')
+    recipients = db.Column(db.Text, default='')
     created_at = db.Column(ArrowType, default=arrow.now())
 
     def __init__(self, name, url, is_active=False, is_public=False, http_method=MonitoringHttpMethod.GET, verify_https_cert=True, check_interval=5, timeout=10, last_checked_at=None, last_status_change_at=None, status=MonitoringStatus.UNKNOWN, last_down_reason=None, recipients=None, created_at=arrow.now()):
