@@ -1,7 +1,7 @@
 SECRET_KEY = 'secretkeyhere'
 DEBUG = False
 LOGGER_HANDLER_POLICY = 'production'
-USERS = {1: {'username': 'password'}}
+USERS = {'username': 'password'}
 MAIL_SERVER = 'localhost'
 MAIL_PORT = 25
 MAIL_USE_TLS = False
