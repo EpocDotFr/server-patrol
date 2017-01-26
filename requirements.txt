@@ -1,6 +1,7 @@
 flask
 Flask-HTTPAuth
 Flask-SQLAlchemy
+Flask-WTF
 Flask-Mail
 arrow
 PyRSS2Gen

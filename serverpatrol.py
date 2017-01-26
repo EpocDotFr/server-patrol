@@ -2,9 +2,12 @@ from flask import Flask, render_template, redirect, url_for, flash, abort, reque
 from flask_httpauth import HTTPBasicAuth
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
+from flask_wtf import FlaskForm
+from wtforms import StringField, BooleanField, SelectField, IntegerField, TextAreaField
 from werkzeug.exceptions import HTTPException
 from sqlalchemy_utils import ArrowType
 from enum import Enum
+import wtforms.validators as validators
 import logging
 import sys
 import os
@@ -59,37 +62,13 @@ def admin_monitorings_list():
 @app.route('/admin/monitorings/create', methods=['GET', 'POST'])
 @auth.login_required
 def admin_monitorings_create():
-    if request.method == 'POST':
+    form = MonitoringForm()
+
+    if form.validate_on_submit():
         try:
-            monitoring = Monitoring(
-                name=request.form['name'],
-                url=request.form['url']
-            )
+            monitoring = Monitoring()
 
-            if 'is_active' in request.form:
-                monitoring.is_active = True
-            else:
-                monitoring.is_active = False
-
-            if 'is_public' in request.form:
-                monitoring.is_public = True
-            else:
-                monitoring.is_public = False
-
-            if 'verify_https_cert' in request.form:
-                monitoring.verify_https_cert = True
-            else:
-                monitoring.verify_https_cert = False
-
-            monitoring.http_method = request.form['http_method']
-
-            if request.form['timeout']:
-                monitoring.timeout = request.form['timeout']
-
-            if request.form['check_interval']:
-                monitoring.check_interval = request.form['check_interval']
-
-            monitoring.recipients = request.form['recipients']
+            form.populate_obj(monitoring)
 
             db.session.add(monitoring)
             db.session.commit()
@@ -98,9 +77,9 @@ def admin_monitorings_create():
 
             return redirect(url_for('admin_monitorings_edit', monitoring_id=monitoring.id))
         except Exception as e:
-            flash('Error creating this monitoring.', 'error')
+            flash('Error creating this monitoring: ' + str(e), 'error')
 
-    return render_template('admin/monitorings/create.html')
+    return render_template('admin/monitorings/create.html', form=form)
 
 
 @app.route('/admin/monitorings/edit/<monitoring_id>', methods=['GET', 'POST'])
@@ -111,35 +90,11 @@ def admin_monitorings_edit(monitoring_id):
     if not monitoring:
         abort(404)
 
-    if request.method == 'POST':
+    form = MonitoringForm(obj=monitoring)
+
+    if form.validate_on_submit():
         try:
-            monitoring.name = request.form['name']
-            monitoring.url = request.form['url']
-
-            if 'is_active' in request.form:
-                monitoring.is_active = True
-            else:
-                monitoring.is_active = False
-
-            if 'is_public' in request.form:
-                monitoring.is_public = True
-            else:
-                monitoring.is_public = False
-
-            if 'verify_https_cert' in request.form:
-                monitoring.verify_https_cert = True
-            else:
-                monitoring.verify_https_cert = False
-
-            monitoring.http_method = request.form['http_method']
-
-            if request.form['timeout']:
-                monitoring.timeout = request.form['timeout']
-
-            if request.form['check_interval']:
-                monitoring.check_interval = request.form['check_interval']
-
-            monitoring.recipients = request.form['recipients']
+            form.populate_obj(monitoring)
 
             db.session.add(monitoring)
             db.session.commit()
@@ -148,10 +103,10 @@ def admin_monitorings_edit(monitoring_id):
 
             return redirect(url_for('admin_monitorings_edit', monitoring_id=monitoring.id))
         except Exception as e:
-            flash('Error editing this monitoring.', 'error')
+            flash('Error editing this monitoring: ' + str(e), 'error')
 
 
-    return render_template('admin/monitorings/edit.html', monitoring=monitoring)
+    return render_template('admin/monitorings/edit.html', monitoring=monitoring, form=form)
 
 
 @app.route('/admin/monitorings/delete/<monitoring_id>')
@@ -168,7 +123,7 @@ def admin_monitorings_delete(monitoring_id):
 
         flash('Monitoring deleted successfuly.', 'success')
     except Exception as e:
-        flash('Error deleting this monitoring.', 'error')
+        flash('Error deleting this monitoring: ' + str(e), 'error')
 
     return redirect(url_for('admin_monitorings_list'))
 
@@ -245,7 +200,7 @@ class Monitoring(db.Model):
     recipients = db.Column(db.Text, default='')
     created_at = db.Column(ArrowType, default=arrow.now())
 
-    def __init__(self, name, url, is_active=False, is_public=False, http_method=MonitoringHttpMethod.GET, verify_https_cert=True, check_interval=5, timeout=10, last_checked_at=None, last_status_change_at=None, status=MonitoringStatus.UNKNOWN, last_down_reason=None, recipients=None, created_at=arrow.now()):
+    def __init__(self, name=None, url=None, is_active=False, is_public=False, http_method=MonitoringHttpMethod.GET, verify_https_cert=True, check_interval=5, timeout=10, last_checked_at=None, last_status_change_at=None, status=MonitoringStatus.UNKNOWN, last_down_reason=None, recipients=None, created_at=arrow.now()):
         self.name = name
         self.url = url
         self.is_active = is_active
@@ -263,6 +218,22 @@ class Monitoring(db.Model):
 
     def __repr__(self):
         return '<Monitoring> #{} : {}'.format(self.id, self.name)
+
+
+# -----------------------------------------------------------
+# Forms
+
+
+class MonitoringForm(FlaskForm):
+    name = StringField('Name', [validators.DataRequired(), validators.length(max=255)])
+    is_active = BooleanField('Active?', default=False)
+    is_public = BooleanField('Public?', default=False)
+    url = StringField('URL to check', [validators.DataRequired(), validators.URL(), validators.length(max=255)])
+    http_method = SelectField('HTTP method to use', choices=[(method.value, method.name) for method in MonitoringHttpMethod], default=MonitoringHttpMethod.GET.value)
+    verify_https_cert = BooleanField('Verify HTTPS certificate?', default=True)
+    check_interval = IntegerField('Check interval (minutes)', default=5)
+    timeout = IntegerField('Connection timeout (seconds)', default=10)
+    recipients = TextAreaField('Recipients of the email alerts')
 
 
 # -----------------------------------------------------------
