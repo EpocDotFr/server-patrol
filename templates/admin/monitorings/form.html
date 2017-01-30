@@ -1,13 +1,13 @@
 {{ form.csrf_token }}
 
-<div class="row">
-    <div style="width:50%">
+<div class="grid">
+    <div class="w50">
         <div class="group">
             <label for="name">{{ form.name.label }} *</label>
             {{ form.name(required='') }}
         </div>
     </div>
-    <div style="width:50%">
+    <div class="w50">
         <div class="group">
             <label for="url">{{ form.url.label }} *</label>
             {{ form.url(required='', placeholder='Must be accessible by Server Patrol') }}
@@ -15,38 +15,38 @@
     </div>
 </div>
 
-<div class="row">
-    <div style="width:33%">
+<div class="grid">
+    <div class="w33">
         <div class="group">
             <label for="is_active">{{ form.is_active }} {{ form.is_active.label }}</label>
         </div>
     </div>
-    <div style="width:33%">
+    <div class="w33">
         <div class="group">
             <label for="is_public">{{ form.is_public }} {{ form.is_public.label }}</label>
         </div>
     </div>
-    <div style="width:33%">
+    <div class="w33">
         <div class="group">
             <label for="verify_https_cert">{{ form.verify_https_cert }} {{ form.verify_https_cert.label }}</label>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div style="width:33%">
+<div class="grid">
+    <div class="w33">
         <div class="group">
             <label for="http_method">{{ form.http_method.label }}</label>
             {{ form.http_method }}
         </div>
     </div>
-    <div style="width:33%">
+    <div class="w33">
         <div class="group">
             <label for="timeout">{{ form.timeout.label }}</label>
             {{ form.timeout(placeholder='Defaults to 10, min 3', min='3') }}
         </div>
     </div>
-    <div style="width:33%">
+    <div class="w33">
         <div class="group">
             <label for="check_interval">{{ form.check_interval.label }}</label>
             {{ form.check_interval(placeholder='Defaults to 5, min 1', min='1') }}
@@ -59,6 +59,6 @@
     {{ form.recipients(placeholder='Comma-separated list of email addresses') }}
 </div>
 
-<p class="center">
+<p class="txtcenter">
     <a href="{{ url_for('admin_monitorings_list') }}" class="button"><i class="fa fa-arrow-left"></i> Back</a> <button type="submit"><i class="fa fa-save"></i> Save</button>
 </p>

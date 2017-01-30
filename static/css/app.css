@@ -1,26 +1,14 @@
 /************************************************************************
  * Global styles */
 
-* {
-    box-sizing: border-box;
-}
-
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-    font-size: 16px;
-    margin: 0;
-    padding: 0;
     cursor: default;
     color: #000545;
-    line-height: 1.42857143;
 }
 
 .muted {
     color: #AAA;
-}
-
-.center {
-    text-align: center;
 }
 
 /************************************************************************
@@ -49,32 +37,20 @@ body {
  * Monitorings */
 
 .monitoring {
-    margin-right: 10px;
-    margin-bottom: 10px;
-    width: 475px;
-    display: inline-block;
-    position: relative;
     border: 2px solid #E6B71D;
     border-radius: 5px;
-    padding: 5px;
 }
 
 .monitoring .status {
-    width: 55px;
     vertical-align: middle;
 }
 
 .monitoring .name {
     font-weight: bold;
-    font-size: 18px;
 }
 
 .monitoring .name a {
     text-decoration: none;
-}
-
-.monitoring .info {
-    font-size: 14px;
 }
 
 /************************************************************************
@@ -101,7 +77,6 @@ a:focus {
     background-color: #DDD;
     color: #000;
     border: 1px solid #CCC;
-    line-height: 1.42857143;
     display: inline-block;
 }
 
@@ -201,17 +176,6 @@ form .group div {
 /************************************************************************
  * Alerts */
 
-p.alert,
-div.alert {
-    padding: 10px;
-    margin-bottom: 15px;
-}
-
-span.alert,
-small.alert {
-    padding: 3px;
-}
-
 .alert {
     border-radius: 5px;
     border: 2px solid;
@@ -245,26 +209,15 @@ small.alert {
 /************************************************************************
  * Header */
 
-header {
-    padding: 10px;
-}
-
 header a {
-    font-size: 42px;
     text-decoration: none;
     color: inherit;
-    border: none;
-    background-image: url("/images/logo.png");
-    background-repeat: no-repeat;
-    background-position: left center;
-    padding-left: 50px;
     font-weight: bold;
     text-transform: uppercase;
     font-style: italic;
 }
 
 header a:hover {
-    border: none;
     color: inherit;
     text-decoration: none;
 }
@@ -280,28 +233,11 @@ nav.main {
     font-weight: bold;
 }
 
-nav.main > ul,
-nav.secondary > ul {
-    padding: 0;
-    margin: 0;
-    display: inline-block;
-    list-style-type:none;
-}
-
-nav.main > ul > li,
-nav.secondary > ul > li {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-}
-
 nav.main > ul > li > a,
 nav.secondary > ul > li > a {
     color: inherit;
     text-decoration: none;
     text-transform: uppercase;
-    display: inline-block;
-    padding: 8px;
 }
 
 nav.main > ul > li > a:hover {

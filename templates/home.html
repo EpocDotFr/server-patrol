@@ -1,21 +1,23 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <p class="center"><a href="{{ url_for('rss_all') }}" class="button"><i class="fa fa-rss"></i> All</a></p>
+    <p class="txtcenter"><a href="{{ url_for('rss_all') }}" class="button"><i class="fa fa-rss"></i> All</a></p>
 
-    {% for monitoring in monitorings %}
-        <div class="monitoring">
-            <div class="row">
-                <div class="status center">
+    {% if monitorings %}
+        <div class="grid-2 has-gutter">
+        {% for monitoring in monitorings %}
+            <div class="monitoring mbs pas">
+                <div class="txtcenter fl w50p">
                     <span class="status-chip {{ monitoring.status.value }}"><i class="fa fa-{% if monitoring.status.value == 'UP' %}check{% elif monitoring.status.value == 'DOWN' %}times{% elif monitoring.status.value == 'UNKNOWN' %}question{% endif %}"></i></span>
                 </div>
-                <div>
-                    <div class="name">{% if not monitoring.is_public %}<i class="fa fa-lock"></i> {% endif %}{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a> <a href="{{ url_for('rss_one', monitoring_id=monitoring.id) }}"><i class="fa fa-rss"></i></a></small></div>
-                    <div class="muted info">{% if monitoring.status.value == 'DOWN' %}<strong>Down for:</strong> {{ monitoring.last_status_change_at.humanize() }} • {% endif %}<strong>Last checked:</strong> {% if monitoring.last_checked_at %}{{ monitoring.last_checked_at.humanize() }}{% else %}Never{% endif %} • <strong>Next check:</strong> {% if monitoring.last_checked_at %}{{ monitoring.last_checked_at.replace(minutes=monitoring.check_interval).humanize(arrow.now()) }}{% else %}{{ monitoring.created_at.replace(minutes=monitoring.check_interval).humanize(arrow.now()) }}{% endif %}</div>
+                <div class="mod pls">
+                    <div class="name big">{% if not monitoring.is_public %}<i class="fa fa-lock"></i> {% endif %}{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a> <a href="{{ url_for('rss_one', monitoring_id=monitoring.id) }}"><i class="fa fa-rss"></i></a></small></div>
+                    <div class="muted small">{% if monitoring.status.value == 'DOWN' %}<strong>Down for:</strong> {{ monitoring.last_status_change_at.humanize() }} • {% endif %}<strong>Last checked:</strong> {% if monitoring.last_checked_at %}{{ monitoring.last_checked_at.humanize() }}{% else %}Never{% endif %} • <strong>Next check:</strong> {% if monitoring.last_checked_at %}{{ monitoring.last_checked_at.replace(minutes=monitoring.check_interval).humanize(arrow.now()) }}{% else %}{{ monitoring.created_at.replace(minutes=monitoring.check_interval).humanize(arrow.now()) }}{% endif %}</div>
                 </div>
             </div>
+        {% endfor %}
         </div>
     {% else %}
-        <div class="alert info">No monitoring to display a this moment.</div>
-    {% endfor %}
+        <div class="alert info pas">No monitoring to display a this moment.</div>
+    {% endif %}
 {% endblock %}
