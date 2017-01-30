@@ -219,6 +219,22 @@ class Monitoring(db.Model):
     def __repr__(self):
         return '<Monitoring> #{} : {}'.format(self.id, self.name)
 
+    @property
+    def next_check(self):
+        if self.last_checked_at:
+            return self.last_checked_at.replace(minutes=self.check_interval)
+        else:
+            return self.created_at.replace(minutes=self.check_interval)
+
+    @property
+    def status_icon(self):
+        if self.status == MonitoringStatus.UP:
+            return 'check'
+        elif self.status == MonitoringStatus.DOWN:
+            return 'times'
+        elif self.status == MonitoringStatus.UNKNOWN:
+            return 'question'
+
 
 # -----------------------------------------------------------
 # Forms

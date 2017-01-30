@@ -8,11 +8,11 @@
         {% for monitoring in monitorings %}
             <div class="monitoring flex-container mbs pas">
                 <div class="status txtcenter">
-                    <span class="status-chip {{ monitoring.status.value }}"><i class="fa fa-{% if monitoring.status.value == 'UP' %}check{% elif monitoring.status.value == 'DOWN' %}times{% elif monitoring.status.value == 'UNKNOWN' %}question{% endif %}"></i></span>
+                    <span class="status-chip {{ monitoring.status.value }}"><i class="fa fa-{{ monitoring.status_icon }}"></i></span>
                 </div>
                 <div class="pls">
                     <div class="name big">{% if not monitoring.is_public %}<i class="fa fa-lock"></i> {% endif %}{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a> <a href="{{ url_for('rss_one', monitoring_id=monitoring.id) }}"><i class="fa fa-rss"></i></a></small></div>
-                    <div class="muted small">{% if monitoring.status.value == 'DOWN' %}<strong>Down for:</strong> {{ monitoring.last_status_change_at.humanize() }} • {% endif %}<strong>Last checked:</strong> {% if monitoring.last_checked_at %}{{ monitoring.last_checked_at.humanize() }}{% else %}Never{% endif %} • <strong>Next check:</strong> {% if monitoring.last_checked_at %}{{ monitoring.last_checked_at.replace(minutes=monitoring.check_interval).humanize(arrow.now()) }}{% else %}{{ monitoring.created_at.replace(minutes=monitoring.check_interval).humanize(arrow.now()) }}{% endif %}</div>
+                    <div class="muted small">{% if monitoring.status.value == 'DOWN' %}<strong>Down for:</strong> {{ monitoring.last_status_change_at.humanize() }} • {% endif %}<strong>Last checked:</strong> {% if monitoring.last_checked_at %}{{ monitoring.last_checked_at.humanize() }}{% else %}Never{% endif %} • <strong>Next check:</strong> {{ monitoring.next_check.humanize(arrow.now()) }}</div>
                 </div>
             </div>
         {% endfor %}
