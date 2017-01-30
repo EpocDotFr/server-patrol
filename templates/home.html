@@ -1,13 +1,13 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <p class="txtcenter"><a href="{{ url_for('rss_all') }}" class="button"><i class="fa fa-rss"></i> All</a></p>
+    <p class="txtcenter"><a href="{{ url_for('rss_all') }}" class="btn"><i class="fa fa-rss"></i> All</a></p>
 
     {% if monitorings %}
-        <div class="grid-2 has-gutter">
+        <div class="grid-2 has-gutter mts">
         {% for monitoring in monitorings %}
             <div class="monitoring flex-container mbs pas">
-                <div class="status txtcenter w50p">
+                <div class="status txtcenter">
                     <span class="status-chip {{ monitoring.status.value }}"><i class="fa fa-{% if monitoring.status.value == 'UP' %}check{% elif monitoring.status.value == 'DOWN' %}times{% elif monitoring.status.value == 'UNKNOWN' %}question{% endif %}"></i></span>
                 </div>
                 <div class="pls">

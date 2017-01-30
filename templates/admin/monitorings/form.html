@@ -1,64 +1,46 @@
 {{ form.csrf_token }}
 
-<div class="grid has-gutter">
+<div class="grid has-gutter pbs">
     <div class="w50">
-        <div class="group">
-            <label for="name">{{ form.name.label }} *</label>
-            {{ form.name(required='') }}
-        </div>
+        {{ form.name.label }}
+        {{ form.name(required='') }}
     </div>
     <div class="w50">
-        <div class="group">
-            <label for="url">{{ form.url.label }} *</label>
-            {{ form.url(required='', placeholder='Must be accessible by Server Patrol') }}
-        </div>
+        {{ form.url.label }}
+        {{ form.url(required='', placeholder='Must be accessible by Server Patrol') }}
     </div>
 </div>
 
-<div class="grid has-gutter">
+<div class="grid has-gutter pbs">
     <div class="w33">
-        <div class="group">
-            <label for="is_active">{{ form.is_active }} {{ form.is_active.label }}</label>
-        </div>
+        {{ form.is_active }} {{ form.is_active.label }}
     </div>
     <div class="w33">
-        <div class="group">
-            <label for="is_public">{{ form.is_public }} {{ form.is_public.label }}</label>
-        </div>
+        {{ form.is_public }} {{ form.is_public.label }}
     </div>
     <div class="w33">
-        <div class="group">
-            <label for="verify_https_cert">{{ form.verify_https_cert }} {{ form.verify_https_cert.label }}</label>
-        </div>
+        {{ form.verify_https_cert }} {{ form.verify_https_cert.label }}
     </div>
 </div>
 
-<div class="grid has-gutter">
+<div class="grid has-gutter pbs">
     <div class="w33">
-        <div class="group">
-            <label for="http_method">{{ form.http_method.label }}</label>
-            {{ form.http_method }}
-        </div>
+        {{ form.http_method.label }}
+        {{ form.http_method }}
     </div>
     <div class="w33">
-        <div class="group">
-            <label for="timeout">{{ form.timeout.label }}</label>
-            {{ form.timeout(placeholder='Defaults to 10, min 3', min='3') }}
-        </div>
+        {{ form.timeout.label }}
+        {{ form.timeout(placeholder='Defaults to 10, min 3', min='3') }}
     </div>
     <div class="w33">
-        <div class="group">
-            <label for="check_interval">{{ form.check_interval.label }}</label>
-            {{ form.check_interval(placeholder='Defaults to 5, min 1', min='1') }}
-        </div>
+        {{ form.check_interval.label }}
+        {{ form.check_interval(placeholder='Defaults to 5, min 1', min='1') }}
     </div>
 </div>
 
-<div class="group">
-    <label for="recipients">{{ form.recipients.label }}</label>
-    {{ form.recipients(placeholder='Comma-separated list of email addresses') }}
-</div>
+{{ form.recipients.label }}
+{{ form.recipients(placeholder='Comma-separated list of email addresses') }}
 
 <p class="txtcenter">
-    <a href="{{ url_for('admin_monitorings_list') }}" class="button"><i class="fa fa-arrow-left"></i> Back</a> <button type="submit"><i class="fa fa-save"></i> Save</button>
+    <a href="{{ url_for('admin_monitorings_list') }}" class="btn"><i class="fa fa-arrow-left"></i> Back</a> <button type="submit"><i class="fa fa-save"></i> Save</button>
 </p>

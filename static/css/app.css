@@ -19,28 +19,6 @@ textarea {
 }
 
 /************************************************************************
- * Rows */
-
-.row {
-    display: table;
-    width: 100%;
-}
-
-.row > div {
-    display: table-cell;
-    vertical-align: top;
-    padding: 5px;
-}
-
-.row > div:first-child {
-    padding-left: 0;
-}
-
-.row > div:last-child {
-    padding-right: 0;
-}
-
-/************************************************************************
  * Monitorings */
 
 .monitoring {
@@ -80,11 +58,13 @@ a:focus {
 
 .status-chip {
     border-radius: 5px;
-    padding: 5px 10px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     background-color: #DDD;
     color: #000;
     border: 1px solid #CCC;
     display: inline-block;
+    width: 4rem;
 }
 
 .status-chip.UP {
@@ -108,32 +88,27 @@ a:focus {
 /************************************************************************
  * Buttons */
 
-button, .button {
+button, .btn {
     border-radius: 5px;
-    cursor: pointer;
     background-color: #000545;
     border: 2px solid #E6B71D;
-    outline: none;
-    padding: 3px 5px;
+    padding: 0.2rem 0.5rem;
     color: #FFF;
     text-decoration: none;
     font-weight: bold;
 }
 
-button:hover, .button:hover,
-button:focus, .button:focus {
+button:hover, .btn:hover,
+button:focus, .btn:focus {
     background-color: #3A8CB2;
+    color: #FFF;
     outline: none;
 }
 
-button:disabled, .button.disabled {
+button:disabled, .btn.disabled {
     background-color: #CCC;
     border-color: #000;
     color: #000;
-}
-
-button.small, .button.small {
-    padding: 2px;
 }
 
 /************************************************************************
@@ -151,24 +126,13 @@ textarea {
 /************************************************************************
  * Forms */
 
-form .group {
-    margin-bottom: 15px;
-}
-
-form .group > label {
-    display: block;
-    width: 100%;
+form label {
     font-weight: bold;
 }
 
-form .group > input:not([type="checkbox"]),
-form .group > select,
-form .group > textarea {
-    display: block;
-    width: 100%;
-}
-
-form .group div {
+form input:not([type="checkbox"]):not([type="submit"]),
+form select,
+form textarea {
     width: 100%;
 }
 
