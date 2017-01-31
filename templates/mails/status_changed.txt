@@ -1,5 +1,13 @@
 {% extends 'mail.txt' %}
 
 {% block content %}
-    
+    {% if monitoring.status.value == 'DOWN' %}
+        {{ monitoring.name }} seems to encounter issues and is unreachable right now. The reason is:
+
+        {{ monitoring.last_down_reason }}
+    {% elif monitoring.status.value == 'UP' %}
+        {{ monitoring.name }} is reachable again. The reason of the downtime was:
+        
+        {{ monitoring.last_down_reason }}
+    {% endif %}
 {% endblock %}
