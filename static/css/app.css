@@ -96,6 +96,7 @@ button, .btn {
     color: #FFF;
     text-decoration: none;
     font-weight: bold;
+    cursor: pointer;
 }
 
 button:hover, .btn:hover,
@@ -103,10 +104,6 @@ button:focus, .btn:focus {
     background-color: #3A8CB2;
     color: #FFF;
     outline: none;
-}
-
-a.btn {
-    cursor: default;
 }
 
 /************************************************************************

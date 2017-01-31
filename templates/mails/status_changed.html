@@ -1,11 +1,11 @@
-{% extends 'mail.html' %}
+{% extends 'mails/mail.html' %}
 
 {% block content %}
     {% if monitoring.status.value == 'DOWN' %}
         <p><b>{{ monitoring.name }}</b> seems to encounter issues and is unreachable right now. The reason is:</p>
         <p>{{ monitoring.last_down_reason }}</p>
     {% elif monitoring.status.value == 'UP' %}
-        <p><b>{{ monitoring.name }}</b> is reachable again. The reason of the downtime was:</p>
+        <p><b>{{ monitoring.name }}</b> encountered issues but is now reachable. The reason of the downtime was:</p>
         <p>{{ monitoring.last_down_reason }}</p>
     {% endif %}
 {% endblock %}

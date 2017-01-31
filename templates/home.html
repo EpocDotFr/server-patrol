@@ -1,10 +1,10 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <p class="txtcenter"><a href="{{ url_for('rss_all') }}" class="btn"><i class="fa fa-rss"></i> All</a></p>
+    <p class="txtcenter mbs"><a href="{{ url_for('rss_all') }}" class="btn"><i class="fa fa-rss"></i> All</a></p>
 
     {% if monitorings %}
-        <div class="grid-2 has-gutter mts">
+        <div class="grid-2 has-gutter">
         {% for monitoring in monitorings %}
             <div class="monitoring flex-container mbs pas">
                 <div class="status txtcenter">

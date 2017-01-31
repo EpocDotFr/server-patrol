@@ -1,18 +1,18 @@
-from flask import Flask, render_template, redirect, url_for, flash, abort, request, make_response
+from flask import Flask, render_template, redirect, url_for, flash, abort, make_response
+from wtforms import StringField, BooleanField, SelectField, IntegerField, TextAreaField
+from werkzeug.exceptions import HTTPException
 from flask_httpauth import HTTPBasicAuth
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, SelectField, IntegerField, TextAreaField
-from werkzeug.exceptions import HTTPException
 from sqlalchemy_utils import ArrowType
-from enum import Enum
 import wtforms.validators as validators
+from enum import Enum
 import logging
 import sys
-import os
 import arrow
 import requests
+import click
 
 
 # -----------------------------------------------------------
@@ -105,7 +105,6 @@ def admin_monitorings_edit(monitoring_id):
             return redirect(url_for('admin_monitorings_edit', monitoring_id=monitoring.id))
         except Exception as e:
             flash('Error editing this monitoring: ' + str(e), 'error')
-
 
     return render_template('admin/monitorings/edit.html', monitoring=monitoring, form=form)
 
@@ -269,7 +268,8 @@ def create_database():
 
 
 @app.cli.command()
-def check():
+@click.option('--force', is_flag=True, default=False, help='Force checks whenever monitorings are due or not')
+def check(force):
     """Perform all checks for the active monitorings."""
 
     monitorings = Monitoring.query.get_for_checking()
@@ -277,7 +277,7 @@ def check():
     for monitoring in monitorings:
         now = arrow.now().replace(microseconds=0, seconds=0)
 
-        if now != monitoring.next_check: # This monitoring isn't due
+        if not force and now != monitoring.next_check: # This monitoring isn't due
             continue
 
         status = MonitoringStatus.UP
@@ -293,24 +293,27 @@ def check():
         try:
             response = requests.request(monitoring.http_method.value, monitoring.url, timeout=monitoring.timeout, verify=monitoring.verify_https_cert, headers=headers)
             response.raise_for_status()
-        except requests.ConnectionError as ce:
-            status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'Network error: unable to connect to the server.'
-        except requests.HTTPError as he:
+        except requests.exceptions.HTTPError:
             status = MonitoringStatus.DOWN
             monitoring.last_down_reason = 'The server responded with an HTTP error: ' + response.status_code + ' ' + response.reason + '.'
-        except requests.TooManyRedirects as tmr:
+        except requests.exceptions.TooManyRedirects:
             status = MonitoringStatus.DOWN
             monitoring.last_down_reason = 'There were too many HTTP redirects (3xx HTTP status code).'
-        except requests.ConnectTimeout as ct:
+        except requests.exceptions.ConnectTimeout:
             status = MonitoringStatus.DOWN
             monitoring.last_down_reason = 'Connection to the server timed out.'
-        except requests.ReadTimeout as rt:
+        except requests.exceptions.ReadTimeout:
             status = MonitoringStatus.DOWN
             monitoring.last_down_reason = 'The server took too long to respond.'
-        except requests.SSLError as se:
+        except requests.exceptions.SSLError as se:
             status = MonitoringStatus.DOWN
             monitoring.last_down_reason = 'An SSL error occured: ' + str(se)
+        except requests.exceptions.ProxyError as pe:
+            status = MonitoringStatus.DOWN
+            monitoring.last_down_reason = 'A proxy error occured: ' + str(pe)
+        except requests.exceptions.ConnectionError:
+            status = MonitoringStatus.DOWN
+            monitoring.last_down_reason = 'Network error: unable to connect to the server.'
 
         if monitoring.status != status: # Status is different from the one in the DB
             monitoring.last_status_change_at = arrow.now()

@@ -1,4 +1,4 @@
-{% extends 'mail.txt' %}
+{% extends 'mails/mail.txt' %}
 
 {% block content %}
     {% if monitoring.status.value == 'DOWN' %}
@@ -6,7 +6,7 @@
 
         {{ monitoring.last_down_reason }}
     {% elif monitoring.status.value == 'UP' %}
-        {{ monitoring.name }} is reachable again. The reason of the downtime was:
+        {{ monitoring.name }} encountered issues but is now reachable. The reason of the downtime was:
         
         {{ monitoring.last_down_reason }}
     {% endif %}
