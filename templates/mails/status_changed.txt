@@ -1,0 +1,5 @@
+{% extends 'mail.txt' %}
+
+{% block content %}
+    
+{% endblock %}

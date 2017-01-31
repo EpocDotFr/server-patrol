@@ -1,0 +1,6 @@
+{% block content %} {% endblock %}
+
+------------
+
+This email was automatically sent by Server Patrol ({{ url_for('home', _external=True) }}). Please don't reply.
+You are receiving this email because you are subscribed to the status alerts from {{ monitoring.name }}. If you no longer want to, or if you think it's a mistake, please contact your system administrator.

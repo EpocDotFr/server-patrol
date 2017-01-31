@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, flash, abort, request, make_response
 from flask_httpauth import HTTPBasicAuth
 from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail
+from flask_mail import Mail, Message
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, SelectField, IntegerField, TextAreaField
 from werkzeug.exceptions import HTTPException
@@ -282,7 +282,7 @@ def check():
 
         status = MonitoringStatus.UP
 
-        # Make sure the server thinks we are a real user (because we want to test as a real user)
+        # We want to test as we are an end-user
         headers = {
             **requests.utils.default_headers(),
             **{
@@ -298,7 +298,7 @@ def check():
             monitoring.last_down_reason = 'Network error: unable to connect to the server.'
         except requests.HTTPError as he:
             status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'The server responded with a HTTP error: ' + response.status_code + ' ' + response.reason + '.'
+            monitoring.last_down_reason = 'The server responded with an HTTP error: ' + response.status_code + ' ' + response.reason + '.'
         except requests.TooManyRedirects as tmr:
             status = MonitoringStatus.DOWN
             monitoring.last_down_reason = 'There were too many HTTP redirects (3xx HTTP status code).'
@@ -310,14 +310,30 @@ def check():
             monitoring.last_down_reason = 'The server took too long to respond.'
         except requests.SSLError as se:
             status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'A SSL error occured.'
+            monitoring.last_down_reason = 'An SSL error occured: ' + str(se)
 
-        if monitoring.status != status:
+        if monitoring.status != status: # Status is different from the one in the DB
             monitoring.last_status_change_at = arrow.now()
             monitoring.status = status
 
-            if monitoring.status == MonitoringStatus.DOWN: # Send emails only when the status has changed
-                recipients = monitoring.recipients_list
+            msg = Message()
+            msg.recipients = monitoring.recipients_list
+
+            if status == MonitoringStatus.DOWN:
+                msg.subject = monitoring.name + ' is gone'
+                msg.extra_headers = {
+                    'X-Priority': '1'
+                }
+            elif status == MonitoringStatus.UP:
+                msg.subject = monitoring.name + ' is back up'
+
+            msg.body = render_template('mails/status_changed.txt', monitoring=monitoring)
+            msg.html = render_template('mails/status_changed.html', monitoring=monitoring)
+
+            try: # TODO Send batch emails AFTER the DB was updated, and handle properly errors
+                mail.send(msg)
+            except Exception as e:
+                app.logger.error(e)
 
         monitoring.last_checked_at = now
 
