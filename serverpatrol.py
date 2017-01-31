@@ -279,7 +279,16 @@ def check():
         status = MonitoringStatus.UP
 
         try:
-            response = requests.request(monitoring.http_method.value, monitoring.url, timeout=monitoring.timeout, verify=monitoring.verify_https_cert)
+            # Make sure the server thinks we are a real user (because we want to test as a real user)
+
+            headers = {
+                **requests.utils.default_headers(),
+                **{
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:51.0) Gecko/20100101 Firefox/51.0'
+                }
+            }
+
+            response = requests.request(monitoring.http_method.value, monitoring.url, timeout=monitoring.timeout, verify=monitoring.verify_https_cert, headers=headers)
             response.raise_for_status()
         except requests.ConnectionError as ce:
             status = MonitoringStatus.DOWN
