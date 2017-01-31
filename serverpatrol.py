@@ -12,6 +12,7 @@ import logging
 import sys
 import os
 import arrow
+import requests
 
 
 # -----------------------------------------------------------
@@ -222,9 +223,9 @@ class Monitoring(db.Model):
     @property
     def next_check(self):
         if self.last_checked_at:
-            return self.last_checked_at.replace(minutes=self.check_interval)
+            return self.last_checked_at.replace(minutes=self.check_interval, microseconds=0, seconds=0)
         else:
-            return self.created_at.replace(minutes=self.check_interval)
+            return self.created_at.replace(minutes=self.check_interval, microseconds=0, seconds=0)
 
     @property
     def status_icon(self):
@@ -266,7 +267,44 @@ def create_database():
 @app.cli.command()
 def check():
     """Perform all checks for the active monitorings."""
+
     monitorings = Monitoring.query.get_for_checking()
+
+    for monitoring in monitorings:
+        now = arrow.now().replace(microseconds=0, seconds=0)
+
+        if now != monitoring.next_check: # This monitoring isn't due
+            continue
+
+        status = MonitoringStatus.UP
+
+        try:
+            response = requests.request(monitoring.http_method.value, monitoring.url, timeout=monitoring.timeout, verify=monitoring.verify_https_cert)
+            response.raise_for_status()
+        except requests.ConnectionError as ce:
+            status = MonitoringStatus.DOWN
+            monitoring.last_down_reason = 'Network error: unable to connect to the server.'
+        except requests.HTTPError as he:
+            status = MonitoringStatus.DOWN
+            monitoring.last_down_reason = 'The server responsed with a HTTP error: ' + response.reason + '.'
+        except requests.TooManyRedirects as tmr:
+            status = MonitoringStatus.DOWN
+            monitoring.last_down_reason = 'There were too many HTTP redirects (3xx status code).'
+        except requests.ConnectTimeout as ct:
+            status = MonitoringStatus.DOWN
+            monitoring.last_down_reason = 'The request timed out while connecting to the server.'
+        except requests.ReadTimeout as rt:
+            status = MonitoringStatus.DOWN
+            monitoring.last_down_reason = 'The server took too long to respond.'
+
+        if monitoring.status != status:
+            monitoring.last_status_change_at = arrow.now()
+            monitoring.status = status
+
+        monitoring.last_checked_at = now
+
+        db.session.add(monitoring)
+        db.session.commit()
 
 
 # -----------------------------------------------------------
