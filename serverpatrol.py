@@ -236,6 +236,10 @@ class Monitoring(db.Model):
         elif self.status == MonitoringStatus.UNKNOWN:
             return 'question'
 
+    @property
+    def recipients_list(self):
+        return self.recipients.split(',')
+
 
 # -----------------------------------------------------------
 # Forms
@@ -278,16 +282,15 @@ def check():
 
         status = MonitoringStatus.UP
 
-        try:
-            # Make sure the server thinks we are a real user (because we want to test as a real user)
-
-            headers = {
-                **requests.utils.default_headers(),
-                **{
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:51.0) Gecko/20100101 Firefox/51.0'
-                }
+        # Make sure the server thinks we are a real user (because we want to test as a real user)
+        headers = {
+            **requests.utils.default_headers(),
+            **{
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:51.0) Gecko/20100101 Firefox/51.0'
             }
+        }
 
+        try:
             response = requests.request(monitoring.http_method.value, monitoring.url, timeout=monitoring.timeout, verify=monitoring.verify_https_cert, headers=headers)
             response.raise_for_status()
         except requests.ConnectionError as ce:
@@ -295,20 +298,26 @@ def check():
             monitoring.last_down_reason = 'Network error: unable to connect to the server.'
         except requests.HTTPError as he:
             status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'The server responsed with a HTTP error: ' + response.reason + '.'
+            monitoring.last_down_reason = 'The server responded with a HTTP error: ' + response.status_code + ' ' + response.reason + '.'
         except requests.TooManyRedirects as tmr:
             status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'There were too many HTTP redirects (3xx status code).'
+            monitoring.last_down_reason = 'There were too many HTTP redirects (3xx HTTP status code).'
         except requests.ConnectTimeout as ct:
             status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'The request timed out while connecting to the server.'
+            monitoring.last_down_reason = 'Connection to the server timed out.'
         except requests.ReadTimeout as rt:
             status = MonitoringStatus.DOWN
             monitoring.last_down_reason = 'The server took too long to respond.'
+        except requests.SSLError as se:
+            status = MonitoringStatus.DOWN
+            monitoring.last_down_reason = 'A SSL error occured.'
 
         if monitoring.status != status:
             monitoring.last_status_change_at = arrow.now()
             monitoring.status = status
+
+            if monitoring.status == MonitoringStatus.DOWN: # Send emails only when the status has changed
+                recipients = monitoring.recipients_list
 
         monitoring.last_checked_at = now
 
