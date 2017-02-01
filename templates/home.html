@@ -6,11 +6,11 @@
     {% if monitorings %}
         <div class="grid-2 has-gutter">
         {% for monitoring in monitorings %}
-            <div class="monitoring flex-container mbs pas">
-                <div class="status txtcenter">
+            <div class="monitoring mbs pas">
+                <div class="status txtcenter fl w50p">
                     <span class="status-chip {{ monitoring.status.value }}"><i class="fa fa-{{ monitoring.status_icon }}"></i></span>
                 </div>
-                <div class="pls">
+                <div class="pls mod">
                     <div class="name big">{% if not monitoring.is_public %}<i class="fa fa-lock"></i> {% endif %}{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a> <a href="{{ url_for('rss_one', monitoring_id=monitoring.id) }}"><i class="fa fa-rss"></i></a></small></div>
                     <div class="muted small">{% if monitoring.status.value == 'DOWN' %}<strong>Down for:</strong> {{ monitoring.last_status_change_at.humanize() }} • {% endif %}<strong>Last checked:</strong> {% if monitoring.last_checked_at %}{{ monitoring.last_checked_at.humanize() }}{% else %}Never{% endif %} • <strong>Next check:</strong> {{ monitoring.next_check.humanize(arrow.now()) }}</div>
                 </div>
