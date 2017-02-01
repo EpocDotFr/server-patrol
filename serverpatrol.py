@@ -24,6 +24,7 @@ app.config.from_pyfile('config.py')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///storage/data/db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAIL_DEBUG'] = False
 
 app.jinja_env.globals.update(arrow=arrow)
 
@@ -31,6 +32,7 @@ db = SQLAlchemy(app)
 auth = HTTPBasicAuth()
 mail = Mail(app)
 
+# Default Python logger
 logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%d/%m/%Y %H:%M:%S',
@@ -38,6 +40,10 @@ logging.basicConfig(
 )
 
 logging.getLogger().setLevel(logging.INFO)
+
+# Default Flask loggers
+for handler in app.logger.handlers:
+    handler.setFormatter(logging.Formatter(fmt='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S'))
 
 
 # -----------------------------------------------------------
@@ -271,13 +277,22 @@ def create_database():
 @click.option('--force', is_flag=True, default=False, help='Force checks whenever monitorings are due or not')
 def check(force):
     """Perform all checks for the active monitorings."""
+    app.logger.info('Getting all active monitorings')
+
+    if force:
+        app.logger.info('  Ignore if monitorings are due or not')
 
     monitorings = Monitoring.query.get_for_checking()
 
+    app.logger.info('{} monitorings to check'.format(len(monitorings)))
+
     for monitoring in monitorings:
+        app.logger.info(monitoring.name)
+
         now = arrow.now().replace(microseconds=0, seconds=0)
 
         if not force and now != monitoring.next_check: # This monitoring isn't due
+            app.logger.info('  Not due')
             continue
 
         status = MonitoringStatus.UP
@@ -290,12 +305,14 @@ def check(force):
             }
         }
 
+        app.logger.info('  Checking: "{} {}" ({}s timeout, verify HTTPS cert = {})'.format(monitoring.http_method.value, monitoring.url, monitoring.timeout, monitoring.verify_https_cert))
+
         try:
             response = requests.request(monitoring.http_method.value, monitoring.url, timeout=monitoring.timeout, verify=monitoring.verify_https_cert, headers=headers)
             response.raise_for_status()
         except requests.exceptions.HTTPError:
             status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'The server responded with an HTTP error: ' + response.status_code + ' ' + response.reason + '.'
+            monitoring.last_down_reason = 'The server responded with an HTTP error: {} {}.'.format(response.status_code, response.reason)
         except requests.exceptions.TooManyRedirects:
             status = MonitoringStatus.DOWN
             monitoring.last_down_reason = 'There were too many HTTP redirects (3xx HTTP status code).'
@@ -315,7 +332,11 @@ def check(force):
             status = MonitoringStatus.DOWN
             monitoring.last_down_reason = 'Network error: unable to connect to the server.'
 
-        if monitoring.status != status: # Status is different from the one in the DB
+        app.logger.info('  ' + status.value + (' (' + monitoring.last_down_reason + ')' if status == MonitoringStatus.DOWN else ''))
+
+        if monitoring.status != status:
+            app.logger.info('  Status is different, updating DB and sending mails')
+
             monitoring.last_status_change_at = arrow.now()
             monitoring.status = status
 
@@ -336,7 +357,7 @@ def check(force):
             try: # TODO Send batch emails AFTER the DB was updated, and handle properly errors
                 mail.send(msg)
             except Exception as e:
-                app.logger.error(e)
+                app.logger.error(' Error sending mail: {}'.format(e))
 
         monitoring.last_checked_at = now
 
