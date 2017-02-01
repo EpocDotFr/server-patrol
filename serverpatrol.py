@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash, abort, make_response
+from flask import Flask, render_template, redirect, url_for, flash, abort, make_response, Response
 from wtforms import StringField, BooleanField, SelectField, IntegerField, TextAreaField
 from werkzeug.exceptions import HTTPException
 from flask_httpauth import HTTPBasicAuth
@@ -13,6 +13,7 @@ import sys
 import arrow
 import requests
 import click
+import PyRSS2Gen
 
 
 # -----------------------------------------------------------
@@ -136,7 +137,42 @@ def admin_monitorings_delete(monitoring_id):
 
 @app.route('/rss/all')
 def rss_all():
-    return None
+    monitorings = Monitoring.query.get_for_home()
+
+    rss_items = []
+
+    for monitoring in monitorings:
+        description = ''
+
+        if monitoring.status == MonitoringStatus.DOWN:
+            title = monitoring.name + ' status is down'
+            description = '<strong>Down for:</strong> ' + monitoring.last_status_change_at.humanize()
+        elif monitoring.status == MonitoringStatus.UP:
+            title = monitoring.name + ' status is up'
+        elif monitoring.status == MonitoringStatus.UNKNOWN:
+            title = monitoring.name + ' status is unknow'
+
+        rss_items.append(PyRSS2Gen.RSSItem(
+            title=title,
+            link=monitoring.url,
+            description=description,
+            pubDate=monitoring.last_status_change_at,
+            categories=[MonitoringStatus.DOWN.value]
+        ))
+
+    rss = PyRSS2Gen.RSS2(
+        title='Server Patrol - Monitorings status',
+        link=url_for('home', _external=True),
+        description='Server Patrol - Monitorings status',
+        language='en',
+        image=PyRSS2Gen.Image(url_for('static', filename='images/logo.png', _external=True),
+                              'Server Patrol - Monitorings status',
+                              url_for('home', _external=True)),
+        lastBuildDate=arrow.now().datetime,
+        items=rss_items
+    )
+
+    return Response(rss.to_xml(encoding='utf-8'), mimetype='application/rss+xml')
 
 
 @app.route('/rss/<monitoring_id>')
@@ -354,7 +390,7 @@ def check(force):
             msg.body = render_template('mails/status_changed.txt', monitoring=monitoring)
             msg.html = render_template('mails/status_changed.html', monitoring=monitoring)
 
-            try: # TODO Send batch emails AFTER the DB was updated, and handle properly errors
+            try:
                 mail.send(msg)
             except Exception as e:
                 app.logger.error(' Error sending mail: {}'.format(e))
