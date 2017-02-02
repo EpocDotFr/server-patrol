@@ -274,7 +274,7 @@ class Monitoring(db.Model):
 
     @property
     def recipients_list(self):
-        return self.recipients.split(',')
+        return [recipient.strip() for recipient in self.recipients.split(',')]
 
 
 # -----------------------------------------------------------

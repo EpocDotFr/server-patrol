@@ -252,6 +252,7 @@ table,
 table td,
 table th {
     border: 0.2rem solid #E6B71D;
+    table-layout: auto;
 }
 
 table th {
