@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
 
@@ -7,14 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex,nofollow,noarchive"/>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/knacss.min.css') }}">
+    <title>{% block meta_title %}{% endblock %}{% if self.meta_title() | trim %} • {% endif %}Server Patrol</title>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/knacss.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}" />
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
 
-    <title>{% block meta_title %}{% endblock %}{% if self.meta_title() | trim %} • {% endif %}Server Patrol</title>
+    <link rel="alternate" type="application/rss+xml" title="Server Patrol - Monitorings status" href="{{ url_for('rss', _external=True) }}" />
 </head>
 <body class="man pan">
     <header class="txtcenter pas">

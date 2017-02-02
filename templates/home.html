@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <p class="txtcenter mbs"><a href="{{ url_for('rss_all') }}" class="btn"><i class="fa fa-rss"></i> All</a></p>
+    <p class="txtcenter mbs"><a href="{{ url_for('rss') }}" class="btn"><i class="fa fa-rss"></i> RSS feed</a></p>
 
     {% if monitorings %}
         <div class="grid-2 has-gutter">
@@ -11,8 +11,8 @@
                     <span class="status-chip {{ monitoring.status.value }}"><i class="fa fa-{{ monitoring.status_icon }}"></i></span>
                 </div>
                 <div class="pls mod">
-                    <div class="name big">{% if not monitoring.is_public %}<i class="fa fa-lock"></i> {% endif %}{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a> <a href="{{ url_for('rss_one', monitoring_id=monitoring.id) }}"><i class="fa fa-rss"></i></a></small></div>
-                    <div class="muted small">{% if monitoring.status.value == 'DOWN' %}<strong>Down for:</strong> {{ monitoring.last_status_change_at.humanize() }} • {% endif %}<strong>Last checked:</strong> {% if monitoring.last_checked_at %}{{ monitoring.last_checked_at.humanize() }}{% else %}Never{% endif %} • <strong>Next check:</strong> {{ monitoring.next_check.humanize(arrow.now()) }}</div>
+                    <div class="name big">{% if not monitoring.is_public %}<i class="fa fa-lock"></i> {% endif %}{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a></small></div>
+                    <div class="muted small">{% if monitoring.status.value == 'DOWN' %}<strong>Down for:</strong> {{ monitoring.last_status_change_at.humanize(locale='en_us') }} • {% endif %}<strong>Last checked:</strong> {% if monitoring.last_checked_at %}{{ monitoring.last_checked_at.humanize(locale='en_us') }}{% else %}Never{% endif %} • <strong>Next check:</strong> {{ monitoring.next_check.humanize(arrow.now(), locale='en_us') }}</div>
                 </div>
             </div>
         {% endfor %}

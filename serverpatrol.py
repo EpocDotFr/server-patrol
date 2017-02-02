@@ -135,29 +135,29 @@ def admin_monitorings_delete(monitoring_id):
     return redirect(url_for('admin_monitorings_list'))
 
 
-@app.route('/rss/all')
-def rss_all():
+@app.route('/rss')
+def rss():
     monitorings = Monitoring.query.get_for_home()
 
     rss_items = []
 
     for monitoring in monitorings:
-        description = ''
-
         if monitoring.status == MonitoringStatus.DOWN:
-            title = monitoring.name + ' status is down'
-            description = '<strong>Down for:</strong> ' + monitoring.last_status_change_at.humanize()
+            title = monitoring.name + ' is down'
+            description = '<p><b>{}</b> seems to encounter issues and is unreachable since <b>{}</b>. The reason is:</p><p>{}</p>'.format(monitoring.name, monitoring.last_status_change_at.format(locale='en_us'), monitoring.last_down_reason)
         elif monitoring.status == MonitoringStatus.UP:
-            title = monitoring.name + ' status is up'
+            title = monitoring.name + ' is up'
+            description = '<p><b>{}</b> is up and reachable since <b>{}</b>.</p>'.format(monitoring.name, monitoring.last_status_change_at.format(locale='en_us'))
         elif monitoring.status == MonitoringStatus.UNKNOWN:
-            title = monitoring.name + ' status is unknow'
+            title = monitoring.name + ' status is unknown'
+            description = '<p>The status of <b>{}</b> is currently unknown.</p>'.format(monitoring.name)
 
         rss_items.append(PyRSS2Gen.RSSItem(
             title=title,
             link=monitoring.url,
             description=description,
-            pubDate=monitoring.last_status_change_at,
-            categories=[MonitoringStatus.DOWN.value]
+            pubDate=monitoring.last_status_change_at.datetime,
+            categories=[monitoring.status.value]
         ))
 
     rss = PyRSS2Gen.RSS2(
@@ -173,11 +173,6 @@ def rss_all():
     )
 
     return Response(rss.to_xml(encoding='utf-8'), mimetype='application/rss+xml')
-
-
-@app.route('/rss/<monitoring_id>')
-def rss_one(monitoring_id):
-    return None
 
 
 # -----------------------------------------------------------
