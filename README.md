@@ -2,6 +2,10 @@
 
 Simple HTTP-based server status check tool with email alerts.
 
+<p align="center">
+  <img src="https://github.com/EpocDotFr/server-patrol/raw/master/screenshot.png">
+</p>
+
 ## Features
 
   - Manage multiple monitorings (URLs to check)
