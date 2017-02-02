@@ -2,16 +2,16 @@
 
 <div class="grid has-gutter pbs">
     <div class="w50">
-        {{ form.name.label }}
+        {{ form.name.label(class="inbl") }}
         {{ form.name(required='') }}
     </div>
     <div class="w50">
-        {{ form.url.label }}
+        {{ form.url.label(class="inbl") }}
         {{ form.url(required='', placeholder='Must be accessible by Server Patrol') }}
     </div>
 </div>
 
-<div class="grid has-gutter pbs">
+<div class="grid has-gutter">
     <div class="w33">
         {{ form.is_active }} {{ form.is_active.label }}
     </div>
@@ -23,22 +23,22 @@
     </div>
 </div>
 
-<div class="grid has-gutter pbs">
+<div class="grid has-gutter">
     <div class="w33">
-        {{ form.http_method.label }}
+        {{ form.http_method.label(class="inbl") }}
         {{ form.http_method }}
     </div>
     <div class="w33">
-        {{ form.timeout.label }}
+        {{ form.timeout.label(class="inbl") }}
         {{ form.timeout(placeholder='Defaults to 10, min 3', min='3') }}
     </div>
     <div class="w33">
-        {{ form.check_interval.label }}
+        {{ form.check_interval.label(class="inbl") }}
         {{ form.check_interval(placeholder='Defaults to 5, min 1', min='1') }}
     </div>
 </div>
 
-{{ form.recipients.label }}
+{{ form.recipients.label(class="inbl") }}
 {{ form.recipients(placeholder='Comma-separated list of email addresses') }}
 
 <p class="txtcenter">
