@@ -37,7 +37,7 @@ Available configuration parameters are:
 
 More informations on the three above can be found [here](http://flask.pocoo.org/docs/0.12/config/#builtin-configuration-values).
 
-  - `USERS` The credentials required to access the app. You can specify multiple ones. **It is highly recommended to serve Web Todo.txt through HTTPS** because it uses [HTTP basic auth](https://en.wikipedia.org/wiki/Basic_access_authentication)
+  - `USERS` The credentials required to access the app. You can specify multiple ones. **It is highly recommended to serve Server Patrol through HTTPS** because it uses [HTTP basic auth](https://en.wikipedia.org/wiki/Basic_access_authentication)
   - `SERVER_NAME` The IP or hostname where Server Patrol will be available
 
 SMTP related parameters:
@@ -77,7 +77,7 @@ You'll probably have to hack with this application to make it work with one of t
 ## How it works
 
 This project is built on [Flask](http://flask.pocoo.org/) (Python) for the backend which is using a small [SQLite](https://en.wikipedia.org/wiki/SQLite)
-database to persist data. [HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) requests are used to check the URLs.
+database to persist data. [HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) requests are used to check the configured monitorings.
 
 ## End words
 

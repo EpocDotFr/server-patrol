@@ -365,30 +365,31 @@ def check(force):
 
         app.logger.info('  ' + status.value + (' (' + monitoring.last_down_reason + ')' if status == MonitoringStatus.DOWN else ''))
 
-        if monitoring.status != status:
-            app.logger.info('  Status is different, updating DB and sending mails')
+        if monitoring.status != status: # The status is different from the one in DB: update it and send emails if required
+            app.logger.info('  Status is different')
+
+            if monitoring.status != MonitoringStatus.UNKNOWN: # The old status is known?
+                msg = Message()
+                msg.recipients = monitoring.recipients_list
+
+                if status == MonitoringStatus.DOWN: # The new status is down?
+                    msg.subject = monitoring.name + ' is gone'
+                    msg.extra_headers = {
+                        'X-Priority': '1'
+                    }
+                elif status == MonitoringStatus.UP: # The new status is up?
+                    msg.subject = monitoring.name + ' is back up'
+
+                msg.body = render_template('mails/status_changed.txt', monitoring=monitoring)
+                msg.html = render_template('mails/status_changed.html', monitoring=monitoring)
+
+                try:
+                    mail.send(msg)
+                except Exception as e:
+                    app.logger.error(' Error sending mail: {}'.format(e))
 
             monitoring.last_status_change_at = arrow.now()
             monitoring.status = status
-
-            msg = Message()
-            msg.recipients = monitoring.recipients_list
-
-            if status == MonitoringStatus.DOWN:
-                msg.subject = monitoring.name + ' is gone'
-                msg.extra_headers = {
-                    'X-Priority': '1'
-                }
-            elif status == MonitoringStatus.UP:
-                msg.subject = monitoring.name + ' is back up'
-
-            msg.body = render_template('mails/status_changed.txt', monitoring=monitoring)
-            msg.html = render_template('mails/status_changed.html', monitoring=monitoring)
-
-            try:
-                mail.send(msg)
-            except Exception as e:
-                app.logger.error(' Error sending mail: {}'.format(e))
 
         monitoring.last_checked_at = now
 

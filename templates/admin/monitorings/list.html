@@ -3,11 +3,11 @@
 {% block meta_title %}Admin › Monitorings{% endblock %}
 
 {% block content %}
-    <p class="txtcenter"><a href="{{ url_for('admin_monitorings_create') }}" class="btn"><i class="fa fa-plus"></i> Create</a></p>
+    <p class="txtcenter mbs"><a href="{{ url_for('admin_monitorings_create') }}" class="btn"><i class="fa fa-plus"></i> Create</a></p>
 
     {% if monitorings %}
     <div class="table-responsive">
-        <table class="mts">
+        <table>
             <thead>
                 <tr>
                     <th>Name</th>
