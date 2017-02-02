@@ -28,6 +28,11 @@ Simple HTTP-based server status check tool with email alerts.
 
   1. Clone this repo somewhere
   2. `pip install -r requirements.txt`
+  3. Create this [Cron](https://en.wikipedia.org/wiki/Cron) entry:
+
+    * * * * * cd /path/to/server-patrol && export FLASK_APP=serverpatrol.py && flask check 2>&1
+
+This will run the checks every minutes for every active monitorings that are due.
 
 ## Configuration
 
