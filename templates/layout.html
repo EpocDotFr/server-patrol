@@ -32,7 +32,7 @@
 
     {% block secondary_nav %} {% endblock %}
     
-    <div class="pas center mw1140p">
+    <div class="pas center page">
         {% with flash_messages = get_flashed_messages(with_categories=true) %}
           {% if flash_messages %}
             {% for category, message in flash_messages %}
