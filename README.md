@@ -9,15 +9,15 @@ Simple HTTP-based server status check tool with email alerts.
 ## Features
 
   - Manage multiple monitorings (URLs to check)
-  - Each monitorings status (down, up, unknow) are visible on a web page
-  - RSS feed available for all monitorings
+  - Simple visualization of each monitorings status (down, up, unknow)
+  - RSS feed of the monitorings status
   - (Optional) Mails can be sent via SMTP when something happen
   - Ability to configure, for each monitorings:
     - HTTP method to use, as well as the connection timeout and if the HTTPS certificate have to be verified
     - Enable / disable the monitoring
     - Make the monitoring publicly visible or not
     - Check interval
-    - List of email recipients who will receive alerts
+    - (Optional) List of email recipients who will receive alerts
 
 ## Prerequisites
 
@@ -28,13 +28,19 @@ Simple HTTP-based server status check tool with email alerts.
 
   1. Clone this repo somewhere
   2. `pip install -r requirements.txt`
-  3. Create this [Cron](https://en.wikipedia.org/wiki/Cron) entry:
+  3. Create the scheduled task that will run the script who will perform the checks every minutes (only for active monitorings that are due):
+
+On a **Linux-based OS**, create this [Cron](https://en.wikipedia.org/wiki/Cron) entry:
 
 ```
 * * * * * cd /path/to/server-patrol && export FLASK_APP=serverpatrol.py && flask check 2>&1
 ```
 
-This will run the checks every minutes for every active monitorings that are due.
+On **Windows**, create this scheduled task using the command line:
+
+```
+schtasks /create /tn "Server Patrol" /tr "cd C:/path/to/server-patrol && set FLASK_APP=serverpatrol.py&& flask check" /sc MINUTE
+```
 
 ## Configuration
 
