@@ -375,7 +375,9 @@ def check(force):
                 if status == MonitoringStatus.DOWN: # The new status is down?
                     msg.subject = monitoring.name + ' is gone'
                     msg.extra_headers = {
-                        'X-Priority': '1'
+                        'X-Priority': '1',
+                        'X-MSMail-Priority': 'High',
+                        'Importance': 'High'
                     }
                 elif status == MonitoringStatus.UP: # The new status is up?
                     msg.subject = monitoring.name + ' is back up'
