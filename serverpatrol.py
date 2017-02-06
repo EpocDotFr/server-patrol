@@ -308,10 +308,18 @@ def create_database():
 @click.option('--force', is_flag=True, default=False, help='Force checks whenever monitorings are due or not')
 def check(force):
     """Perform all checks for the active monitorings."""
+    lock_file = '.running'
+
+    if os.path.isfile(lock_file):
+        app.logger.warning('Checks already running, aborting')
+        return
+
+    open(lock_file, 'a').close() # Create the lock file
+
     app.logger.info('Getting all active monitorings')
 
     if force:
-        app.logger.info('  Ignore if monitorings are due or not')
+        app.logger.info('  Ignoring monitorings due')
 
     monitorings = Monitoring.query.get_for_checking()
 
@@ -369,6 +377,8 @@ def check(force):
             app.logger.info('  Status is different')
 
             if monitoring.status != MonitoringStatus.UNKNOWN: # The old status is known?
+                app.logger.info('  Sending emails to {}'.format(monitoring.recipients_list))
+
                 msg = Message()
                 msg.recipients = monitoring.recipients_list
 
@@ -398,6 +408,8 @@ def check(force):
         db.session.add(monitoring)
         db.session.commit()
 
+    os.remove(lock_file)
+
 
 # -----------------------------------------------------------
 # Hooks
@@ -418,6 +430,7 @@ def auth_error():
 
 # -----------------------------------------------------------
 # HTTP errors handler
+
 
 @app.errorhandler(401)
 @app.errorhandler(403)
