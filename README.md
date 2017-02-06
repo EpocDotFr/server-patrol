@@ -33,13 +33,13 @@ Simple HTTP-based server status check tool with email alerts.
 On a **Linux-based OS**, create this [Cron](https://en.wikipedia.org/wiki/Cron) entry:
 
 ```
-* * * * * cd /path/to/server-patrol && export FLASK_APP=serverpatrol.py && flask check 2>&1
+* * * * * /path/to/server-patrol/bin/check.sh
 ```
 
 On **Windows**, create this scheduled task using the command line:
 
 ```
-schtasks /create /tn "Server Patrol" /tr "cd C:/path/to/server-patrol && set FLASK_APP=serverpatrol.py&& flask check" /sc MINUTE
+schtasks /create /tn "Server Patrol" /tr "C:\path\to\server-patrol\bin\check.bat" /sc MINUTE
 ```
 
 ## Configuration
