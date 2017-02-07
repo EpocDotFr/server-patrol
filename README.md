@@ -33,13 +33,13 @@ Simple HTTP-based server status check tool with email alerts.
 On a **Linux-based OS**, create this [Cron](https://en.wikipedia.org/wiki/Cron) entry:
 
 ```
-* * * * * /path/to/server-patrol/bin/check.sh 2>&1
+* * * * * /path/to/server-patrol/bin/check 2>&1
 ```
 
 On **Windows**, create this scheduled task using the command line:
 
 ```
-schtasks /create /tn "Server Patrol" /tr "C:\path\to\server-patrol\bin\check.bat" /sc MINUTE
+schtasks /create /tn "Server Patrol" /tr "C:\path\to\server-patrol\bin\check" /sc MINUTE
 ```
 
 ## Configuration
@@ -73,6 +73,13 @@ I'll let you search yourself about how to configure a web server along uWSGI.
 
 ## Usage
 
+As you can see, Server Patrol is split in two pieces:
+
+  - A Flask command (`flask check`) to run the checks
+  - A Flask web app (the Server Patrol GUI) itself
+
+You can run the web app:
+
   - Standalone
 
 Run the internal web server, which will be accessible at `http://localhost:8080`:
@@ -94,7 +101,8 @@ You'll probably have to hack with this application to make it work with one of t
 ## How it works
 
 This project is built on [Flask](http://flask.pocoo.org/) (Python) for the backend which is using a small [SQLite](https://en.wikipedia.org/wiki/SQLite)
-database to persist data. [HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) requests are used to check the configured monitorings.
+database to persist data. [HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) requests are used to check the configured monitorings via
+the `flask check` command.
 
 ## End words
 
