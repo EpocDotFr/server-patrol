@@ -92,7 +92,9 @@ a:focus {
 /************************************************************************
  * Buttons */
 
-button, .btn {
+button,
+.btn,
+.btn:visited {
     border-radius: 0.5rem;
     background-color: #000545;
     border: 0.2rem solid #E6B71D;

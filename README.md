@@ -12,6 +12,7 @@ Simple HTTP-based server status check tool with email alerts.
   - Simple visualization of each monitorings status (down, up, unknow)
   - RSS feed of the monitorings status (public monitorings only)
   - (Optional) Mails can be sent via SMTP when something happen
+  - Responsive (can be used on mobile devices)
   - Ability to configure, for each monitorings:
     - HTTP method to use, as well as the connection timeout and if the HTTPS certificate have to be verified
     - Enable / disable the monitoring

@@ -1,38 +1,38 @@
 {{ form.csrf_token }}
 
 <div class="grid has-gutter pbs">
-    <div class="w50">
+    <div class="large-w50 tiny-w100">
         {{ form.name.label(class="inbl") }}
         {{ form.name(required='') }}
     </div>
-    <div class="w50">
+    <div class="large-w50 tiny-w100">
         {{ form.url.label(class="inbl") }}
         {{ form.url(required='', placeholder='Must be accessible by Server Patrol') }}
     </div>
 </div>
 
 <div class="grid has-gutter">
-    <div class="w33">
+    <div class="large-w33 tiny-w100">
         {{ form.is_active }} {{ form.is_active.label }}
     </div>
-    <div class="w33">
+    <div class="large-w33 tiny-w100">
         {{ form.is_public }} {{ form.is_public.label }}
     </div>
-    <div class="w33">
+    <div class="large-w33 tiny-w100">
         {{ form.verify_https_cert }} {{ form.verify_https_cert.label }}
     </div>
 </div>
 
 <div class="grid has-gutter">
-    <div class="w33">
+    <div class="large-w33 tiny-w100">
         {{ form.http_method.label(class="inbl") }}
         {{ form.http_method }}
     </div>
-    <div class="w33">
+    <div class="large-w33 tiny-w100">
         {{ form.timeout.label(class="inbl") }}
         {{ form.timeout(placeholder='Defaults to 10, min 3', min='3') }}
     </div>
-    <div class="w33">
+    <div class="large-w33 tiny-w100">
         {{ form.check_interval.label(class="inbl") }}
         {{ form.check_interval(placeholder='Defaults to 5, min 1', min='1') }}
     </div>
