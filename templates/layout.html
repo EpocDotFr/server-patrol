@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ g.CURRENT_LOCALE }}">
 <head>
     <meta charset="UTF-8">
 
@@ -16,7 +16,7 @@
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}" />
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
 
-    <link rel="alternate" type="application/rss+xml" title="Server Patrol - Monitorings status" href="{{ url_for('rss', _external=True) }}" />
+    <link rel="alternate" type="application/rss+xml" title="{{ _('Server Patrol - Monitorings status') }}" href="{{ url_for('rss', _external=True) }}" />
 </head>
 <body class="man pan">
     <header class="txtcenter pas">
@@ -25,8 +25,8 @@
 
     <nav class="main txtcenter">
         <ul class="unstyled inbl pan man">
-            <li class="inbl pan man {% if request.endpoint == 'home' %}active{% endif %}"><a href="{{ url_for('home') }}" class="inbl pas">Statuses</a></li>
-            <li class="inbl pan man {% if request.path.startswith('/admin') %}active{% endif %}"><a href="{{ url_for('admin') }}" class="inbl pas">Admin</a></li>
+            <li class="inbl pan man {% if request.endpoint == 'home' %}active{% endif %}"><a href="{{ url_for('home') }}" class="inbl pas">{{ _('Statuses') }}</a></li>
+            <li class="inbl pan man {% if request.path.startswith('/admin') %}active{% endif %}"><a href="{{ url_for('admin') }}" class="inbl pas">{{ _('Admin') }}</a></li>
         </ul>
     </nav>
 
@@ -44,6 +44,6 @@
         {% block content %} {% endblock %}
     </div>
 
-    <footer class="muted txtcenter pas small">© 2017 <a href="https://epoc.fr">Maxime "Epoc" G.</a> • <a href="https://github.com/EpocDotFr/server-patrol">Source code on GitHub</a> • Licensed under the <a href="https://github.com/EpocDotFr/server-patrol/blob/master/LICENSE.md">DBAD</a></footer>
+    <footer class="muted txtcenter pas small">© 2017 <a href="https://epoc.fr">Maxime "Epoc" G.</a> • <a href="https://github.com/EpocDotFr/server-patrol">{{ _('Source code on GitHub') }}</a> • {{ _('Licensed under the %(license)s', license='<a href="https://github.com/EpocDotFr/server-patrol/blob/master/LICENSE.md">DBAD</a>'|safe) }}</footer>
 </body>
 </html>

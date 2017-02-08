@@ -3,6 +3,7 @@ Flask-HTTPAuth
 Flask-SQLAlchemy
 Flask-WTF
 Flask-Mail
+Flask-Babel
 arrow
 PyRSS2Gen
 SQLAlchemy

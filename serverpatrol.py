@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash, abort, make_response, Response
+from flask import Flask, render_template, redirect, url_for, flash, abort, make_response, Response, g, request
 from wtforms import StringField, BooleanField, SelectField, IntegerField, TextAreaField
 from werkzeug.exceptions import HTTPException
 from flask_httpauth import HTTPBasicAuth
@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
 from flask_wtf import FlaskForm
 from sqlalchemy_utils import ArrowType
+from flask_babel import Babel, _
 import wtforms.validators as validators
 from enum import Enum
 import logging
@@ -28,9 +29,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///storage/data/db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_DEBUG'] = False
 
+app.config['LANGUAGES'] = {
+    'en': 'English',
+    'fr': 'Français'
+}
+
 app.jinja_env.globals.update(arrow=arrow)
 
 db = SQLAlchemy(app)
+babel = Babel(app)
 auth = HTTPBasicAuth()
 mail = Mail(app)
 
@@ -82,11 +89,11 @@ def admin_monitorings_create():
             db.session.add(monitoring)
             db.session.commit()
 
-            flash('Monitoring created successfuly.', 'success')
+            flash(_('Monitoring created successfuly.'), 'success')
 
             return redirect(url_for('admin_monitorings_edit', monitoring_id=monitoring.id))
         except Exception as e:
-            flash('Error creating this monitoring: ' + str(e), 'error')
+            flash(_('Error creating this monitoring: %(exception)s', exception=str(e)), 'error')
 
     return render_template('admin/monitorings/create.html', form=form)
 
@@ -108,11 +115,11 @@ def admin_monitorings_edit(monitoring_id):
             db.session.add(monitoring)
             db.session.commit()
 
-            flash('Monitoring edited successfuly.', 'success')
+            flash(_('Monitoring edited successfuly.'), 'success')
 
             return redirect(url_for('admin_monitorings_edit', monitoring_id=monitoring.id))
         except Exception as e:
-            flash('Error editing this monitoring: ' + str(e), 'error')
+            flash(_('Error editing this monitoring: %(exception)s', exception=str(e)), 'error')
 
     return render_template('admin/monitorings/edit.html', monitoring=monitoring, form=form)
 
@@ -129,9 +136,9 @@ def admin_monitorings_delete(monitoring_id):
         db.session.delete(monitoring)
         db.session.commit()
 
-        flash('Monitoring deleted successfuly.', 'success')
+        flash(_('Monitoring deleted successfuly.'), 'success')
     except Exception as e:
-        flash('Error deleting this monitoring: ' + str(e), 'error')
+        flash(_('Error deleting this monitoring: %(exception)s', exception=str(e)), 'error')
 
     return redirect(url_for('admin_monitorings_list'))
 
@@ -143,15 +150,18 @@ def rss():
     rss_items = []
 
     for monitoring in monitorings:
+        title = ''
+        description = ''
+
         if monitoring.status == MonitoringStatus.DOWN:
-            title = monitoring.name + ' is down'
-            description = '<p><b>{}</b> seems to encounter issues and is unreachable since <b>{}</b>. The reason is:</p><p>{}</p>'.format(monitoring.name, monitoring.last_status_change_at.format(locale='en_us'), monitoring.last_down_reason)
+            title = _('%(monitoring_name)s is down', monitoring_name=monitoring.name)
+            description = _('<p><b>%(monitoring_name)s</b> seems to encounter issues and is unreachable since <b>%(last_status_change)s</b>. The reason is:</p><p>%(last_down_reason)s</p>', monitoring_name=monitoring.name, last_status_change=monitoring.last_status_change_at.format(locale=g.CURRENT_LOCALE), last_down_reason=monitoring.last_down_reason)
         elif monitoring.status == MonitoringStatus.UP:
-            title = monitoring.name + ' is up'
-            description = '<p><b>{}</b> is up and reachable since <b>{}</b>.</p>'.format(monitoring.name, monitoring.last_status_change_at.format(locale='en_us'))
+            title = _('%(monitoring_name)s is up', monitoring_name=monitoring.name)
+            description = _('<p><b>%(monitoring_name)s</b> is up and reachable since <b>%(last_status_change)s</b>.</p>', monitoring_name=monitoring.name, last_status_change=monitoring.last_status_change_at.format(locale=g.CURRENT_LOCALE))
         elif monitoring.status == MonitoringStatus.UNKNOWN:
-            title = monitoring.name + ' status is unknown'
-            description = '<p>The status of <b>{}</b> is currently unknown.</p>'.format(monitoring.name)
+            title = _('%(monitoring_name)s status is unknown', monitoring_name=monitoring.name)
+            description = _('<p>The status of <b>%(monitoring_name)s</b> is currently unknown.</p>', monitoring_name=monitoring.name)
 
         rss_items.append(PyRSS2Gen.RSSItem(
             title=title,
@@ -162,12 +172,12 @@ def rss():
         ))
 
     rss = PyRSS2Gen.RSS2(
-        title='Server Patrol - Monitorings status',
+        title=_('Server Patrol - Monitorings status'),
         link=url_for('home', _external=True),
-        description='Server Patrol - Monitorings status',
-        language='en',
+        description=_('Server Patrol - Monitorings status'),
+        language=g.CURRENT_LOCALE,
         image=PyRSS2Gen.Image(url_for('static', filename='images/logo.png', _external=True),
-                              'Server Patrol - Monitorings status',
+                              _('Server Patrol - Monitorings status'),
                               url_for('home', _external=True)),
         lastBuildDate=arrow.now().datetime,
         items=rss_items
@@ -283,15 +293,15 @@ class Monitoring(db.Model):
 
 
 class MonitoringForm(FlaskForm):
-    name = StringField('Name', [validators.DataRequired(), validators.length(max=255)])
-    is_active = BooleanField('Active?', default=False)
-    is_public = BooleanField('Public?', default=False)
-    url = StringField('URL to check', [validators.DataRequired(), validators.URL(), validators.length(max=255)])
-    http_method = SelectField('HTTP method to use', choices=[(method.value, method.name) for method in MonitoringHttpMethod], default=MonitoringHttpMethod.GET.value)
-    verify_https_cert = BooleanField('Verify HTTPS certificate?', default=True)
-    check_interval = IntegerField('Check interval (minutes)', default=5)
-    timeout = IntegerField('Connection timeout (seconds)', default=10)
-    recipients = TextAreaField('Recipients of the email alerts')
+    name = StringField(_('Name'), [validators.DataRequired(), validators.length(max=255)])
+    is_active = BooleanField(_('Active?'), default=False)
+    is_public = BooleanField(_('Public?'), default=False)
+    url = StringField(_('URL to check'), [validators.DataRequired(), validators.URL(), validators.length(max=255)])
+    http_method = SelectField(_('HTTP method to use'), choices=[(method.value, method.name) for method in MonitoringHttpMethod], default=MonitoringHttpMethod.GET.value)
+    verify_https_cert = BooleanField(_('Verify HTTPS certificate?'), default=True)
+    check_interval = IntegerField(_('Check interval (minutes)'), default=5)
+    timeout = IntegerField(_('Connection timeout (seconds)'), default=10)
+    recipients = TextAreaField(_('Recipients of the email alerts'))
 
 
 # -----------------------------------------------------------
@@ -352,25 +362,25 @@ def check(force):
             response.raise_for_status()
         except requests.exceptions.HTTPError:
             status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'The server responded with an HTTP error: {} {}.'.format(response.status_code, response.reason)
+            monitoring.last_down_reason = _('The server responded with an HTTP error: %(status_code)i %(reason)s.', status_code=response.status_code, reason=response.reason)
         except requests.exceptions.TooManyRedirects:
             status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'There were too many HTTP redirects (3xx HTTP status code).'
+            monitoring.last_down_reason = _('There were too many HTTP redirects (3xx HTTP status code).')
         except requests.exceptions.ConnectTimeout:
             status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'Connection to the server timed out.'
+            monitoring.last_down_reason = _('Connection to the server timed out.')
         except requests.exceptions.ReadTimeout:
             status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'The server took too long to respond.'
+            monitoring.last_down_reason = _('The server took too long to respond.')
         except requests.exceptions.SSLError as se:
             status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'An SSL error occured: ' + str(se)
+            monitoring.last_down_reason = _('An SSL error occured: %(exception)s', exception=str(se))
         except requests.exceptions.ProxyError as pe:
             status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'A proxy error occured: ' + str(pe)
+            monitoring.last_down_reason = _('A proxy error occured: %(exception)s', exception=str(pe))
         except requests.exceptions.ConnectionError:
             status = MonitoringStatus.DOWN
-            monitoring.last_down_reason = 'Network error: unable to connect to the server.'
+            monitoring.last_down_reason = _('Network error: unable to connect to the server.')
 
         app.logger.info('  ' + status.value + (' (' + monitoring.last_down_reason + ')' if status == MonitoringStatus.DOWN else ''))
 
@@ -387,14 +397,14 @@ def check(force):
                 msg.recipients = monitoring.recipients_list
 
                 if status == MonitoringStatus.DOWN: # The new status is down?
-                    msg.subject = monitoring.name + ' is gone'
+                    msg.subject = _('%(monitoring_name)s is gone', monitoring_name=monitoring.name)
                     msg.extra_headers = {
                         'X-Priority': '1',
                         'X-MSMail-Priority': 'High',
                         'Importance': 'High'
                     }
                 elif status == MonitoringStatus.UP: # The new status is up?
-                    msg.subject = monitoring.name + ' is back up'
+                    msg.subject = _('%(monitoring_name)s is back up', monitoring_name=monitoring.name)
 
                 msg.body = render_template('mails/status_changed.txt', monitoring=monitoring)
                 msg.html = render_template('mails/status_changed.html', monitoring=monitoring)
@@ -416,6 +426,15 @@ def check(force):
 # Hooks
 
 
+@app.before_request
+def set_locale():
+    if not hasattr(g, 'current_locale'):
+        if app.config['FORCE_LANGUAGE']:
+            g.CURRENT_LOCALE = app.config['FORCE_LANGUAGE']
+        else:
+            g.CURRENT_LOCALE = request.accept_languages.best_match(app.config['LANGUAGES'].keys())
+
+
 @auth.get_password
 def get_password(username):
     if username in app.config['USERS']:
@@ -427,6 +446,11 @@ def get_password(username):
 @auth.error_handler
 def auth_error():
     return http_error_handler(403, without_code=True)
+
+
+@babel.localeselector
+def get_app_locale():
+    return g.CURRENT_LOCALE
 
 
 # -----------------------------------------------------------

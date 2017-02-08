@@ -1,0 +1,293 @@
+# French translations for PROJECT.
+# Copyright (C) 2017 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2017-02-08 22:19+0100\n"
+"PO-Revision-Date: 2017-02-08 22:21+0100\n"
+"Last-Translator: \n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.4\n"
+"X-Generator: Poedit 1.8.11\n"
+
+#: serverpatrol.py:92
+msgid "Monitoring created successfuly."
+msgstr "Surveillance créée avec succès."
+
+#: serverpatrol.py:96
+#, python-format
+msgid "Error creating this monitoring: %(exception)s"
+msgstr "Erreur lors de la création de cette surveillance : %(exception)s"
+
+#: serverpatrol.py:118
+msgid "Monitoring edited successfuly."
+msgstr "Surveillance modifiée avec succès."
+
+#: serverpatrol.py:122
+#, python-format
+msgid "Error editing this monitoring: %(exception)s"
+msgstr "Erreur lors de la modification de cette surveillance : %(exception)s"
+
+#: serverpatrol.py:139
+msgid "Monitoring deleted successfuly."
+msgstr "Surveillance supprimée avec succès."
+
+#: serverpatrol.py:141
+#, python-format
+msgid "Error deleting this monitoring: %(exception)s"
+msgstr "Erreur lors de la suppression de cette surveillance : %(exception)s"
+
+#: serverpatrol.py:157
+#, python-format
+msgid "%(monitoring_name)s is down"
+msgstr "%(monitoring_name)s n'est pas joignable"
+
+#: serverpatrol.py:158
+#, python-format
+msgid ""
+"<p><b>%(monitoring_name)s</b> seems to encounter issues and is unreachable "
+"since <b>%(last_status_change)s</b>. The reason is:</p><p>"
+"%(last_down_reason)s</p>"
+msgstr ""
+"<p><b>%(monitoring_name)s</b> a l'air de rencontrer des problèmes et est "
+"injoignable depuis <b>%(last_status_change)s</b>. La raison est :</p><p>"
+"%(last_down_reason)s</p>"
+
+#: serverpatrol.py:160
+#, python-format
+msgid "%(monitoring_name)s is up"
+msgstr "%(monitoring_name)s est joignable"
+
+#: serverpatrol.py:161
+#, python-format
+msgid ""
+"<p><b>%(monitoring_name)s</b> is up and reachable since <b>"
+"%(last_status_change)s</b>.</p>"
+msgstr ""
+"<p><b>%(monitoring_name)s</b> est en ligne et joignable depuis <b>"
+"%(last_status_change)s</b>.</p>"
+
+#: serverpatrol.py:163
+#, python-format
+msgid "%(monitoring_name)s status is unknown"
+msgstr "Le statut de %(monitoring_name)s est inconnu"
+
+#: serverpatrol.py:164
+#, python-format
+msgid "<p>The status of <b>%(monitoring_name)s</b> is currently unknown.</p>"
+msgstr "<p>Le statut de <b>%(monitoring_name)s</b> est actuellement inconnu.</p>"
+
+#: serverpatrol.py:175 serverpatrol.py:177 serverpatrol.py:180
+#: templates/layout.html:19
+msgid "Server Patrol - Monitorings status"
+msgstr "Server Patrol - Etat des surveillances"
+
+#: serverpatrol.py:296 templates/admin/monitorings/list.html:13
+msgid "Name"
+msgstr "Nom"
+
+#: serverpatrol.py:297
+msgid "Active?"
+msgstr "Active ?"
+
+#: serverpatrol.py:298
+msgid "Public?"
+msgstr "Publique ?"
+
+#: serverpatrol.py:299
+msgid "URL to check"
+msgstr "URL à vérifier"
+
+#: serverpatrol.py:300
+msgid "HTTP method to use"
+msgstr "Méthode HTTP à utiliser"
+
+#: serverpatrol.py:301
+msgid "Verify HTTPS certificate?"
+msgstr "Vérifier le certificat HTTPS ?"
+
+#: serverpatrol.py:302
+msgid "Check interval (minutes)"
+msgstr "Intervalle de vérification (minutes)"
+
+#: serverpatrol.py:303
+msgid "Connection timeout (seconds)"
+msgstr "Durée de grâce de la connexion (secondes)"
+
+#: serverpatrol.py:304
+msgid "Recipients of the email alerts"
+msgstr "Destinataires des alertes mail"
+
+#: serverpatrol.py:365
+#, python-format
+msgid "The server responded with an HTTP error: %(status_code)i %(reason)s."
+msgstr "Le serveur a répondu par une erreur HTTP : %(status_code)i %(reason)s."
+
+#: serverpatrol.py:368
+msgid "There were too many HTTP redirects (3xx HTTP status code)."
+msgstr "Trop de redirections HTTP (code de statut HTTP 3xx)."
+
+#: serverpatrol.py:371
+msgid "Connection to the server timed out."
+msgstr "La connexion au serveur a prit trop de temps."
+
+#: serverpatrol.py:374
+msgid "The server took too long to respond."
+msgstr "Le serveur a prit trop de temps à répondre."
+
+#: serverpatrol.py:377
+#, python-format
+msgid "An SSL error occured: %(exception)s"
+msgstr "Une erreur SSL est survenue : %(exception)s"
+
+#: serverpatrol.py:380
+#, python-format
+msgid "A proxy error occured: %(exception)s"
+msgstr "Une erreur de proxy est survenue : %(exception)s"
+
+#: serverpatrol.py:383
+msgid "Network error: unable to connect to the server."
+msgstr "Erreur réseau : impossible de se connecter au serveur."
+
+#: serverpatrol.py:400
+#, python-format
+msgid "%(monitoring_name)s is gone"
+msgstr "%(monitoring_name)s est parti"
+
+#: serverpatrol.py:407
+#, python-format
+msgid "%(monitoring_name)s is back up"
+msgstr "%(monitoring_name)s est revenu"
+
+#: templates/home.html:4
+msgid "RSS feed"
+msgstr "Flux RSS"
+
+#: templates/home.html:15
+msgid "Down for:"
+msgstr "Injoignable depuis :"
+
+#: templates/home.html:15
+msgid "Last checked:"
+msgstr "Dernière vérification :"
+
+#: templates/home.html:15
+msgid "Never"
+msgstr "Jamais"
+
+#: templates/home.html:15
+msgid "Next check:"
+msgstr "Prochaine vérification :"
+
+#: templates/admin/monitorings/list.html:42 templates/home.html:21
+msgid "No monitoring to display a this moment."
+msgstr "Aucune surveillance à afficher pour le moment."
+
+#: templates/layout.html:28
+msgid "Statuses"
+msgstr "Statuts"
+
+#: templates/admin/monitorings/create.html:3
+#: templates/admin/monitorings/edit.html:3
+#: templates/admin/monitorings/list.html:3 templates/layout.html:29
+msgid "Admin"
+msgstr "Gestion"
+
+#: templates/layout.html:47
+msgid "Source code on GitHub"
+msgstr "Code source sur GitHub"
+
+#: templates/layout.html:47
+#, python-format
+msgid "Licensed under the %(license)s"
+msgstr "Sous licence %(license)s"
+
+#: templates/admin/admin.html:6 templates/admin/monitorings/create.html:3
+#: templates/admin/monitorings/edit.html:3
+#: templates/admin/monitorings/list.html:3
+msgid "Monitorings"
+msgstr "Surveillances"
+
+#: templates/admin/monitorings/create.html:3
+#: templates/admin/monitorings/list.html:6
+msgid "Create"
+msgstr "Créer"
+
+#: templates/admin/monitorings/form.html:10
+msgid "Must be accessible by Server Patrol"
+msgstr "Doit être accessible par Server Patrol"
+
+#: templates/admin/monitorings/form.html:33
+msgid "Defaults to 10, min 3"
+msgstr "Par défaut 10, mini 3"
+
+#: templates/admin/monitorings/form.html:37
+msgid "Defaults to 5, min 1"
+msgstr "Par défaut 5, mini 1"
+
+#: templates/admin/monitorings/form.html:42
+msgid "Comma-separated list of email addresses"
+msgstr "Liste d'adresses mail séparée par des virgules"
+
+#: templates/admin/monitorings/form.html:45
+msgid "Back"
+msgstr "Retour"
+
+#: templates/admin/monitorings/form.html:45
+msgid "Save"
+msgstr "Enregistrer"
+
+#: templates/admin/monitorings/list.html:14
+msgid "Active"
+msgstr "Active"
+
+#: templates/admin/monitorings/list.html:15
+msgid "URL"
+msgstr "URL"
+
+#: templates/admin/monitorings/list.html:16
+msgid "HTTP method"
+msgstr "Méthode HTTP"
+
+#: templates/admin/monitorings/list.html:17
+msgid "Verify HTTPS certificate"
+msgstr "Vérifier le certificat HTTPS"
+
+#: templates/admin/monitorings/list.html:18
+msgid "Check interval"
+msgstr "Intervalle de vérification"
+
+#: templates/admin/monitorings/list.html:19
+msgid "Timeout"
+msgstr "Durée de grâce"
+
+#: templates/admin/monitorings/list.html:20
+msgid "Recipients"
+msgstr "Destinataires"
+
+#: templates/admin/monitorings/list.html:21
+msgid "Actions"
+msgstr "Actions"
+
+#: templates/admin/monitorings/list.html:28
+#: templates/admin/monitorings/list.html:31
+msgid "Yes"
+msgstr "Oui"
+
+#: templates/admin/monitorings/list.html:28
+#: templates/admin/monitorings/list.html:31
+msgid "No"
+msgstr "Non"
+
+#: templates/admin/monitorings/list.html:35
+msgid "Are you sure?"
+msgstr "Etes-vous sûr(e) ?"

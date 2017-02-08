@@ -3,7 +3,7 @@
 {% block secondary_nav %}
     <nav class="secondary txtcenter">
         <ul class="unstyled inbl pan man">
-            <li class="inbl pan man {% if request.path.startswith('/admin/monitorings') %}active{% endif %}"><a href="{{ url_for('admin_monitorings_list') }}" class="inbl pas">Monitorings</a></li>
+            <li class="inbl pan man {% if request.path.startswith('/admin/monitorings') %}active{% endif %}"><a href="{{ url_for('admin_monitorings_list') }}" class="inbl pas">{{ _('Monitorings') }}</a></li>
         </ul>
     </nav>
 {% endblock %}

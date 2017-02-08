@@ -1,44 +1,44 @@
 {% extends 'admin/admin.html' %}
 
-{% block meta_title %}Admin › Monitorings{% endblock %}
+{% block meta_title %}{{ _('Admin') }} › {{ _('Monitorings') }}{% endblock %}
 
 {% block content %}
-    <p class="txtcenter mbs"><a href="{{ url_for('admin_monitorings_create') }}" class="btn"><i class="fa fa-plus"></i> Create</a></p>
+    <p class="txtcenter mbs"><a href="{{ url_for('admin_monitorings_create') }}" class="btn"><i class="fa fa-plus"></i> {{ _('Create') }}</a></p>
 
     {% if monitorings %}
     <div class="table-responsive">
         <table>
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th class="w50p">Active</th>
-                    <th>URL</th>
-                    <th>HTTP method</th>
-                    <th>Verify HTTPS certificate</th>
-                    <th>Check interval</th>
-                    <th>Timeout</th>
-                    <th>Recipients</th>
-                    <th class="w100p">Actions</th>
+                    <th>{{ _('Name') }}</th>
+                    <th class="w50p">{{ _('Active') }}</th>
+                    <th>{{ _('URL') }}</th>
+                    <th>{{ _('HTTP method') }}</th>
+                    <th>{{ _('Verify HTTPS certificate') }}</th>
+                    <th>{{ _('Check interval') }}</th>
+                    <th>{{ _('Timeout') }}</th>
+                    <th>{{ _('Recipients') }}</th>
+                    <th class="w100p">{{ _('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>
                 {% for monitoring in monitorings %}
                 <tr>
                     <td>{% if not monitoring.is_public %}<i class="fa fa-lock"></i> {% endif %}{{ monitoring.name }}</td>
-                    <td>{% if monitoring.is_active %}<strong>Yes</strong>{% else %}No{% endif %}</td>
+                    <td>{% if monitoring.is_active %}<strong>{{ _('Yes') }}</strong>{% else %}{{ _('No') }}{% endif %}</td>
                     <td><a href="{{ monitoring.url }}">{{ monitoring.url }}</a></td>
                     <td><code>{{ monitoring.http_method.value }}</code></td>
-                    <td>{% if monitoring.verify_https_cert %}<strong>Yes</strong>{% else %}No{% endif %}</td>
+                    <td>{% if monitoring.verify_https_cert %}<strong>{{ _('Yes') }}</strong>{% else %}{{ _('No') }}{% endif %}</td>
                     <td>{{ monitoring.check_interval }}m</td>
                     <td>{{ monitoring.timeout }}s</td>
                     <td>{{ monitoring.recipients }}</td>
-                    <td class="txtcenter"><a href="{{ url_for('admin_monitorings_edit', monitoring_id=monitoring.id) }}" class="btn"><i class="fa fa-pencil"></i></a> <a href="{{ url_for('admin_monitorings_delete', monitoring_id=monitoring.id) }}" class="btn" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i></a></td>
+                    <td class="txtcenter"><a href="{{ url_for('admin_monitorings_edit', monitoring_id=monitoring.id) }}" class="btn"><i class="fa fa-pencil"></i></a> <a href="{{ url_for('admin_monitorings_delete', monitoring_id=monitoring.id) }}" class="btn" onclick="return confirm('{{ _('Are you sure?') }}')"><i class="fa fa-trash"></i></a></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
     {% else %}
-        <div class="alert info pas">No monitoring to display a this moment.</div>
+        <div class="alert info pas">{{ _('No monitoring to display a this moment.') }}</div>
     {% endif %}
 {% endblock %}
