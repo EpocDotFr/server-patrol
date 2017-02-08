@@ -309,7 +309,7 @@ def create_database():
 @click.option('--force', is_flag=True, default=False, help='Force checks whenever monitorings are due or not')
 def check(force):
     """Perform all checks for the active monitorings."""
-    lock_file = '.running'
+    lock_file = 'storage/.running'
 
     if os.path.isfile(lock_file):
         app.logger.warning('Checks already running, aborting')
