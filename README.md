@@ -10,7 +10,7 @@ Simple HTTP-based server status check tool with email alerts.
 
   - Manage multiple monitorings (URLs to check)
   - Simple visualization of each monitorings status (down, up, unknow)
-  - RSS feed of the monitorings status
+  - RSS feed of the monitorings status (public monitorings only)
   - (Optional) Mails can be sent via SMTP when something happen
   - Ability to configure, for each monitorings:
     - HTTP method to use, as well as the connection timeout and if the HTTPS certificate have to be verified
@@ -33,13 +33,13 @@ Simple HTTP-based server status check tool with email alerts.
 On a **Linux-based OS**, create this [Cron](https://en.wikipedia.org/wiki/Cron) entry:
 
 ```
-* * * * * /path/to/server-patrol/bin/check 2>&1
+* * * * * cd /path/to/server-patrol && bin/check 2>&1
 ```
 
 On **Windows**, create this scheduled task using the command line:
 
 ```
-schtasks /create /tn "Server Patrol" /tr "C:\path\to\server-patrol\bin\check" /sc MINUTE
+schtasks /create /tn "Server Patrol" /tr "cd C:\path\to\server-patrol && bin\check" /sc MINUTE
 ```
 
 ## Configuration

@@ -14,6 +14,7 @@ import arrow
 import requests
 import click
 import PyRSS2Gen
+import os
 
 
 # -----------------------------------------------------------
