@@ -377,6 +377,9 @@ def check(force):
         if monitoring.status != status: # The status is different from the one in DB: update it and send emails if required
             app.logger.info('  Status is different')
 
+            monitoring.last_status_change_at = arrow.now()
+            monitoring.status = status
+
             if monitoring.status != MonitoringStatus.UNKNOWN: # The old status is known?
                 app.logger.info('  Sending emails to {}'.format(monitoring.recipients_list))
 
@@ -400,9 +403,6 @@ def check(force):
                     mail.send(msg)
                 except Exception as e:
                     app.logger.error(' Error sending mail: {}'.format(e))
-
-            monitoring.last_status_change_at = arrow.now()
-            monitoring.status = status
 
         monitoring.last_checked_at = now
 
