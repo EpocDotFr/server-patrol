@@ -19,6 +19,9 @@ Simple HTTP-based server status check tool with email alerts.
     - Make the monitoring publicly visible or not
     - Check interval
     - (Optional) List of email recipients who will receive alerts
+  - Internationalized & localized in 2 languages:
+    - English (`en`)
+    - French (`fr`)
 
 ## Prerequisites
 
@@ -29,7 +32,8 @@ Simple HTTP-based server status check tool with email alerts.
 
   1. Clone this repo somewhere
   2. `pip install -r requirements.txt`
-  3. Create the scheduled task that will run the script who will perform the checks every minutes (only for active monitorings that are due):
+  3. `pybabel compile -d translations`
+  4. Create the scheduled task that will run the script who will perform the checks every minutes (only for active monitorings that are due):
 
 On a **Linux-based OS**, create this [Cron](https://en.wikipedia.org/wiki/Cron) entry:
 
@@ -57,6 +61,7 @@ More informations on the three above can be found [here](http://flask.pocoo.org/
 
   - `USERS` The credentials required to access the app. You can specify multiple ones. **It is highly recommended to serve Server Patrol through HTTPS** because it uses [HTTP basic auth](https://en.wikipedia.org/wiki/Basic_access_authentication)
   - `SERVER_NAME` The IP or hostname where Server Patrol will be available
+  - `FORCE_LANGUAGE` Force the lang of the web app to be one of the supported ones (defaults to `None`: auto-detection from the `Accept-Language` HTTP header). See in the features section above for a list of available lang keys
 
 SMTP related parameters:
 
