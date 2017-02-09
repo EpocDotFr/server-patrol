@@ -2,6 +2,6 @@
 
 ---------------------
 
-This email was automatically sent by Server Patrol ({{ url_for('home', _external=True) }}). Please don't reply.
-You are receiving this email because you are subscribed to the status alerts from {{ monitoring.name }}.
-If you no longer want to, or if you think it's a mistake, please contact your system administrator.
+{{ _('This email was automatically sent by Server Patrol (%(home_link)s). Please don\'t reply.', home_link=url_for('home', _external=True)) }}
+{{ _('You are receiving this email because you are subscribed to the status alerts from %(monitoring_name)s.', monitoring_name=monitoring.name) }}
+{{ _('If you no longer want to, or if you think it\'s a mistake, please contact your system administrator.') }}

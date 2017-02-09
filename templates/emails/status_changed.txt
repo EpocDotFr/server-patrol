@@ -1,12 +1,12 @@
-{% extends 'mails/mail.txt' %}
+{% extends 'emails/mail.txt' %}
 
 {% block content %}
     {% if monitoring.status.value == 'DOWN' %}
-        {{ monitoring.name }} seems to encounter issues and is unreachable right now. The reason is:
+        {{ _('%(monitoring_name)s seems to encounter issues and is unreachable right now. The reason is:', monitoring_name=monitoring.name) }}
 
         {{ monitoring.last_down_reason }}
     {% elif monitoring.status.value == 'UP' %}
-        {{ monitoring.name }} encountered issues but is now reachable. The reason of the downtime was:
+        {{ _('%(monitoring_name)s encountered issues but is now reachable. The reason of the downtime was:', monitoring_name=monitoring.name) }}
         
         {{ monitoring.last_down_reason }}
     {% endif %}

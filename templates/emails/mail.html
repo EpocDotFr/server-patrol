@@ -2,6 +2,6 @@
 
 <hr>
 
-<p style="color: #777; font-size: small">This email was automatically sent by <a href="{{ url_for('home', _external=True) }}">Server Patrol</a>. Please don't reply.<br>
-You are receiving this email because you are subscribed to the status alerts from <b>{{ monitoring.name }}</b>.<br>
-If you no longer want to, or if you think it's a mistake, please contact your system administrator.</p>
+<p style="color: #777; font-size: small">{{ _('This email was automatically sent by <a href="%(home_link)s">Server Patrol</a>. Please don\'t reply.', home_link=url_for('home', _external=True)) }}<br>
+{{ _('You are receiving this email because you are subscribed to the status alerts from <b>%(monitoring_name)s</b>.', monitoring_name=monitoring.name) }}<br>
+{{ _('If you no longer want to, or if you think it\'s a mistake, please contact your system administrator.') }}</p>

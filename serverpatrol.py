@@ -324,6 +324,7 @@ def check(force):
 
     if os.path.isfile(lock_file):
         app.logger.warning('Checks already running, aborting')
+        app.logger.warning('If Server Patrol crashed, please delete the storage/.running file before running this command again')
         return
 
     open(lock_file, 'a').close() # Create the lock file
