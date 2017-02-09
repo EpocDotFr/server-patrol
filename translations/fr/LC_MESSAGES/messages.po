@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-02-08 22:19+0100\n"
-"PO-Revision-Date: 2017-02-08 22:21+0100\n"
+"POT-Creation-Date: 2017-02-09 09:04+0100\n"
+"PO-Revision-Date: 2017-02-09 09:09+0100\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -291,3 +291,40 @@ msgstr "Non"
 #: templates/admin/monitorings/list.html:35
 msgid "Are you sure?"
 msgstr "Etes-vous sûr(e) ?"
+
+#: templates/errors/401.html:3
+msgid "Unauthorized"
+msgstr "Accès non authorisé"
+
+#: templates/errors/401.html:6
+msgid "It seems you're not authorized to go here."
+msgstr "Vous n'avez pas l'autorisation d'accéder à ceci."
+
+#: templates/errors/403.html:3
+msgid "Forbidden"
+msgstr "Accès interdit"
+
+#: templates/errors/403.html:6
+msgid "Access to this resource is forbidden."
+msgstr "L'accès à cette ressource vous a été interdit."
+
+#: templates/errors/404.html:3
+msgid "Not found"
+msgstr "Non trouvé"
+
+#: templates/errors/404.html:6
+msgid "Sorry, there's nothing here."
+msgstr "Désolé, il n'y a rien ici."
+
+#: templates/errors/500.html:3
+msgid "Server error"
+msgstr "Erreur serveur"
+
+#: templates/errors/500.html:6
+msgid ""
+"A server error occured! Please retry. If the error persists, please report an "
+"issue <a href=\"https://github.com/EpocDotFr/server-patrol/issues\">here</a>."
+msgstr ""
+"Une erreur serveur est survenue ! Veuillez rééssayer. Si le problème persiste, "
+"rapportez un bug <a href=\"https://github.com/EpocDotFr/server-patrol/issues"
+"\">ic</a>."
