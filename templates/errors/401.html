@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
-{% block meta_title %}Unauthorized{% endblock %}
+{% block meta_title %}{{ _('Unauthorized') }}{% endblock %}
 
 {% block content %}
-    <div class="alert error pas">It seems you're not authorized to go here.</div>
+    <div class="alert error pas">{{ _('It seems you\'re not authorized to go here.') }}</div>
 {% endblock %}

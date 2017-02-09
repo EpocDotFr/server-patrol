@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
-{% block meta_title %}Not found{% endblock %}
+{% block meta_title %}{{ _('Not found') }}{% endblock %}
 
 {% block content %}
-    <div class="alert error pas">Sorry, there's nothing here.</div>
+    <div class="alert error pas">{{ _('Sorry, there\'s nothing here.') }}</div>
 {% endblock %}

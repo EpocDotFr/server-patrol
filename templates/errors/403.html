@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
-{% block meta_title %}Forbidden{% endblock %}
+{% block meta_title %}{{ _('Forbidden') }}{% endblock %}
 
 {% block content %}
-    <div class="alert error pas">Access to this resource is forbidden.</div>
+    <div class="alert error pas">{{ _('Access to this resource is forbidden.') }}</div>
 {% endblock %}

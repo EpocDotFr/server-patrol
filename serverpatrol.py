@@ -406,13 +406,13 @@ def check(force):
                 elif status == MonitoringStatus.UP: # The new status is up?
                     msg.subject = _('%(monitoring_name)s is back up', monitoring_name=monitoring.name)
 
-                msg.body = render_template('mails/status_changed.txt', monitoring=monitoring)
-                msg.html = render_template('mails/status_changed.html', monitoring=monitoring)
+                msg.body = render_template('emails/status_changed.txt', monitoring=monitoring)
+                msg.html = render_template('emails/status_changed.html', monitoring=monitoring)
 
                 try:
                     mail.send(msg)
                 except Exception as e:
-                    app.logger.error(' Error sending mail: {}'.format(e))
+                    app.logger.error(' Error sending emails: {}'.format(e))
 
         monitoring.last_checked_at = now
 

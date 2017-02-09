@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
-{% block meta_title %}Server error{% endblock %}
+{% block meta_title %}{{ _('Server error') }}{% endblock %}
 
 {% block content %}
-    <div class="alert error pas">A server error occured! Please retry. If the error persists, please report an issue <a href="https://github.com/EpocDotFr/server-patrol/issues">here</a>.</div>
+    <div class="alert error pas">{{ _('A server error occured! Please retry. If the error persists, please report an issue <a href="https://github.com/EpocDotFr/server-patrol/issues">here</a>.') }}</div>
 {% endblock %}
