@@ -428,11 +428,11 @@ def check(force):
 
 @app.before_request
 def set_locale():
-    if not hasattr(g, 'current_locale'):
+    if not hasattr(g, 'CURRENT_LOCALE'):
         if app.config['FORCE_LANGUAGE']:
             g.CURRENT_LOCALE = app.config['FORCE_LANGUAGE']
         else:
-            g.CURRENT_LOCALE = request.accept_languages.best_match(app.config['LANGUAGES'].keys())
+            g.CURRENT_LOCALE = request.accept_languages.best_match(app.config['LANGUAGES'].keys(), default=app.config['DEFAULT_LANGUAGE'])
 
 
 @auth.get_password
@@ -450,7 +450,10 @@ def auth_error():
 
 @babel.localeselector
 def get_app_locale():
-    return g.CURRENT_LOCALE
+    if not hasattr(g, 'CURRENT_LOCALE'):
+        return app.config['DEFAULT_LANGUAGE']
+    else:
+        return g.CURRENT_LOCALE
 
 
 # -----------------------------------------------------------

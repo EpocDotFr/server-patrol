@@ -11,3 +11,4 @@ MAIL_USERNAME = 'username'
 MAIL_PASSWORD = 'password'
 MAIL_DEFAULT_SENDER = ('Server Patrol', 'noreply@localhost')
 FORCE_LANGUAGE = None
+DEFAULT_LANGUAGE = 'en'
