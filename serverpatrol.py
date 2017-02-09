@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
 from flask_wtf import FlaskForm
 from sqlalchemy_utils import ArrowType
-from flask_babel import Babel, _
+from flask_babel import Babel, _, lazy_gettext as __
 import wtforms.validators as validators
 from enum import Enum
 import logging
@@ -28,6 +28,7 @@ app.config.from_pyfile('config.py')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///storage/data/db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_DEBUG'] = False
+app.config['WTF_I18N_ENABLED'] = True
 
 app.config['LANGUAGES'] = {
     'en': 'English',
@@ -293,15 +294,15 @@ class Monitoring(db.Model):
 
 
 class MonitoringForm(FlaskForm):
-    name = StringField(_('Name'), [validators.DataRequired(), validators.length(max=255)])
-    is_active = BooleanField(_('Active?'), default=False)
-    is_public = BooleanField(_('Public?'), default=False)
-    url = StringField(_('URL to check'), [validators.DataRequired(), validators.URL(), validators.length(max=255)])
-    http_method = SelectField(_('HTTP method to use'), choices=[(method.value, method.name) for method in MonitoringHttpMethod], default=MonitoringHttpMethod.GET.value)
-    verify_https_cert = BooleanField(_('Verify HTTPS certificate?'), default=True)
-    check_interval = IntegerField(_('Check interval (minutes)'), default=5)
-    timeout = IntegerField(_('Connection timeout (seconds)'), default=10)
-    recipients = TextAreaField(_('Recipients of the email alerts'))
+    name = StringField(__('Name'), [validators.DataRequired(), validators.length(max=255)])
+    is_active = BooleanField(__('Active?'), default=False)
+    is_public = BooleanField(__('Public?'), default=False)
+    url = StringField(__('URL to check'), [validators.DataRequired(), validators.URL(), validators.length(max=255)])
+    http_method = SelectField(__('HTTP method to use'), choices=[(method.value, method.name) for method in MonitoringHttpMethod], default=MonitoringHttpMethod.GET.value)
+    verify_https_cert = BooleanField(__('Verify HTTPS certificate?'), default=True)
+    check_interval = IntegerField(__('Check interval (minutes)'), default=5)
+    timeout = IntegerField(__('Connection timeout (seconds)'), default=10)
+    recipients = TextAreaField(__('Recipients of the email alerts'))
 
 
 # -----------------------------------------------------------
