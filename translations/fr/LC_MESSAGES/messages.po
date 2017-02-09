@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-02-09 09:04+0100\n"
-"PO-Revision-Date: 2017-02-09 09:11+0100\n"
+"POT-Creation-Date: 2017-02-09 10:41+0100\n"
+"PO-Revision-Date: 2017-02-09 10:41+0100\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -173,8 +173,8 @@ msgid "RSS feed"
 msgstr "Flux RSS"
 
 #: templates/home.html:15
-msgid "Down for:"
-msgstr "Injoignable depuis :"
+msgid "Down:"
+msgstr "Injoignable :"
 
 #: templates/home.html:15
 msgid "Last checked:"
@@ -328,3 +328,6 @@ msgstr ""
 "Une erreur serveur est survenue ! Veuillez rééssayer. Si le problème persiste, "
 "merci de rapporter un bug <a href=\"https://github.com/EpocDotFr/server-patrol/"
 "issues\">ici</a>."
+
+#~ msgid "Down for:"
+#~ msgstr "Injoignable depuis :"
