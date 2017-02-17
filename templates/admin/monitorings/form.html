@@ -39,7 +39,7 @@
 </div>
 
 {{ form.recipients.label(class="inbl") }}
-{{ form.recipients(placeholder=_('Comma-separated list of email addresses')) }}
+{{ form.recipients(placeholder=_('Comma-separated list of email addresses'), class='mtn') }}
 
 <p class="txtcenter">
     <a href="{{ url_for('admin_monitorings_list') }}" class="btn"><i class="fa fa-arrow-left"></i> {{ _('Back') }}</a> <button type="submit"><i class="fa fa-save"></i> {{ _('Save') }}</button>

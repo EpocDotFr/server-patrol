@@ -1,12 +1,12 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <p class="txtcenter mbs"><a href="{{ url_for('rss') }}" class="btn"><i class="fa fa-rss"></i> {{ _('RSS feed') }}</a></p>
+    <p class="txtcenter"><a href="{{ url_for('rss') }}" class="btn"><i class="fa fa-rss"></i> {{ _('RSS feed') }}</a></p>
 
     {% if monitorings %}
         <div class="grid-2 has-gutter">
         {% for monitoring in monitorings %}
-            <div class="monitoring mbs pas">
+            <div class="monitoring mts pas">
                 <div class="status txtcenter fl w50p">
                     <span class="status-chip {{ monitoring.status.value }}"><i class="fa fa-{{ monitoring.status_icon }}"></i></span>
                 </div>
