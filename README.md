@@ -40,7 +40,7 @@ Simple HTTP-based server status check tool with email alerts.
 On a **Linux-based OS**, create this [Cron](https://en.wikipedia.org/wiki/Cron) entry:
 
 ```
-* * * * * cd /path/to/server-patrol && bin/check 2>&1
+* * * * * cd /path/to/server-patrol && sh bin/check.sh 2>&1
 ```
 
 On **Windows**, create this scheduled task using the command line:
