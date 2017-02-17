@@ -36,7 +36,7 @@
         {% with flash_messages = get_flashed_messages(with_categories=true) %}
           {% if flash_messages %}
             {% for category, message in flash_messages %}
-              <div class="alert {{ category }} pas">{{ message }}</div>
+              <p class="alert {{ category }} pas">{{ message }}</p>
             {% endfor %}
           {% endif %}
         {% endwith %}
