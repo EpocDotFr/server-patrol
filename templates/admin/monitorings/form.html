@@ -13,13 +13,13 @@
 
 <div class="grid has-gutter">
     <div class="large-w33 tiny-w100">
-        {{ form.is_active }} {{ form.is_active.label }}
+        <label for="{{ form.is_active.label.field_id }}">{{ form.is_active }} {{ form.is_active.label.text }}</label>
     </div>
     <div class="large-w33 tiny-w100">
-        {{ form.is_public }} {{ form.is_public.label }}
+        <label for="{{ form.is_public.label.field_id }}">{{ form.is_public }} {{ form.is_public.label.text }}</label>
     </div>
     <div class="large-w33 tiny-w100">
-        {{ form.verify_https_cert }} {{ form.verify_https_cert.label }}
+        <label for="{{ form.verify_https_cert.label.field_id }}">{{ form.verify_https_cert }} {{ form.verify_https_cert.label.text }}</label>
     </div>
 </div>
 

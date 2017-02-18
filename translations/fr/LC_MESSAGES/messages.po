@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-02-09 13:06+0100\n"
-"PO-Revision-Date: 2017-02-09 13:07+0100\n"
+"POT-Creation-Date: 2017-02-18 09:50+0100\n"
+"PO-Revision-Date: 2017-02-18 09:51+0100\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -131,6 +131,10 @@ msgstr "%(monitoring_name)s est parti"
 #, python-format
 msgid "%(monitoring_name)s is back up"
 msgstr "%(monitoring_name)s est revenu"
+
+#: templates/home.html:4
+msgid "Public monitorings only"
+msgstr "Uniquement les surveillances publiques"
 
 #: templates/home.html:4
 msgid "RSS feed"
@@ -257,8 +261,16 @@ msgid "No"
 msgstr "Non"
 
 #: templates/admin/monitorings/list.html:35
+msgid "Edit this monitoring"
+msgstr "Modifier cette surveillance"
+
+#: templates/admin/monitorings/list.html:35
 msgid "Are you sure?"
 msgstr "Etes-vous sûr(e) ?"
+
+#: templates/admin/monitorings/list.html:35
+msgid "Delete this monitoring"
+msgstr "Supprimer cette surveillance"
 
 #: templates/emails/mail.html:5
 #, python-format

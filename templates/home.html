@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <p class="txtcenter"><a href="{{ url_for('rss') }}" class="btn"><i class="fa fa-rss"></i> {{ _('RSS feed') }}</a></p>
+    <p class="txtcenter"><a href="{{ url_for('rss') }}" class="btn" title="{{ _('Public monitorings only') }}"><i class="fa fa-rss"></i> {{ _('RSS feed') }}</a></p>
 
     {% if monitorings %}
         <div class="grid-2 has-gutter">

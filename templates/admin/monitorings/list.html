@@ -32,7 +32,7 @@
                     <td>{{ monitoring.check_interval }}m</td>
                     <td>{{ monitoring.timeout }}s</td>
                     <td>{{ monitoring.recipients }}</td>
-                    <td class="txtcenter"><a href="{{ url_for('admin_monitorings_edit', monitoring_id=monitoring.id) }}" class="btn"><i class="fa fa-pencil"></i></a> <a href="{{ url_for('admin_monitorings_delete', monitoring_id=monitoring.id) }}" class="btn" onclick="return confirm('{{ _('Are you sure?') }}')"><i class="fa fa-trash"></i></a></td>
+                    <td class="txtcenter"><a href="{{ url_for('admin_monitorings_edit', monitoring_id=monitoring.id) }}" class="btn" title="{{ _('Edit this monitoring') }}"><i class="fa fa-pencil"></i></a> <a href="{{ url_for('admin_monitorings_delete', monitoring_id=monitoring.id) }}" class="btn" onclick="return confirm('{{ _('Are you sure?') }}')" title="{{ _('Delete this monitoring') }}"><i class="fa fa-trash"></i></a></td>
                 </tr>
                 {% endfor %}
             </tbody>
