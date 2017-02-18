@@ -343,7 +343,7 @@ def check(force):
 
         now = arrow.now().replace(microseconds=0, seconds=0)
 
-        if not force and now != monitoring.next_check: # This monitoring isn't due
+        if not force and now < monitoring.next_check: # This monitoring isn't due
             app.logger.info('  Not due')
             continue
 
