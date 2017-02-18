@@ -14,8 +14,13 @@ textarea {
     color: #000545;
 }
 
-.muted {
+.txtmuted {
     color: #AAA;
+}
+
+.txtred {
+    color: #C31C1C;
+    cursor: help;
 }
 
 .page {

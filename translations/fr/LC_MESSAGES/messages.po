@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-02-18 09:50+0100\n"
-"PO-Revision-Date: 2017-02-18 09:51+0100\n"
+"POT-Creation-Date: 2017-02-18 10:14+0100\n"
+"PO-Revision-Date: 2017-02-18 10:16+0100\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -155,6 +155,14 @@ msgstr "Jamais"
 #: templates/home.html:15
 msgid "Next check:"
 msgstr "Prochaine vérification :"
+
+#: templates/home.html:15
+msgid ""
+"It seems this monitoring wasn't checked at the expected time. Maybe there's an "
+"issue with the scheduled task?"
+msgstr ""
+"Il semblerait que cette surveillance n'a pas été vérifiée à l'heure prévue. "
+"Peut-être y a-t-il un problème avec la tâche planifiée?"
 
 #: templates/admin/monitorings/list.html:42 templates/home.html:21
 msgid "No monitoring to display a this moment."
