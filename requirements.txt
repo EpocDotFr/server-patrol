@@ -9,3 +9,4 @@ PyRSS2Gen
 SQLAlchemy
 sqlalchemy-utils
 requests
+lxml
