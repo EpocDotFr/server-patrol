@@ -215,6 +215,7 @@ def rss():
             title=title,
             link=monitoring.url,
             description=description,
+            guid=PyRSS2Gen.Guid(':'.join([str(monitoring.id), monitoring.status.value, monitoring.last_status_change_at.format()]), isPermaLink=False),
             pubDate=monitoring.last_status_change_at.datetime,
             categories=[monitoring.status.value]
         ))
