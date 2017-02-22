@@ -7,162 +7,163 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-02-18 10:42+0100\n"
-"PO-Revision-Date: 2017-02-18 10:16+0100\n"
+"POT-Creation-Date: 2017-02-22 12:35+0100\n"
+"PO-Revision-Date: 2017-02-22 12:38+0100\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"X-Generator: Poedit 1.8.12\n"
 
-#: serverpatrol.py:93
+#: serverpatrol.py:140
 msgid "Monitoring created successfuly."
 msgstr "Surveillance créée avec succès."
 
-#: serverpatrol.py:97
+#: serverpatrol.py:144
 #, python-format
 msgid "Error creating this monitoring: %(exception)s"
 msgstr "Erreur lors de la création de cette surveillance : %(exception)s"
 
-#: serverpatrol.py:119
+#: serverpatrol.py:166
 msgid "Monitoring edited successfuly."
 msgstr "Surveillance modifiée avec succès."
 
-#: serverpatrol.py:123
+#: serverpatrol.py:170
 #, python-format
 msgid "Error editing this monitoring: %(exception)s"
 msgstr "Erreur lors de la modification de cette surveillance : %(exception)s"
 
-#: serverpatrol.py:140
+#: serverpatrol.py:187
 msgid "Monitoring deleted successfuly."
 msgstr "Surveillance supprimée avec succès."
 
-#: serverpatrol.py:142
+#: serverpatrol.py:189
 #, python-format
 msgid "Error deleting this monitoring: %(exception)s"
 msgstr "Erreur lors de la suppression de cette surveillance : %(exception)s"
 
-#: serverpatrol.py:158
+#: serverpatrol.py:205
 #, python-format
 msgid "%(monitoring_name)s is down"
 msgstr "%(monitoring_name)s n'est pas joignable"
 
-#: serverpatrol.py:159
+#: serverpatrol.py:206
 #, python-format
 msgid ""
-"<p><b>%(monitoring_name)s</b> seems to encounter issues and is "
-"unreachable since <b>%(last_status_change)s</b>. The reason "
-"is:</p><p>%(last_down_reason)s</p>"
+"<p><b>%(monitoring_name)s</b> seems to encounter issues and is unreachable "
+"since <b>%(last_status_change)s</b>. The reason is:</p><p>"
+"%(last_down_reason)s</p>"
 msgstr ""
 "<p><b>%(monitoring_name)s</b> a l'air de rencontrer des problèmes et est "
-"injoignable depuis <b>%(last_status_change)s</b>. La raison est "
-":</p><p>%(last_down_reason)s</p>"
+"injoignable depuis <b>%(last_status_change)s</b>. La raison est :</p><p>"
+"%(last_down_reason)s</p>"
 
-#: serverpatrol.py:161
+#: serverpatrol.py:208
 #, python-format
 msgid "%(monitoring_name)s is up"
 msgstr "%(monitoring_name)s est joignable"
 
-#: serverpatrol.py:162
+#: serverpatrol.py:209
 #, python-format
 msgid ""
-"<p><b>%(monitoring_name)s</b> is up and reachable since "
-"<b>%(last_status_change)s</b>.</p>"
+"<p><b>%(monitoring_name)s</b> is up and reachable since <b>"
+"%(last_status_change)s</b>.</p>"
 msgstr ""
-"<p><b>%(monitoring_name)s</b> est en ligne et joignable depuis "
-"<b>%(last_status_change)s</b>.</p>"
+"<p><b>%(monitoring_name)s</b> est en ligne et joignable depuis <b>"
+"%(last_status_change)s</b>.</p>"
 
-#: serverpatrol.py:164
+#: serverpatrol.py:211
 #, python-format
 msgid "%(monitoring_name)s status is unknown"
 msgstr "Le statut de %(monitoring_name)s est inconnu"
 
-#: serverpatrol.py:165
+#: serverpatrol.py:212
 #, python-format
 msgid "<p>The status of <b>%(monitoring_name)s</b> is currently unknown.</p>"
 msgstr "<p>Le statut de <b>%(monitoring_name)s</b> est actuellement inconnu.</p>"
 
-#: serverpatrol.py:176 serverpatrol.py:178 serverpatrol.py:181
-#: templates/layout.html:19
+#: serverpatrol.py:224 serverpatrol.py:226 serverpatrol.py:229
+#: templates/layout.html:21
 msgid "Server Patrol - Monitorings status"
 msgstr "Server Patrol - Etat des surveillances"
 
-#: serverpatrol.py:297 templates/admin/monitorings/list.html:13
+#: serverpatrol.py:345 templates/admin/monitorings/list.html:13
 msgid "Name"
 msgstr "Nom"
 
-#: serverpatrol.py:298
+#: serverpatrol.py:346
 msgid "Active?"
 msgstr "Active ?"
 
-#: serverpatrol.py:299
+#: serverpatrol.py:347
 msgid "Public?"
 msgstr "Publique ?"
 
-#: serverpatrol.py:300
+#: serverpatrol.py:348
 msgid "URL to check"
 msgstr "URL à vérifier"
 
-#: serverpatrol.py:301
+#: serverpatrol.py:349
 msgid "HTTP method to use"
 msgstr "Méthode HTTP à utiliser"
 
-#: serverpatrol.py:302
+#: serverpatrol.py:350
 msgid "Verify HTTPS certificate?"
 msgstr "Vérifier le certificat HTTPS ?"
 
-#: serverpatrol.py:303
+#: serverpatrol.py:351
 msgid "Check interval (minutes)"
 msgstr "Intervalle de vérification (minutes)"
 
-#: serverpatrol.py:304
+#: serverpatrol.py:352
 msgid "Connection timeout (seconds)"
 msgstr "Durée de grâce de la connexion (secondes)"
 
-#: serverpatrol.py:305
+#: serverpatrol.py:353
 msgid "Recipients of the email alerts"
 msgstr "Destinataires des alertes mail"
 
-#: serverpatrol.py:367
+#: serverpatrol.py:415
 #, python-format
 msgid "The server responded with an HTTP error: %(status_code)i %(reason)s."
 msgstr "Le serveur a répondu par une erreur HTTP : %(status_code)i %(reason)s."
 
-#: serverpatrol.py:370
+#: serverpatrol.py:418
 msgid "There were too many HTTP redirects (3xx HTTP status code)."
 msgstr "Trop de redirections HTTP (code de statut HTTP 3xx)."
 
-#: serverpatrol.py:373
+#: serverpatrol.py:421
 msgid "Connection to the server timed out."
 msgstr "La connexion au serveur a prit trop de temps."
 
-#: serverpatrol.py:376
+#: serverpatrol.py:424
 msgid "The server took too long to respond."
 msgstr "Le serveur a prit trop de temps à répondre."
 
-#: serverpatrol.py:379
+#: serverpatrol.py:427
 #, python-format
 msgid "An SSL error occured: %(exception)s"
 msgstr "Une erreur SSL est survenue : %(exception)s"
 
-#: serverpatrol.py:382
+#: serverpatrol.py:430
 #, python-format
 msgid "A proxy error occured: %(exception)s"
 msgstr "Une erreur de proxy est survenue : %(exception)s"
 
-#: serverpatrol.py:385
+#: serverpatrol.py:433
 msgid "Network error: unable to connect to the server."
 msgstr "Erreur réseau : impossible de se connecter au serveur."
 
-#: serverpatrol.py:402
+#: serverpatrol.py:450
 #, python-format
 msgid "%(monitoring_name)s is gone"
 msgstr "%(monitoring_name)s est parti"
 
-#: serverpatrol.py:409
+#: serverpatrol.py:457
 #, python-format
 msgid "%(monitoring_name)s is back up"
 msgstr "%(monitoring_name)s est revenu"
@@ -193,31 +194,31 @@ msgstr "Prochaine vérification :"
 
 #: templates/home.html:15
 msgid ""
-"It seems this monitoring wasn't checked at the expected time. Maybe "
-"there's an issue with the scheduled task?"
+"It seems this monitoring wasn't checked at the expected time. Maybe there's an "
+"issue with the scheduled task?"
 msgstr ""
-"Il semblerait que cette surveillance n'a pas été vérifiée à l'heure "
-"prévue. Peut-être y a-t-il un problème avec la tâche planifiée?"
+"Il semblerait que cette surveillance n'a pas été vérifiée à l'heure prévue. "
+"Peut-être y a-t-il un problème avec la tâche planifiée?"
 
 #: templates/admin/monitorings/list.html:42 templates/home.html:21
 msgid "No monitoring to display a this moment."
 msgstr "Aucune surveillance à afficher pour le moment."
 
-#: templates/layout.html:28
+#: templates/layout.html:30
 msgid "Statuses"
 msgstr "Statuts"
 
 #: templates/admin/monitorings/create.html:3
 #: templates/admin/monitorings/edit.html:3
-#: templates/admin/monitorings/list.html:3 templates/layout.html:29
+#: templates/admin/monitorings/list.html:3 templates/layout.html:31
 msgid "Admin"
 msgstr "Gestion"
 
-#: templates/layout.html:47
+#: templates/layout.html:49
 msgid "Source code on GitHub"
 msgstr "Code source sur GitHub"
 
-#: templates/layout.html:47
+#: templates/layout.html:49
 #, python-format
 msgid "Licensed under the %(license)s"
 msgstr "Sous licence %(license)s"
@@ -234,28 +235,36 @@ msgid "Create"
 msgstr "Créer"
 
 #: templates/admin/monitorings/form.html:10
+msgid "If empty, will try to get the page title from the URL"
+msgstr "Laissez vide pour tenter de récupérer le titre de la page de l'URL"
+
+#: templates/admin/monitorings/form.html:14
 msgid "Must be accessible by Server Patrol"
 msgstr "Doit être accessible par Server Patrol"
 
-#: templates/admin/monitorings/form.html:33
+#: templates/admin/monitorings/form.html:37
 msgid "Defaults to 10, min 3"
 msgstr "Par défaut 10, mini 3"
 
-#: templates/admin/monitorings/form.html:37
+#: templates/admin/monitorings/form.html:41
 msgid "Defaults to 5, min 1"
 msgstr "Par défaut 5, mini 1"
 
-#: templates/admin/monitorings/form.html:42
+#: templates/admin/monitorings/form.html:46
 msgid "Comma-separated list of email addresses"
 msgstr "Liste d'adresses mail séparée par des virgules"
 
-#: templates/admin/monitorings/form.html:45
+#: templates/admin/monitorings/form.html:49
 msgid "Back"
 msgstr "Retour"
 
-#: templates/admin/monitorings/form.html:45
+#: templates/admin/monitorings/form.html:49
 msgid "Save"
 msgstr "Enregistrer"
+
+#: templates/admin/monitorings/form.html:83
+msgid "Error getting the page URL:"
+msgstr "Erreur lors de la récupération du titre de la page :"
 
 #: templates/admin/monitorings/list.html:14
 msgid "Active"
@@ -314,43 +323,43 @@ msgstr "Supprimer cette surveillance"
 #: templates/emails/mail.html:5
 #, python-format
 msgid ""
-"This email was automatically sent by <a href=\"%(home_link)s\">Server "
-"Patrol</a>. Please don't reply."
+"This email was automatically sent by <a href=\"%(home_link)s\">Server Patrol</"
+"a>. Please don't reply."
 msgstr ""
-"Cet email vous a été envoyé automatiquement par <a "
-"href=\"%(home_link)s\">Server Patrol</a>. Merci de ne pas y répondre."
+"Cet email vous a été envoyé automatiquement par <a href=\"%(home_link)s"
+"\">Server Patrol</a>. Merci de ne pas y répondre."
 
 #: templates/emails/mail.html:6
 #, python-format
 msgid ""
-"You are receiving this email because you are subscribed to the status "
-"alerts from <b>%(monitoring_name)s</b>."
+"You are receiving this email because you are subscribed to the status alerts "
+"from <b>%(monitoring_name)s</b>."
 msgstr ""
-"Vous recevez cet email car vous être inscrit(e) aux alertes de "
-"<b>%(monitoring_name)s</b>."
+"Vous recevez cet email car vous être inscrit(e) aux alertes de <b>"
+"%(monitoring_name)s</b>."
 
 #: templates/emails/mail.html:7 templates/emails/mail.txt:7
 msgid ""
-"If you no longer want to, or if you think it's a mistake, please contact "
-"your system administrator."
+"If you no longer want to, or if you think it's a mistake, please contact your "
+"system administrator."
 msgstr ""
-"Si vous ne souhaitez plus en recevoir, ou si vous pensez que cela est une"
-" erreur, veuillez contacter votre administrateur système."
+"Si vous ne souhaitez plus en recevoir, ou si vous pensez que cela est une "
+"erreur, veuillez contacter votre administrateur système."
 
 #: templates/emails/mail.txt:5
 #, python-format
 msgid ""
-"This email was automatically sent by Server Patrol (%(home_link)s). "
-"Please don't reply."
+"This email was automatically sent by Server Patrol (%(home_link)s). Please "
+"don't reply."
 msgstr ""
-"Cet email vous a été envoyé automatiquement par Server Patrol "
-"(%(home_link)s). Merci de ne pas y répondre."
+"Cet email vous a été envoyé automatiquement par Server Patrol (%(home_link)s). "
+"Merci de ne pas y répondre."
 
 #: templates/emails/mail.txt:6
 #, python-format
 msgid ""
-"You are receiving this email because you are subscribed to the status "
-"alerts from %(monitoring_name)s."
+"You are receiving this email because you are subscribed to the status alerts "
+"from %(monitoring_name)s."
 msgstr ""
 "Vous recevez cet email car vous être inscrit(e) aux alertes de "
 "%(monitoring_name)s."
@@ -358,8 +367,8 @@ msgstr ""
 #: templates/emails/status_changed.html:5
 #, python-format
 msgid ""
-"<b>%(monitoring_name)s</b> seems to encounter issues and is unreachable "
-"right now. The reason is:"
+"<b>%(monitoring_name)s</b> seems to encounter issues and is unreachable right "
+"now. The reason is:"
 msgstr ""
 "<b>%(monitoring_name)s</b> a l'air de rencontrer des problèmes et est "
 "injoignable à l'heure actuelle. La raison est :"
@@ -367,8 +376,8 @@ msgstr ""
 #: templates/emails/status_changed.html:8
 #, python-format
 msgid ""
-"<b>%(monitoring_name)s</b> encountered issues but is now reachable. The "
-"reason of the downtime was:"
+"<b>%(monitoring_name)s</b> encountered issues but is now reachable. The reason "
+"of the downtime was:"
 msgstr ""
 "<b>%(monitoring_name)s</b> a rencontré des problèmes mais est à nouveau "
 "joignable. La raison était :"
@@ -376,20 +385,20 @@ msgstr ""
 #: templates/emails/status_changed.txt:5
 #, python-format
 msgid ""
-"%(monitoring_name)s seems to encounter issues and is unreachable right "
-"now. The reason is:"
+"%(monitoring_name)s seems to encounter issues and is unreachable right now. "
+"The reason is:"
 msgstr ""
-"%(monitoring_name)s a l'air de rencontrer des problèmes et est "
-"injoignable à l'heure actuelle. La raison est :"
+"%(monitoring_name)s a l'air de rencontrer des problèmes et est injoignable à "
+"l'heure actuelle. La raison est :"
 
 #: templates/emails/status_changed.txt:9
 #, python-format
 msgid ""
-"%(monitoring_name)s encountered issues but is now reachable. The reason "
-"of the downtime was:"
+"%(monitoring_name)s encountered issues but is now reachable. The reason of the "
+"downtime was:"
 msgstr ""
-"%(monitoring_name)s a rencontré des problèmes mais est à nouveau "
-"joignable. La raison était :"
+"%(monitoring_name)s a rencontré des problèmes mais est à nouveau joignable. La "
+"raison était :"
 
 #: templates/errors/401.html:3
 msgid "Unauthorized"
@@ -421,10 +430,9 @@ msgstr "Erreur serveur"
 
 #: templates/errors/500.html:6
 msgid ""
-"A server error occured! Please retry. If the error persists, please "
-"report an issue <a href=\"https://github.com/EpocDotFr/server-"
-"patrol/issues\">here</a>."
+"A server error occured! Please retry. If the error persists, please report an "
+"issue <a href=\"https://github.com/EpocDotFr/server-patrol/issues\">here</a>."
 msgstr ""
-"Une erreur serveur est survenue ! Veuillez rééssayer. Si le problème "
-"persiste, merci de rapporter un bug <a "
-"href=\"https://github.com/EpocDotFr/server-patrol/issues\">ici</a>."
+"Une erreur serveur est survenue ! Veuillez rééssayer. Si le problème persiste, "
+"merci de rapporter un bug <a href=\"https://github.com/EpocDotFr/server-patrol/"
+"issues\">ici</a>."
