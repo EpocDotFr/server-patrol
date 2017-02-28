@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-02-22 12:35+0100\n"
-"PO-Revision-Date: 2017-02-22 12:38+0100\n"
+"POT-Creation-Date: 2017-02-28 09:54+0100\n"
+"PO-Revision-Date: 2017-02-28 09:55+0100\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -177,22 +177,22 @@ msgid "RSS feed"
 msgstr "Flux RSS"
 
 #: templates/home.html:15
-msgid "Down:"
-msgstr "Injoignable :"
+msgid "Down since:"
+msgstr "Injoignable depuis :"
 
-#: templates/home.html:15
+#: templates/home.html:16
 msgid "Last checked:"
 msgstr "Dernière vérification :"
 
-#: templates/home.html:15
+#: templates/home.html:16
 msgid "Never"
 msgstr "Jamais"
 
-#: templates/home.html:15
+#: templates/home.html:17
 msgid "Next check:"
 msgstr "Prochaine vérification :"
 
-#: templates/home.html:15
+#: templates/home.html:17
 msgid ""
 "It seems this monitoring wasn't checked at the expected time. Maybe there's an "
 "issue with the scheduled task?"
@@ -200,7 +200,7 @@ msgstr ""
 "Il semblerait que cette surveillance n'a pas été vérifiée à l'heure prévue. "
 "Peut-être y a-t-il un problème avec la tâche planifiée?"
 
-#: templates/admin/monitorings/list.html:42 templates/home.html:21
+#: templates/admin/monitorings/list.html:42 templates/home.html:23
 msgid "No monitoring to display a this moment."
 msgstr "Aucune surveillance à afficher pour le moment."
 
