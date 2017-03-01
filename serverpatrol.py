@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
 from flask_wtf import FlaskForm
 from sqlalchemy_utils import ArrowType
-from flask_babel import Babel, _, lazy_gettext as __
+from flask_babel import Babel, _, lazy_gettext as __, format_datetime
 import wtforms.validators as validators
 from enum import Enum
 from lxml import html
@@ -203,10 +203,10 @@ def rss():
 
         if monitoring.status == MonitoringStatus.DOWN:
             title = _('%(monitoring_name)s is down', monitoring_name=monitoring.name)
-            description = _('<p><b>%(monitoring_name)s</b> seems to encounter issues and is unreachable since <b>%(last_status_change)s</b>. The reason is:</p><p>%(last_down_reason)s</p>', monitoring_name=monitoring.name, last_status_change=monitoring.last_status_change_at.format(locale=g.CURRENT_LOCALE), last_down_reason=monitoring.last_down_reason)
+            description = _('<p><b>%(monitoring_name)s</b> seems to encounter issues and is unreachable since the <b>%(last_status_change)s</b>. The reason is:</p><p>%(last_down_reason)s</p>', monitoring_name=monitoring.name, last_status_change=format_datetime(monitoring.last_status_change_at.datetime, 'short'), last_down_reason=monitoring.last_down_reason)
         elif monitoring.status == MonitoringStatus.UP:
             title = _('%(monitoring_name)s is up', monitoring_name=monitoring.name)
-            description = _('<p><b>%(monitoring_name)s</b> is up and reachable since <b>%(last_status_change)s</b>.</p>', monitoring_name=monitoring.name, last_status_change=monitoring.last_status_change_at.format(locale=g.CURRENT_LOCALE))
+            description = _('<p><b>%(monitoring_name)s</b> is up and reachable since the <b>%(last_status_change)s</b>.</p>', monitoring_name=monitoring.name, last_status_change=format_datetime(monitoring.last_status_change_at.datetime, 'short'))
         elif monitoring.status == MonitoringStatus.UNKNOWN:
             title = _('%(monitoring_name)s status is unknown', monitoring_name=monitoring.name)
             description = _('<p>The status of <b>%(monitoring_name)s</b> is currently unknown.</p>', monitoring_name=monitoring.name)

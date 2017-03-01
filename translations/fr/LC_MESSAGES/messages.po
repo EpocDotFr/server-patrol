@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-02-28 09:54+0100\n"
-"PO-Revision-Date: 2017-02-28 09:55+0100\n"
+"POT-Creation-Date: 2017-03-01 14:48+0100\n"
+"PO-Revision-Date: 2017-03-01 14:50+0100\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -55,11 +55,11 @@ msgstr "%(monitoring_name)s n'est pas joignable"
 #, python-format
 msgid ""
 "<p><b>%(monitoring_name)s</b> seems to encounter issues and is unreachable "
-"since <b>%(last_status_change)s</b>. The reason is:</p><p>"
+"since the <b>%(last_status_change)s</b>. The reason is:</p><p>"
 "%(last_down_reason)s</p>"
 msgstr ""
 "<p><b>%(monitoring_name)s</b> a l'air de rencontrer des problèmes et est "
-"injoignable depuis <b>%(last_status_change)s</b>. La raison est :</p><p>"
+"injoignable depuis le <b>%(last_status_change)s</b>. La raison est :</p><p>"
 "%(last_down_reason)s</p>"
 
 #: serverpatrol.py:208
@@ -70,10 +70,10 @@ msgstr "%(monitoring_name)s est joignable"
 #: serverpatrol.py:209
 #, python-format
 msgid ""
-"<p><b>%(monitoring_name)s</b> is up and reachable since <b>"
+"<p><b>%(monitoring_name)s</b> is up and reachable since the <b>"
 "%(last_status_change)s</b>.</p>"
 msgstr ""
-"<p><b>%(monitoring_name)s</b> est en ligne et joignable depuis <b>"
+"<p><b>%(monitoring_name)s</b> est en ligne et joignable depuis le <b>"
 "%(last_status_change)s</b>.</p>"
 
 #: serverpatrol.py:211
