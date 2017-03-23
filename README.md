@@ -9,7 +9,7 @@ Simple HTTP-based server status check tool with email alerts.
 ## Features
 
   - Manage multiple monitorings (URLs to check)
-  - Simple visualization of each monitorings status (down, up, unknow)
+  - Simple visualization of each monitorings status (down, up, unknown)
   - RSS feed of the monitorings status (public monitorings only)
   - (Optional) Mails can be sent via SMTP when something happen
   - Responsive (can be used on mobile devices)
