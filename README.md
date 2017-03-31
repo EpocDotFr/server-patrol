@@ -84,7 +84,7 @@ I'll let you search yourself about how to configure a web server along uWSGI.
 
 As you can see, Server Patrol is split in two pieces:
 
-  - A Flask command (`flask check`) to run the checks
+  - A Flask command (`flask check`) to run the checks (run `flask check --help` for the full list of arguments)
   - A Flask web app (the Server Patrol GUI) itself
 
 You can run the web app:
