@@ -66,10 +66,11 @@ More informations on the three above can be found [here](http://flask.pocoo.org/
   - `FORCE_LANGUAGE` Force the lang to be one of the supported ones (defaults to `None`: auto-detection from the `Accept-Language` HTTP header). See in the features section above for a list of available lang keys
   - `DEFAULT_LANGUAGE` Default language if it cannot be determined automatically. Not taken into account if `FORCE_LANGUAGE` is defined. See in the features section above for a list of available lang keys
 
-SMTP related parameters:
+SMTP related parameters to send email alerts:
 
-  - `MAIL_SERVER` The SMTP server
-  - `MAIL_PORT` The SMTP port
+  - `ENABLE_EMAIL_ALERTS` Wheter to enable the email feature or not. If `True`, fill in the configuration parameters below
+  - `MAIL_SERVER` The SMTP server name / IP to use to send email alerts
+  - `MAIL_PORT` The SMTP server port
   - `MAIL_USE_TLS` Use TLS when connecting to the SMTP server?
   - `MAIL_USE_SSL` Use SSL when connecting to the SMTP server?
   - `MAIL_USERNAME` Username to use to connect to the SMTP server

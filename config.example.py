@@ -3,6 +3,7 @@ DEBUG = False
 LOGGER_HANDLER_POLICY = 'production'
 USERS = {'username': 'password'}
 SERVER_NAME = 'localhost:8080'
+ENABLE_EMAIL_ALERTS = False
 MAIL_SERVER = 'localhost'
 MAIL_PORT = 25
 MAIL_USE_TLS = False
