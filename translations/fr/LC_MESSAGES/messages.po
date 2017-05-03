@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-03 20:12+0200\n"
-"PO-Revision-Date: 2017-05-03 20:14+0200\n"
+"POT-Creation-Date: 2017-05-03 23:08+0200\n"
+"PO-Revision-Date: 2017-05-03 23:10+0200\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -137,7 +137,7 @@ msgstr "Destinataires des alertes mail"
 
 #: serverpatrol.py:371
 msgid "Recipients of the SMS alerts"
-msgstr "Destinataires des alertes mail"
+msgstr "Destinataires des alertes SMS"
 
 #: serverpatrol.py:433
 #, python-format
@@ -170,12 +170,12 @@ msgstr "Une erreur de proxy est survenue : %(exception)s"
 msgid "Network error: unable to connect to the server."
 msgstr "Erreur réseau : impossible de se connecter au serveur."
 
-#: serverpatrol.py:468
+#: serverpatrol.py:469
 #, python-format
 msgid "%(monitoring_name)s is gone"
 msgstr "%(monitoring_name)s est parti"
 
-#: serverpatrol.py:475
+#: serverpatrol.py:476
 #, python-format
 msgid "%(monitoring_name)s is back up"
 msgstr "%(monitoring_name)s est revenu"
@@ -266,19 +266,23 @@ msgstr "Par défaut 10, mini 3"
 msgid "Defaults to 5, min 1"
 msgstr "Par défaut 5, mini 1"
 
-#: templates/admin/monitorings/form.html:46
+#: templates/admin/monitorings/form.html:47
 msgid "Comma-separated list of email addresses"
 msgstr "Liste d'adresses mail séparée par des virgules"
 
-#: templates/admin/monitorings/form.html:49
+#: templates/admin/monitorings/form.html:52
+msgid "Comma-separated list of mobile phone numbers"
+msgstr "Liste de numéros de téléphones mobiles séparée par des virgules"
+
+#: templates/admin/monitorings/form.html:56
 msgid "Back"
 msgstr "Retour"
 
-#: templates/admin/monitorings/form.html:49
+#: templates/admin/monitorings/form.html:56
 msgid "Save"
 msgstr "Enregistrer"
 
-#: templates/admin/monitorings/form.html:83
+#: templates/admin/monitorings/form.html:90
 msgid "Error getting the page URL:"
 msgstr "Erreur lors de la récupération du titre de la page :"
 

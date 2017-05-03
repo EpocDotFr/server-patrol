@@ -1,6 +1,6 @@
 # Server Patrol
 
-Simple HTTP-based server status check tool with email alerts.
+Simple HTTP-based server status check tool with email/SMS alerts.
 
 <p align="center">
   <img src="https://github.com/EpocDotFr/server-patrol/raw/master/screenshot.png">
@@ -11,14 +11,14 @@ Simple HTTP-based server status check tool with email alerts.
   - Manage multiple monitorings (URLs to check)
   - Simple visualization of each monitorings status (down, up, unknown) as well as the down reason
   - RSS feed of the monitorings status (public monitorings only)
-  - (Optional) Mails can be sent via SMTP when something happen
+  - (Optional) Mails and/or SMS can be sent when something happen
   - Responsive (can be used on mobile devices)
   - Ability to configure, for each monitorings:
     - HTTP method to use, as well as the connection timeout and if the HTTPS certificate have to be verified
     - Enable / disable the monitoring
     - Make the monitoring publicly visible or not
     - Check interval
-    - (Optional) List of email recipients who will receive alerts
+    - (Optional) List of email recipients and/or mobile phone numbers who will receive alerts
   - Internationalized & localized in 2 languages:
     - English (`en`)
     - French (`fr`)
@@ -27,6 +27,8 @@ Simple HTTP-based server status check tool with email alerts.
 
   - Should work on any Python 3.x version. Feel free to test with another Python version and give me feedback
   - A [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest/)-capable web server (optional, but recommended)
+  - (Optional) An [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) server to send email alerts
+  - (Optional) A [Twilio](https://www.twilio.com/) account to send SMS alerts
 
 ## Installation
 
@@ -66,7 +68,7 @@ More informations on the three above can be found [here](http://flask.pocoo.org/
   - `FORCE_LANGUAGE` Force the lang to be one of the supported ones (defaults to `None`: auto-detection from the `Accept-Language` HTTP header). See in the features section above for a list of available lang keys
   - `DEFAULT_LANGUAGE` Default language if it cannot be determined automatically. Not taken into account if `FORCE_LANGUAGE` is defined. See in the features section above for a list of available lang keys
 
-SMTP related parameters to send email alerts:
+SMTP-related parameters to send email alerts:
 
   - `ENABLE_EMAIL_ALERTS` Wheter to enable the email feature or not. If `True`, fill in the configuration parameters below
   - `MAIL_SERVER` The SMTP server name / IP to use to send email alerts
@@ -76,6 +78,10 @@ SMTP related parameters to send email alerts:
   - `MAIL_USERNAME` Username to use to connect to the SMTP server
   - `MAIL_PASSWORD` Password to use to connect to the SMTP server
   - `MAIL_DEFAULT_SENDER` A Python tuple to define the identity of the Server Patrol's mail sender
+
+Twilio-related parameters to send SMS alerts:
+
+  - `ENABLE_SMS_ALERTS` Wheter to enable the SMS feature or not. If `True`, fill in the configuration parameters below
 
 More configuration parameters can be added about SMTP configuration, see [here](https://pythonhosted.org/Flask-Mail/#configuring-flask-mail).
 
