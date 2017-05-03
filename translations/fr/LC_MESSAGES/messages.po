@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-03-31 13:03+0200\n"
-"PO-Revision-Date: 2017-03-31 13:03+0200\n"
+"POT-Creation-Date: 2017-05-03 20:12+0200\n"
+"PO-Revision-Date: 2017-05-03 20:14+0200\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.4.0\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0.1\n"
 
 #: serverpatrol.py:140
 msgid "Monitoring created successfuly."
@@ -91,79 +91,91 @@ msgstr "<p>Le statut de <b>%(monitoring_name)s</b> est actuellement inconnu.</p>
 msgid "Server Patrol - Monitorings status"
 msgstr "Server Patrol - Etat des surveillances"
 
-#: serverpatrol.py:345 templates/admin/monitorings/list.html:13
+#: serverpatrol.py:360 templates/admin/monitorings/list.html:13
 msgid "Name"
 msgstr "Nom"
 
-#: serverpatrol.py:346
+#: serverpatrol.py:361
 msgid "Active?"
 msgstr "Active ?"
 
-#: serverpatrol.py:347
+#: serverpatrol.py:362
 msgid "Public?"
 msgstr "Publique ?"
 
-#: serverpatrol.py:348
+#: serverpatrol.py:363
 msgid "URL to check"
 msgstr "URL à vérifier"
 
-#: serverpatrol.py:349
+#: serverpatrol.py:364
 msgid "HTTP method to use"
 msgstr "Méthode HTTP à utiliser"
 
-#: serverpatrol.py:350
+#: serverpatrol.py:365
+msgid "HTTP headers to send"
+msgstr "En-tête HTTP à envoyer"
+
+#: serverpatrol.py:366
+msgid "HTTP response body Regex check"
+msgstr "Expression régulière de vérification de la réponse HTTP"
+
+#: serverpatrol.py:367
 msgid "Verify HTTPS certificate?"
 msgstr "Vérifier le certificat HTTPS ?"
 
-#: serverpatrol.py:351
+#: serverpatrol.py:368
 msgid "Check interval (minutes)"
 msgstr "Intervalle de vérification (minutes)"
 
-#: serverpatrol.py:352
+#: serverpatrol.py:369
 msgid "Connection timeout (seconds)"
 msgstr "Durée de grâce de la connexion (secondes)"
 
-#: serverpatrol.py:353
+#: serverpatrol.py:370
 msgid "Recipients of the email alerts"
 msgstr "Destinataires des alertes mail"
 
-#: serverpatrol.py:415
+#: serverpatrol.py:371
+msgid "Recipients of the SMS alerts"
+msgstr "Destinataires des alertes mail"
+
+#: serverpatrol.py:433
 #, python-format
 msgid "The server responded with an HTTP error: %(status_code)i %(reason)s."
 msgstr "Le serveur a répondu par une erreur HTTP : %(status_code)i %(reason)s."
 
-#: serverpatrol.py:418
+#: serverpatrol.py:436
 msgid "There were too many HTTP redirects (3xx HTTP status code)."
 msgstr "Trop de redirections HTTP (code de statut HTTP 3xx)."
 
-#: serverpatrol.py:421
+#: serverpatrol.py:439
 msgid "Connection to the server timed out."
 msgstr "La connexion au serveur a prit trop de temps."
 
-#: serverpatrol.py:424
+#: serverpatrol.py:442
 msgid "The server took too long to respond."
 msgstr "Le serveur a prit trop de temps à répondre."
 
-#: serverpatrol.py:427
+#: serverpatrol.py:445
 #, python-format
 msgid "An SSL error occured: %(exception)s"
 msgstr "Une erreur SSL est survenue : %(exception)s"
 
-#: serverpatrol.py:430
+#: serverpatrol.py:448
 #, python-format
 msgid "A proxy error occured: %(exception)s"
 msgstr "Une erreur de proxy est survenue : %(exception)s"
 
-#: serverpatrol.py:433
+#: serverpatrol.py:451
 msgid "Network error: unable to connect to the server."
 msgstr "Erreur réseau : impossible de se connecter au serveur."
 
-#: serverpatrol.py:450
+#: serverpatrol.py:468
 #, python-format
 msgid "%(monitoring_name)s is gone"
 msgstr "%(monitoring_name)s est parti"
 
-#: serverpatrol.py:457
+#: serverpatrol.py:475
 #, python-format
 msgid "%(monitoring_name)s is back up"
 msgstr "%(monitoring_name)s est revenu"
@@ -239,8 +251,8 @@ msgid "Create"
 msgstr "Créer"
 
 #: templates/admin/monitorings/form.html:10
-msgid "If empty, will try to get the page title from the URL"
-msgstr "Laissez vide pour tenter de récupérer le titre de la page de l'URL"
+msgid "If empty, will try to get it automatically"
+msgstr "Laissez vide pour tenter de récupérer le titre automatiquement"
 
 #: templates/admin/monitorings/form.html:14
 msgid "Must be accessible by Server Patrol"
@@ -295,8 +307,8 @@ msgid "Timeout"
 msgstr "Durée de grâce"
 
 #: templates/admin/monitorings/list.html:20
-msgid "Recipients"
-msgstr "Destinataires"
+msgid "Email recipients"
+msgstr "Destinataires des mails"
 
 #: templates/admin/monitorings/list.html:21
 msgid "Actions"
@@ -440,3 +452,9 @@ msgstr ""
 "Une erreur serveur est survenue ! Veuillez rééssayer. Si le problème persiste, "
 "merci de rapporter un bug <a href=\"https://github.com/EpocDotFr/server-patrol/"
 "issues\">ici</a>."
+
+#~ msgid "Recipients"
+#~ msgstr "Destinataires"
+
+#~ msgid "If empty, will try to get the page title from the URL"
+#~ msgstr "Laissez vide pour tenter de récupérer le titre de la page de l'URL"

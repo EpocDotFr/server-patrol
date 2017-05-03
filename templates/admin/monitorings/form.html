@@ -7,7 +7,7 @@
 <div class="grid has-gutter pbs">
     <div class="large-w50 tiny-w100">
         {{ form.name.label(class="inbl") }}
-        {{ form.name(required='', placeholder=_('If empty, will try to get the page title from the URL')) }}
+        {{ form.name(required='', placeholder=_('If empty, will try to get it automatically')) }}
     </div>
     <div class="large-w50 tiny-w100">
         {{ form.url.label(class="inbl") }}
@@ -42,8 +42,8 @@
     </div>
 </div>
 
-{{ form.recipients.label(class="inbl") }}
-{{ form.recipients(placeholder=_('Comma-separated list of email addresses'), class='mtn') }}
+{{ form.email_recipients.label(class="inbl") }}
+{{ form.email_recipients(placeholder=_('Comma-separated list of email addresses'), class='mtn') }}
 
 <p class="txtcenter">
     <a href="{{ url_for('admin_monitorings_list') }}" class="btn"><i class="fa fa-arrow-left"></i> {{ _('Back') }}</a> <button type="submit"><i class="fa fa-save"></i> {{ _('Save') }}</button>

@@ -287,6 +287,8 @@ class Monitoring(db.Model):
     is_public = db.Column(db.Boolean, default=False)
     url = db.Column(db.String(255), nullable=False)
     http_method = db.Column(db.Enum(MonitoringHttpMethod), default=MonitoringHttpMethod.GET)
+    http_headers = db.Column(db.Text, default='')
+    http_body_regex = db.Column(db.String(255), default=None)
     verify_https_cert = db.Column(db.Boolean, default=True)
     check_interval = db.Column(db.Integer, default=5)
     timeout = db.Column(db.Integer, default=10)
@@ -294,15 +296,18 @@ class Monitoring(db.Model):
     last_status_change_at = db.Column(ArrowType, default=None)
     status = db.Column(db.Enum(MonitoringStatus), default=MonitoringStatus.UNKNOWN)
     last_down_reason = db.Column(db.Text, default='')
-    recipients = db.Column(db.Text, default='')
+    email_recipients = db.Column(db.Text, default='')
+    sms_recipients = db.Column(db.Text, default='')
     created_at = db.Column(ArrowType, default=arrow.now())
 
-    def __init__(self, name=None, url=None, is_active=False, is_public=False, http_method=MonitoringHttpMethod.GET, verify_https_cert=True, check_interval=5, timeout=10, last_checked_at=None, last_status_change_at=None, status=MonitoringStatus.UNKNOWN, last_down_reason=None, recipients=None, created_at=arrow.now()):
+    def __init__(self, name=None, url=None, is_active=False, is_public=False, http_method=MonitoringHttpMethod.GET, http_headers='', http_body_regex=None, verify_https_cert=True, check_interval=5, timeout=10, last_checked_at=None, last_status_change_at=None, status=MonitoringStatus.UNKNOWN, last_down_reason='', email_recipients='', sms_recipients='', created_at=arrow.now()):
         self.name = name
         self.url = url
         self.is_active = is_active
         self.is_public = is_public
         self.http_method = http_method
+        self.http_headers = http_headers
+        self.http_body_regex = http_body_regex
         self.verify_https_cert = verify_https_cert
         self.check_interval = check_interval
         self.timeout = timeout
@@ -310,7 +315,8 @@ class Monitoring(db.Model):
         self.last_status_change_at = last_status_change_at
         self.status = status
         self.last_down_reason = last_down_reason
-        self.recipients = recipients
+        self.email_recipients = email_recipients
+        self.sms_recipients = sms_recipients
         self.created_at = created_at
 
     def __repr__(self):
@@ -333,8 +339,17 @@ class Monitoring(db.Model):
             return 'question'
 
     @property
-    def recipients_list(self):
-        return [recipient.strip() for recipient in self.recipients.split(',')]
+    def email_recipients_list(self):
+        return [email_recipient.strip() for email_recipient in self.email_recipients.split(',')]
+
+    @property
+    def sms_recipients_list(self):
+        return [sms_recipient.strip() for sms_recipient in self.sms_recipients.split(',')]
+
+    @property
+    def http_headers_dict(self):
+        # TODO self.http_headers
+        pass
 
 
 # -----------------------------------------------------------
@@ -347,10 +362,13 @@ class MonitoringForm(FlaskForm):
     is_public = BooleanField(__('Public?'), default=False)
     url = StringField(__('URL to check'), [validators.DataRequired(), validators.URL(), validators.length(max=255)])
     http_method = SelectField(__('HTTP method to use'), choices=[(method.value, method.name) for method in MonitoringHttpMethod], default=MonitoringHttpMethod.GET.value)
+    http_headers = TextAreaField(__('HTTP headers to send'))
+    http_body_regex = StringField(__('HTTP response body Regex check'), [validators.length(max=255)])
     verify_https_cert = BooleanField(__('Verify HTTPS certificate?'), default=True)
     check_interval = IntegerField(__('Check interval (minutes)'), default=5)
     timeout = IntegerField(__('Connection timeout (seconds)'), default=10)
-    recipients = TextAreaField(__('Recipients of the email alerts'))
+    email_recipients = TextAreaField(__('Recipients of the email alerts'))
+    sms_recipients = TextAreaField(__('Recipients of the SMS alerts'))
 
 
 # -----------------------------------------------------------
@@ -441,10 +459,10 @@ def check(force):
             monitoring.status = status
 
             if monitoring.status != MonitoringStatus.UNKNOWN: # The old status is known?
-                app.logger.info('  Sending emails to {}'.format(monitoring.recipients_list))
+                app.logger.info('  Sending emails to {}'.format(monitoring.email_recipients_list))
 
                 msg = Message()
-                msg.recipients = monitoring.recipients_list
+                msg.recipients = monitoring.email_recipients_list
 
                 if status == MonitoringStatus.DOWN: # The new status is down?
                     msg.subject = _('%(monitoring_name)s is gone', monitoring_name=monitoring.name)

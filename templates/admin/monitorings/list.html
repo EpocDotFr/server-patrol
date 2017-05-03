@@ -17,7 +17,7 @@
                     <th>{{ _('Verify HTTPS certificate') }}</th>
                     <th>{{ _('Check interval') }}</th>
                     <th>{{ _('Timeout') }}</th>
-                    <th>{{ _('Recipients') }}</th>
+                    <th>{{ _('Email recipients') }}</th>
                     <th class="w100p">{{ _('Actions') }}</th>
                 </tr>
             </thead>
@@ -31,7 +31,7 @@
                     <td>{% if monitoring.verify_https_cert %}<strong>{{ _('Yes') }}</strong>{% else %}{{ _('No') }}{% endif %}</td>
                     <td>{{ monitoring.check_interval }}m</td>
                     <td>{{ monitoring.timeout }}s</td>
-                    <td>{{ monitoring.recipients }}</td>
+                    <td>{{ monitoring.email_recipients }}</td>
                     <td class="txtcenter"><a href="{{ url_for('admin_monitorings_edit', monitoring_id=monitoring.id) }}" class="btn" title="{{ _('Edit this monitoring') }}"><i class="fa fa-pencil"></i></a> <a href="{{ url_for('admin_monitorings_delete', monitoring_id=monitoring.id) }}" class="btn" onclick="return confirm('{{ _('Are you sure?') }}')" title="{{ _('Delete this monitoring') }}"><i class="fa fa-trash"></i></a></td>
                 </tr>
                 {% endfor %}
