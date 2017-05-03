@@ -9,10 +9,12 @@ Simple HTTP-based server status check tool with email/SMS alerts.
 ## Features
 
   - Manage multiple monitorings (URLs to check)
+  - Check the HTTP connection status as well as 4XX or 5XX errors
   - Simple visualization of each monitorings status (down, up, unknown) as well as the down reason
-  - RSS feed of the monitorings status (public monitorings only)
-  - (Optional) Mails and/or SMS can be sent when something happen
+  - RSS feed of the monitorings status (public monitorings onlyr
   - Responsive (can be used on mobile devices)
+  - (Optional) Mails and/or SMS can be sent when something happen
+  - (Optional) Also perform a [Regex](https://en.wikipedia.org/wiki/Regular_expression)-based HTTP response body check
   - Ability to configure, for each monitorings:
     - HTTP method to use, as well as the connection timeout and if the HTTPS certificate have to be verified
     - Enable / disable the monitoring

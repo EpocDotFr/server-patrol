@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-03 23:08+0200\n"
-"PO-Revision-Date: 2017-05-03 23:10+0200\n"
+"POT-Creation-Date: 2017-05-03 23:39+0200\n"
+"PO-Revision-Date: 2017-05-03 23:40+0200\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -113,11 +113,11 @@ msgstr "Méthode HTTP à utiliser"
 
 #: serverpatrol.py:365
 msgid "HTTP headers to send"
-msgstr "En-tête HTTP à envoyer"
+msgstr "En-têtes HTTP à envoyer"
 
 #: serverpatrol.py:366
 msgid "HTTP response body Regex check"
-msgstr "Expression régulière de vérification de la réponse HTTP"
+msgstr "Regex de vérification"
 
 #: serverpatrol.py:367
 msgid "Verify HTTPS certificate?"
@@ -216,7 +216,7 @@ msgstr ""
 "Il semblerait que cette surveillance n'a pas été vérifiée à l'heure prévue. "
 "Peut-être y a-t-il un problème avec la tâche planifiée?"
 
-#: templates/admin/monitorings/list.html:42 templates/home.html:26
+#: templates/admin/monitorings/list.html:44 templates/home.html:26
 msgid "No monitoring to display a this moment."
 msgstr "Aucune surveillance à afficher pour le moment."
 
@@ -252,37 +252,45 @@ msgstr "Créer"
 
 #: templates/admin/monitorings/form.html:10
 msgid "If empty, will try to get it automatically"
-msgstr "Laissez vide pour tenter de récupérer le titre automatiquement"
+msgstr "Vide pour tenter de récupérer le titre automatiquement"
 
 #: templates/admin/monitorings/form.html:14
 msgid "Must be accessible by Server Patrol"
 msgstr "Doit être accessible par Server Patrol"
 
-#: templates/admin/monitorings/form.html:37
+#: templates/admin/monitorings/form.html:18
+msgid "Python Regex or empty to disable"
+msgstr "Regex Python ou vide pour désactiver"
+
+#: templates/admin/monitorings/form.html:41
 msgid "Defaults to 10, min 3"
 msgstr "Par défaut 10, mini 3"
 
-#: templates/admin/monitorings/form.html:41
+#: templates/admin/monitorings/form.html:45
 msgid "Defaults to 5, min 1"
 msgstr "Par défaut 5, mini 1"
 
-#: templates/admin/monitorings/form.html:47
+#: templates/admin/monitorings/form.html:50
+msgid "One header per line. Format: Header-Name: Value"
+msgstr "Un en-tête par ligne. Format : Nom-En-Tete: Valeur"
+
+#: templates/admin/monitorings/form.html:54
 msgid "Comma-separated list of email addresses"
 msgstr "Liste d'adresses mail séparée par des virgules"
 
-#: templates/admin/monitorings/form.html:52
+#: templates/admin/monitorings/form.html:59
 msgid "Comma-separated list of mobile phone numbers"
 msgstr "Liste de numéros de téléphones mobiles séparée par des virgules"
 
-#: templates/admin/monitorings/form.html:56
+#: templates/admin/monitorings/form.html:63
 msgid "Back"
 msgstr "Retour"
 
-#: templates/admin/monitorings/form.html:56
+#: templates/admin/monitorings/form.html:63
 msgid "Save"
 msgstr "Enregistrer"
 
-#: templates/admin/monitorings/form.html:90
+#: templates/admin/monitorings/form.html:97
 msgid "Error getting the page URL:"
 msgstr "Erreur lors de la récupération du titre de la page :"
 
@@ -315,28 +323,32 @@ msgid "Email recipients"
 msgstr "Destinataires des mails"
 
 #: templates/admin/monitorings/list.html:21
+msgid "SMS recipients"
+msgstr "Destinataires des SMS"
+
+#: templates/admin/monitorings/list.html:22
 msgid "Actions"
 msgstr "Actions"
 
-#: templates/admin/monitorings/list.html:28
-#: templates/admin/monitorings/list.html:31
+#: templates/admin/monitorings/list.html:29
+#: templates/admin/monitorings/list.html:32
 msgid "Yes"
 msgstr "Oui"
 
-#: templates/admin/monitorings/list.html:28
-#: templates/admin/monitorings/list.html:31
+#: templates/admin/monitorings/list.html:29
+#: templates/admin/monitorings/list.html:32
 msgid "No"
 msgstr "Non"
 
-#: templates/admin/monitorings/list.html:35
+#: templates/admin/monitorings/list.html:37
 msgid "Edit this monitoring"
 msgstr "Modifier cette surveillance"
 
-#: templates/admin/monitorings/list.html:35
+#: templates/admin/monitorings/list.html:37
 msgid "Are you sure?"
 msgstr "Etes-vous sûr(e) ?"
 
-#: templates/admin/monitorings/list.html:35
+#: templates/admin/monitorings/list.html:37
 msgid "Delete this monitoring"
 msgstr "Supprimer cette surveillance"
 

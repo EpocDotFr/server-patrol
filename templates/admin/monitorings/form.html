@@ -5,13 +5,17 @@
 {{ form.csrf_token }}
 
 <div class="grid has-gutter pbs">
-    <div class="large-w50 tiny-w100">
+    <div class="large-w33 tiny-w100">
         {{ form.name.label(class="inbl") }}
         {{ form.name(required='', placeholder=_('If empty, will try to get it automatically')) }}
     </div>
-    <div class="large-w50 tiny-w100">
+    <div class="large-w33 tiny-w100">
         {{ form.url.label(class="inbl") }}
         {{ form.url(required='', placeholder=_('Must be accessible by Server Patrol')) }}
+    </div>
+    <div class="large-w33 tiny-w100">
+        {{ form.http_body_regex.label(class="inbl") }}
+        {{ form.http_body_regex(required='', placeholder=_('Python Regex or empty to disable')) }}
     </div>
 </div>
 
@@ -41,6 +45,9 @@
         {{ form.check_interval(placeholder=_('Defaults to 5, min 1'), min='1') }}
     </div>
 </div>
+
+{{ form.http_headers.label(class="inbl") }}
+{{ form.http_headers(placeholder=_('One header per line. Format: Header-Name: Value'), class='mtn') }}
 
 {% if config['ENABLE_EMAIL_ALERTS'] %}
     {{ form.email_recipients.label(class="inbl") }}
