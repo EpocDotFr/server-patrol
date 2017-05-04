@@ -9,14 +9,14 @@ Simple HTTP-based server status check tool with email/SMS alerts.
 ## Features
 
   - Manage multiple monitorings (URLs to check)
-  - Check the HTTP connection status as well as 4XX or 5XX errors
-  - Simple visualization of each monitorings status (down, up, unknown) as well as the down reason
-  - RSS feed of the monitorings status (public monitorings onlyr
+  - Check the network connection as well as 4XX and 5XX HTTP errors
+  - Simple visualization of each monitorings status (down, up, unknown) with their respective down reason
+  - RSS feed of the monitorings status (public monitorings only)
   - Responsive (can be used on mobile devices)
   - (Optional) Mails and/or SMS can be sent when something happen
-  - (Optional) Also perform a [Regex](https://en.wikipedia.org/wiki/Regular_expression)-based HTTP response body check
+  - (Optional) Perform a [Regex](https://en.wikipedia.org/wiki/Regular_expression)-based HTTP response body check
   - Ability to configure, for each monitorings:
-    - HTTP method to use, as well as the connection timeout and if the HTTPS certificate have to be verified
+    - HTTP method to use, connection timeout and if the HTTPS certificate have to be verified
     - Enable / disable the monitoring
     - Make the monitoring publicly visible or not
     - Check interval
@@ -29,7 +29,7 @@ Simple HTTP-based server status check tool with email/SMS alerts.
 
   - Should work on any Python 3.x version. Feel free to test with another Python version and give me feedback
   - A [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest/)-capable web server (optional, but recommended)
-  - (Optional) An [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) server to send email alerts
+  - (Optional) A [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) server to send email alerts
   - (Optional) A [Twilio](https://www.twilio.com/) account to send SMS alerts
 
 ## Installation
