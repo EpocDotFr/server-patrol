@@ -10,3 +10,4 @@ SQLAlchemy
 sqlalchemy-utils
 requests
 lxml
+twilio

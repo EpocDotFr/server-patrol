@@ -81,11 +81,13 @@ SMTP-related parameters to send email alerts:
   - `MAIL_PASSWORD` Password to use to connect to the SMTP server
   - `MAIL_DEFAULT_SENDER` A Python tuple to define the identity of the Server Patrol's mail sender
 
+More configuration parameters can be added about SMTP configuration, see [here](https://pythonhosted.org/Flask-Mail/#configuring-flask-mail).
+
 Twilio-related parameters to send SMS alerts:
 
   - `ENABLE_SMS_ALERTS` Wheter to enable the SMS feature or not. If `True`, fill in the configuration parameters below
-
-More configuration parameters can be added about SMTP configuration, see [here](https://pythonhosted.org/Flask-Mail/#configuring-flask-mail).
+  - `TWILIO_ACCOUNT_SID` and `TWILIO_AUTH_TOKEN` are your Twilio credentials
+  - `TWILIO_SENDER_PHONE_NUMBER` The Twilio phone number that will send the SMS
 
 I'll let you search yourself about how to configure a web server along uWSGI.
 

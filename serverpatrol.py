@@ -415,12 +415,8 @@ def check(force):
 
         status = MonitoringStatus.UP
 
-        # We want to test as we are an end-user
         headers = {
-            **requests.utils.default_headers(),
-            **{
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:51.0) Gecko/20100101 Firefox/51.0'
-            }
+            # TODO
         }
 
         app.logger.info('  Checking: "{} {}" ({}s timeout, verify HTTPS cert = {})'.format(monitoring.http_method.value, monitoring.url, monitoring.timeout, monitoring.verify_https_cert))

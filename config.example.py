@@ -14,3 +14,6 @@ MAIL_USERNAME = 'username'
 MAIL_PASSWORD = 'password'
 MAIL_DEFAULT_SENDER = ('Server Patrol', 'noreply@localhost')
 ENABLE_SMS_ALERTS = False
+TWILIO_ACCOUNT_SID = ''
+TWILIO_AUTH_TOKEN = ''
+TWILIO_SENDER_PHONE_NUMBER = ''

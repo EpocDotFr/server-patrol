@@ -56,7 +56,7 @@
 
 {% if config['ENABLE_SMS_ALERTS'] %}
     {{ form.sms_recipients.label(class="inbl") }}
-    {{ form.sms_recipients(placeholder=_('Comma-separated list of mobile phone numbers'), class='mtn') }}
+    {{ form.sms_recipients(placeholder=_('Comma-separated list of mobile phone numbers, in their international format'), class='mtn') }}
 {% endif %}
 
 <p class="txtcenter">
