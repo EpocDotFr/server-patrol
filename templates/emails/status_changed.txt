@@ -3,11 +3,9 @@
 {% block content %}
     {% if monitoring.status.value == 'DOWN' %}
         {{ _('%(monitoring_name)s seems to encounter issues and is unreachable right now. The reason is:', monitoring_name=monitoring.name) }}
-
-        {{ monitoring.last_down_reason }}
     {% elif monitoring.status.value == 'UP' %}
         {{ _('%(monitoring_name)s encountered issues but is now reachable. The reason of the downtime was:', monitoring_name=monitoring.name) }}
-        
-        {{ monitoring.last_down_reason }}
     {% endif %}
+
+    {{ monitoring.last_down_reason }}
 {% endblock %}

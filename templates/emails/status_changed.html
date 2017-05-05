@@ -3,9 +3,9 @@
 {% block content %}
     {% if monitoring.status.value == 'DOWN' %}
         <p style="font-size: initial">{{ _('<b>%(monitoring_name)s</b> seems to encounter issues and is unreachable right now. The reason is:', monitoring_name=monitoring.name) }}</p>
-        <p style="font-size: initial">{{ monitoring.last_down_reason }}</p>
     {% elif monitoring.status.value == 'UP' %}
         <p style="font-size: initial">{{ _('<b>%(monitoring_name)s</b> encountered issues but is now reachable. The reason of the downtime was:', monitoring_name=monitoring.name) }}</p>
-        <p style="font-size: initial">{{ monitoring.last_down_reason }}</p>
     {% endif %}
+
+    <p style="font-size: initial">{{ monitoring.last_down_reason }}</p>
 {% endblock %}

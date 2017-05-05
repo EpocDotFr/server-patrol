@@ -16,6 +16,7 @@ import arrow
 import requests
 import click
 import PyRSS2Gen
+import twilio.rest
 import os
 
 
@@ -96,7 +97,7 @@ def fetch_page_title():
             headers = {
                 **requests.utils.default_headers(),
                 **{
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:51.0) Gecko/20100101 Firefox/51.0'
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:51.0) Gecko/20100101 Firefox/51.0' # Fake a real web browser
                 }
             }
 
@@ -419,7 +420,7 @@ def check(force):
             # TODO
         }
 
-        app.logger.info('  Checking: "{} {}" ({}s timeout, verify HTTPS cert = {})'.format(monitoring.http_method.value, monitoring.url, monitoring.timeout, monitoring.verify_https_cert))
+        app.logger.info('  Checking: {} {}'.format(monitoring.http_method.value, monitoring.url))
 
         try:
             response = requests.request(monitoring.http_method.value, monitoring.url, timeout=monitoring.timeout, verify=monitoring.verify_https_cert, headers=headers)
@@ -478,6 +479,23 @@ def check(force):
                         mail.send(msg)
                     except Exception as e:
                         app.logger.error(' Error sending emails: {}'.format(e))
+
+                if app.config['ENABLE_SMS_ALERTS']: # SMS alerts enabled?
+                    app.logger.info('  Sending SMS to {}'.format(monitoring.sms_recipients_list))
+
+                    sms_body = render_template('sms/status_changed.txt', monitoring=monitoring)
+
+                    twilio_client = twilio.rest.Client(app.config['TWILIO_ACCOUNT_SID'], app.config['TWILIO_AUTH_TOKEN'])
+
+                    for sms_recipient in monitoring.sms_recipients_list:
+                        try:
+                            sms = twilio_client.messages.create(
+                                to=sms_recipient,
+                                from_=app.config['TWILIO_SENDER_PHONE_NUMBER'],
+                                body=sms_body
+                            )
+                        except Exception as e:
+                            app.logger.error(' Error sending SMS: {}'.format(e))
 
         monitoring.last_checked_at = now
 
