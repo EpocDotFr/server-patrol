@@ -13,14 +13,13 @@ Simple HTTP-based server status check tool with email/SMS alerts.
   - Simple visualization of each monitorings status (down, up, unknown) with their respective down reason
   - RSS feed of the monitorings status (public monitorings only)
   - Responsive (can be used on mobile devices)
-  - (Optional) Mails and/or SMS can be sent when something happen
-  - (Optional) Perform a [Regex](https://en.wikipedia.org/wiki/Regular_expression)-based HTTP response body check
   - Ability to configure, for each monitorings:
     - HTTP method to use, connection timeout and if the HTTPS certificate have to be verified
-    - Enable / disable the monitoring
-    - Make the monitoring publicly visible or not
+    - Availability (enabled or disabled)
+    - Public visibility
     - Check interval
-    - (Optional) List of email recipients and/or mobile phone numbers who will receive alerts
+    - (Optional) Email recipients and/or mobile phone numbers who will receive the status alerts
+    - (Optional) A [Regex](https://en.wikipedia.org/wiki/Regular_expression) to perform a HTTP response body check
   - Internationalized & localized in 2 languages:
     - English (`en`)
     - French (`fr`)

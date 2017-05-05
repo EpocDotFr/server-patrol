@@ -456,7 +456,7 @@ def check(force):
             monitoring.status = status
 
             if monitoring.status != MonitoringStatus.UNKNOWN: # The old status is known?
-                if app.config['ENABLE_EMAIL_ALERTS']: # Email alerts enabled?
+                if app.config['ENABLE_EMAIL_ALERTS'] and monitoring.email_recipients_list: # Email alerts enabled?
                     app.logger.info('  Sending emails to {}'.format(monitoring.email_recipients_list))
 
                     msg = Message()
@@ -480,7 +480,7 @@ def check(force):
                     except Exception as e:
                         app.logger.error(' Error sending emails: {}'.format(e))
 
-                if app.config['ENABLE_SMS_ALERTS']: # SMS alerts enabled?
+                if app.config['ENABLE_SMS_ALERTS'] and monitoring.sms_recipients_list: # SMS alerts enabled?
                     app.logger.info('  Sending SMS to {}'.format(monitoring.sms_recipients_list))
 
                     sms_body = render_template('sms/status_changed.txt', monitoring=monitoring)
