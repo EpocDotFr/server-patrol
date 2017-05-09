@@ -449,13 +449,15 @@ def check(force):
 
         app.logger.info('  ' + status.value + (' (' + monitoring.last_down_reason + ')' if status == MonitoringStatus.DOWN else ''))
 
-        if monitoring.status != status: # The status is different from the one in DB: update it and send emails if required
+        if monitoring.status != status: # The status is different from the one in DB: update it and send alerts if required
             app.logger.info('  Status is different')
+
+            old_status_known = monitoring.status != MonitoringStatus.UNKNOWN
 
             monitoring.last_status_change_at = arrow.now()
             monitoring.status = status
 
-            if monitoring.status != MonitoringStatus.UNKNOWN: # The old status is known?
+            if old_status_known: # Only send alerts if the old status is known (i.e not a newly-created monitoring)
                 if app.config['ENABLE_EMAIL_ALERTS'] and monitoring.email_recipients_list: # Email alerts enabled?
                     app.logger.info('  Sending emails to {}'.format(monitoring.email_recipients_list))
 
@@ -489,7 +491,7 @@ def check(force):
 
                     for sms_recipient in monitoring.sms_recipients_list:
                         try:
-                            sms = twilio_client.messages.create(
+                            twilio_client.messages.create(
                                 to=sms_recipient,
                                 from_=app.config['TWILIO_SENDER_PHONE_NUMBER'],
                                 body=sms_body

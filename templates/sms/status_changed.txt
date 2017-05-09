@@ -1,7 +1,7 @@
-{%- if monitoring.status.value == 'DOWN' -%}
+{% if monitoring.status.value == 'DOWN' -%}
     {{ _('%(monitoring_name)s is unreachable. Reason:', monitoring_name=monitoring.name) }}
 {%- elif monitoring.status.value == 'UP' -%}
     {{ _('%(monitoring_name)s is now reachable. Downtime reason was:', monitoring_name=monitoring.name) }}
-{% -endif %}
+{%- endif %}
 
 {{ monitoring.last_down_reason }}
