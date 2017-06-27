@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-06-27 13:19+0200\n"
-"PO-Revision-Date: 2017-06-27 13:20+0200\n"
+"POT-Creation-Date: 2017-06-27 13:45+0200\n"
+"PO-Revision-Date: 2017-06-27 13:46+0200\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -19,39 +19,39 @@ msgstr ""
 "Generated-By: Babel 2.4.0\n"
 "X-Generator: Poedit 2.0.1\n"
 
-#: serverpatrol.py:141
+#: serverpatrol.py:143
 msgid "Monitoring created successfuly."
 msgstr "Surveillance créée avec succès."
 
-#: serverpatrol.py:145
+#: serverpatrol.py:147
 #, python-format
 msgid "Error creating this monitoring: %(exception)s"
 msgstr "Erreur lors de la création de cette surveillance : %(exception)s"
 
-#: serverpatrol.py:167
+#: serverpatrol.py:169
 msgid "Monitoring edited successfuly."
 msgstr "Surveillance modifiée avec succès."
 
-#: serverpatrol.py:171
+#: serverpatrol.py:173
 #, python-format
 msgid "Error editing this monitoring: %(exception)s"
 msgstr "Erreur lors de la modification de cette surveillance : %(exception)s"
 
-#: serverpatrol.py:188
+#: serverpatrol.py:190
 msgid "Monitoring deleted successfuly."
 msgstr "Surveillance supprimée avec succès."
 
-#: serverpatrol.py:190
+#: serverpatrol.py:192
 #, python-format
 msgid "Error deleting this monitoring: %(exception)s"
 msgstr "Erreur lors de la suppression de cette surveillance : %(exception)s"
 
-#: serverpatrol.py:206
+#: serverpatrol.py:208
 #, python-format
 msgid "%(monitoring_name)s is down"
 msgstr "%(monitoring_name)s n'est pas joignable"
 
-#: serverpatrol.py:207
+#: serverpatrol.py:209
 #, python-format
 msgid ""
 "<p><b>%(monitoring_name)s</b> seems to encounter issues and is unreachable "
@@ -62,12 +62,12 @@ msgstr ""
 "injoignable depuis le <b>%(last_status_change)s</b>. La raison est :</p><p>"
 "%(last_down_reason)s</p>"
 
-#: serverpatrol.py:209
+#: serverpatrol.py:211
 #, python-format
 msgid "%(monitoring_name)s is up"
 msgstr "%(monitoring_name)s est joignable"
 
-#: serverpatrol.py:210
+#: serverpatrol.py:212
 #, python-format
 msgid ""
 "<p><b>%(monitoring_name)s</b> is up and reachable since the <b>"
@@ -76,106 +76,112 @@ msgstr ""
 "<p><b>%(monitoring_name)s</b> est en ligne et joignable depuis le <b>"
 "%(last_status_change)s</b>.</p>"
 
-#: serverpatrol.py:212
+#: serverpatrol.py:214
 #, python-format
 msgid "%(monitoring_name)s status is unknown"
 msgstr "Le statut de %(monitoring_name)s est inconnu"
 
-#: serverpatrol.py:213
+#: serverpatrol.py:215
 #, python-format
 msgid "<p>The status of <b>%(monitoring_name)s</b> is currently unknown.</p>"
 msgstr "<p>Le statut de <b>%(monitoring_name)s</b> est actuellement inconnu.</p>"
 
-#: serverpatrol.py:225 serverpatrol.py:227 serverpatrol.py:230
+#: serverpatrol.py:227 serverpatrol.py:229 serverpatrol.py:232
 #: templates/layout.html:21
 msgid "Server Patrol - Monitorings status"
 msgstr "Server Patrol - Etat des surveillances"
 
-#: serverpatrol.py:361 templates/admin/monitorings/list.html:13
+#: serverpatrol.py:362 templates/admin/monitorings/list.html:13
 msgid "Name"
 msgstr "Nom"
 
-#: serverpatrol.py:362
+#: serverpatrol.py:363
 msgid "Active?"
 msgstr "Active ?"
 
-#: serverpatrol.py:363
+#: serverpatrol.py:364
 msgid "Public?"
 msgstr "Publique ?"
 
-#: serverpatrol.py:364
+#: serverpatrol.py:365
 msgid "URL to check"
 msgstr "URL à vérifier"
 
-#: serverpatrol.py:365
+#: serverpatrol.py:366
 msgid "HTTP method to use"
 msgstr "Méthode HTTP à utiliser"
 
-#: serverpatrol.py:366
+#: serverpatrol.py:367
 msgid "HTTP headers to send"
 msgstr "En-têtes HTTP à envoyer"
 
-#: serverpatrol.py:367
+#: serverpatrol.py:368
 msgid "HTTP response body Regex check"
 msgstr "Regex de vérification"
 
-#: serverpatrol.py:368
+#: serverpatrol.py:369
 msgid "Verify HTTPS certificate?"
 msgstr "Vérifier le certificat HTTPS ?"
 
-#: serverpatrol.py:369
+#: serverpatrol.py:370
 msgid "Check interval (minutes)"
 msgstr "Intervalle de vérification (minutes)"
 
-#: serverpatrol.py:370
+#: serverpatrol.py:371
 msgid "Connection timeout (seconds)"
 msgstr "Durée de grâce de la connexion (secondes)"
 
-#: serverpatrol.py:371
+#: serverpatrol.py:372
 msgid "Recipients of the email alerts"
 msgstr "Destinataires des alertes mail"
 
-#: serverpatrol.py:372
+#: serverpatrol.py:373
 msgid "Recipients of the SMS alerts"
 msgstr "Destinataires des alertes SMS"
 
-#: serverpatrol.py:430
+#: serverpatrol.py:432
 #, python-format
 msgid "The server responded with an HTTP error: %(status_code)i %(reason)s."
 msgstr "Le serveur a répondu par une erreur HTTP : %(status_code)i %(reason)s."
 
-#: serverpatrol.py:433
+#: serverpatrol.py:435
 msgid "There were too many HTTP redirects (3xx HTTP status code)."
 msgstr "Trop de redirections HTTP (code de statut HTTP 3xx)."
 
-#: serverpatrol.py:436
+#: serverpatrol.py:438
 msgid "Connection to the server timed out."
 msgstr "La connexion au serveur a prit trop de temps."
 
-#: serverpatrol.py:439
+#: serverpatrol.py:441
 msgid "The server took too long to respond."
 msgstr "Le serveur a prit trop de temps à répondre."
 
-#: serverpatrol.py:442
+#: serverpatrol.py:444
 #, python-format
 msgid "An SSL error occured: %(exception)s"
 msgstr "Une erreur SSL est survenue : %(exception)s"
 
-#: serverpatrol.py:445
+#: serverpatrol.py:447
 #, python-format
 msgid "A proxy error occured: %(exception)s"
 msgstr "Une erreur de proxy est survenue : %(exception)s"
 
-#: serverpatrol.py:448
+#: serverpatrol.py:450
 msgid "Network error: unable to connect to the server."
 msgstr "Erreur réseau : impossible de se connecter au serveur."
 
-#: serverpatrol.py:468
+#: serverpatrol.py:453
+msgid "Response body check failed: the Regex doesn't match anything."
+msgstr ""
+"Vérification du corps de la réponse échouée : l'expression régulière ne "
+"corresponds à rien."
+
+#: serverpatrol.py:473
 #, python-format
 msgid "%(monitoring_name)s is gone"
 msgstr "%(monitoring_name)s est parti"
 
-#: serverpatrol.py:475
+#: serverpatrol.py:480
 #, python-format
 msgid "%(monitoring_name)s is back up"
 msgstr "%(monitoring_name)s est revenu"
