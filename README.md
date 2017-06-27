@@ -19,7 +19,8 @@ Simple HTTP-based server status check tool with email/SMS alerts.
     - Public visibility
     - Check interval
     - (Optional) Email recipients and/or mobile phone numbers who will receive the status alerts
-    - (Optional) A [Regex](https://en.wikipedia.org/wiki/Regular_expression) to perform a HTTP response body check
+    - (Optional) A Python [Regex](https://en.wikipedia.org/wiki/Regular_expression) to perform a HTTP response body-based check
+    - (Optional) Custom HTTP headers to send
   - Internationalized & localized in 2 languages:
     - English (`en`)
     - French (`fr`)

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-09 13:51+0200\n"
-"PO-Revision-Date: 2017-05-09 13:54+0200\n"
+"POT-Creation-Date: 2017-06-27 13:19+0200\n"
+"PO-Revision-Date: 2017-06-27 13:20+0200\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.4.0\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0.1\n"
 
 #: serverpatrol.py:141
 msgid "Monitoring created successfuly."
@@ -281,7 +281,7 @@ msgstr "Liste d'adresses mail séparée par des virgules"
 #: templates/admin/monitorings/form.html:59
 msgid ""
 "Comma-separated list of mobile phone numbers, in their international format"
-msgstr ""
+msgstr "Liste de numéros de téléphone portable séparée par des virgules"
 
 #: templates/admin/monitorings/form.html:63
 msgid "Back"
@@ -471,18 +471,3 @@ msgstr "%(monitoring_name)s est injoignable. Raison :"
 #, python-format
 msgid "%(monitoring_name)s is now reachable. Downtime reason was:"
 msgstr "%(monitoring_name)s est maintenant joignable. Le problème était :"
-
-#~ msgid "Recipients"
-#~ msgstr "Destinataires"
-
-#~ msgid "If empty, will try to get the page title from the URL"
-#~ msgstr "Laissez vide pour tenter de récupérer le titre de la page de l'URL"
-
-#~ msgid "Comma-separated list of mobile phone numbers"
-#~ msgstr "Liste de numéros de téléphones mobiles séparée par des virgules"
-
-#~ msgid "Email recipients"
-#~ msgstr "Destinataires des mails"
-
-#~ msgid "SMS recipients"
-#~ msgstr "Destinataires des SMS"

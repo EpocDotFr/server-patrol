@@ -17,6 +17,7 @@ import requests
 import click
 import PyRSS2Gen
 import twilio.rest
+import time
 import os
 
 
@@ -341,16 +342,15 @@ class Monitoring(db.Model):
 
     @property
     def email_recipients_list(self):
-        return [email_recipient.strip() for email_recipient in self.email_recipients.split(',')]
+        return [email_recipient.strip() for email_recipient in self.email_recipients.strip().split(',')]
 
     @property
     def sms_recipients_list(self):
-        return [sms_recipient.strip() for sms_recipient in self.sms_recipients.split(',')]
+        return [sms_recipient.strip() for sms_recipient in self.sms_recipients.strip().split(',')]
 
     @property
     def http_headers_dict(self):
-        # TODO self.http_headers
-        pass
+        return {header.split(':', maxsplit=1)[0].strip(): header.split(':', maxsplit=1)[1].strip() for header in self.http_headers.strip().splitlines()}
 
 
 # -----------------------------------------------------------
@@ -416,14 +416,10 @@ def check(force):
 
         status = MonitoringStatus.UP
 
-        headers = {
-            # TODO
-        }
-
         app.logger.info('  Checking: {} {}'.format(monitoring.http_method.value, monitoring.url))
 
         try:
-            response = requests.request(monitoring.http_method.value, monitoring.url, timeout=monitoring.timeout, verify=monitoring.verify_https_cert, headers=headers)
+            response = requests.request(monitoring.http_method.value, monitoring.url, timeout=monitoring.timeout, verify=monitoring.verify_https_cert, headers=monitoring.http_headers_dict)
             response.raise_for_status()
         except requests.exceptions.HTTPError:
             status = MonitoringStatus.DOWN
@@ -496,6 +492,9 @@ def check(force):
                                 from_=app.config['TWILIO_SENDER_PHONE_NUMBER'],
                                 body=sms_body
                             )
+
+                            # Do not send more than one SMS per second
+                            time.sleep(1)
                         except Exception as e:
                             app.logger.error(' Error sending SMS: {}'.format(e))
 
