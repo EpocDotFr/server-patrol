@@ -19,6 +19,7 @@ import PyRSS2Gen
 import twilio.rest
 import time
 import os
+import re
 
 
 # -----------------------------------------------------------
@@ -392,6 +393,7 @@ def check(force):
     if os.path.isfile(lock_file):
         app.logger.warning('Checks already running, aborting')
         app.logger.warning('If Server Patrol crashed, please delete the storage/.running file before running this command again')
+        app.logger.warning('If this happens too many times, please open an issue.')
         return
 
     open(lock_file, 'a').close() # Create the lock file
@@ -421,6 +423,10 @@ def check(force):
         try:
             response = requests.request(monitoring.http_method.value, monitoring.url, timeout=monitoring.timeout, verify=monitoring.verify_https_cert, headers=monitoring.http_headers_dict)
             response.raise_for_status()
+
+            # Check for the response body if this monitoring is configured to do so
+            if monitoring.http_body_regex and not re.match(monitoring.http_body_regex, response.text):
+                raise InvalidResponseBody()
         except requests.exceptions.HTTPError:
             status = MonitoringStatus.DOWN
             monitoring.last_down_reason = _('The server responded with an HTTP error: %(status_code)i %(reason)s.', status_code=response.status_code, reason=response.reason)
@@ -442,6 +448,9 @@ def check(force):
         except requests.exceptions.ConnectionError:
             status = MonitoringStatus.DOWN
             monitoring.last_down_reason = _('Network error: unable to connect to the server.')
+        except InvalidResponseBody:
+            status = MonitoringStatus.DOWN
+            monitoring.last_down_reason = _('Response body check failed: the Regex doesn\'t match anything.')
 
         app.logger.info('  ' + status.value + (' (' + monitoring.last_down_reason + ')' if status == MonitoringStatus.DOWN else ''))
 
@@ -476,7 +485,7 @@ def check(force):
                     try:
                         mail.send(msg)
                     except Exception as e:
-                        app.logger.error(' Error sending emails: {}'.format(e))
+                        app.logger.error('  Error sending emails: {}'.format(e))
 
                 if app.config['ENABLE_SMS_ALERTS'] and monitoring.sms_recipients_list: # SMS alerts enabled?
                     app.logger.info('  Sending SMS to {}'.format(monitoring.sms_recipients_list))
@@ -496,7 +505,7 @@ def check(force):
                             # Do not send more than one SMS per second
                             time.sleep(1)
                         except Exception as e:
-                            app.logger.error(' Error sending SMS: {}'.format(e))
+                            app.logger.error('  Error sending SMS: {}'.format(e))
 
         monitoring.last_checked_at = now
 
@@ -561,3 +570,11 @@ def http_error_handler(error, without_code=False):
         return make_response(body, error)
     else:
         return make_response(body)
+
+
+# -----------------------------------------------------------
+# Exceptions
+
+
+class InvalidResponseBody(Exception):
+    pass
