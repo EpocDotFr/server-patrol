@@ -1,16 +1,11 @@
 /************************************************************************
  * Global styles */
 
-body {
-    cursor: default;
-}
-
 body,
 table,
 input,
 select,
 textarea {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     color: #000545;
 }
 
@@ -254,7 +249,7 @@ nav.secondary > ul > li.active > a:hover {
 
 /************************************************************************
  * Tables */
- 
+
 .table-responsive {
     overflow-x: auto;
 }
