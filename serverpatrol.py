@@ -328,9 +328,11 @@ class Monitoring(db.Model):
     @property
     def next_check(self):
         if self.last_checked_at:
-            return self.last_checked_at.replace(minutes=self.check_interval, microseconds=0, seconds=0)
+            attr = self.last_checked_at
         else:
-            return self.created_at.replace(minutes=self.check_interval, microseconds=0, seconds=0)
+            attr = self.created_at
+
+        return attr.floor('minute').replace(minutes=self.check_interval)
 
     @property
     def status_icon(self):
@@ -410,7 +412,7 @@ def check(force):
     for monitoring in monitorings:
         app.logger.info(monitoring.name)
 
-        now = arrow.now().replace(microseconds=0, seconds=0)
+        now = arrow.now().floor('minute')
 
         if not force and now < monitoring.next_check: # This monitoring isn't due
             app.logger.info('  Not due')
