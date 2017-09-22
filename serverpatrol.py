@@ -1,21 +1,22 @@
 from flask import Flask, render_template, redirect, url_for, flash, abort, make_response, Response, g, request
 from wtforms import StringField, BooleanField, SelectField, IntegerField, TextAreaField
+from flask_babel import Babel, _, lazy_gettext as __, format_datetime
+from sqlalchemy_utils import ArrowType, JSONType
 from werkzeug.exceptions import HTTPException
 from flask_httpauth import HTTPBasicAuth
 from flask_sqlalchemy import SQLAlchemy
+import wtforms.validators as validators
 from flask_mail import Mail, Message
 from flask_wtf import FlaskForm
-from sqlalchemy_utils import ArrowType
-from flask_babel import Babel, _, lazy_gettext as __, format_datetime
-import wtforms.validators as validators
 from enum import Enum
+import twilio.rest
+import PyRSS2Gen
 import logging
+import requests
 import sys
 import arrow
-import requests
+import json
 import click
-import PyRSS2Gen
-import twilio.rest
 import time
 import os
 import re
@@ -237,7 +238,7 @@ class Monitoring(db.Model):
     is_public = db.Column(db.Boolean, default=False)
     url = db.Column(db.String(255), nullable=False)
     http_method = db.Column(db.Enum(MonitoringHttpMethod), default=MonitoringHttpMethod.GET)
-    http_headers = db.Column(db.Text, default='')
+    http_headers = db.Column(JSONType, default=[])
     http_body_regex = db.Column(db.String(255), default=None)
     verify_https_cert = db.Column(db.Boolean, default=True)
     check_interval = db.Column(db.Integer, default=5)
@@ -246,8 +247,8 @@ class Monitoring(db.Model):
     last_status_change_at = db.Column(ArrowType, default=None)
     status = db.Column(db.Enum(MonitoringStatus), default=MonitoringStatus.UNKNOWN)
     last_down_reason = db.Column(db.Text, default='')
-    email_recipients = db.Column(db.Text, default='')
-    sms_recipients = db.Column(db.Text, default='')
+    email_recipients = db.Column(JSONType, default=[])
+    sms_recipients = db.Column(JSONType, default=[])
     created_at = db.Column(ArrowType, default=arrow.now())
 
     def __init__(self, name=None, url=None, is_active=False, is_public=False, http_method=MonitoringHttpMethod.GET, http_headers='', http_body_regex=None, verify_https_cert=True, check_interval=5, timeout=10, last_checked_at=None, last_status_change_at=None, status=MonitoringStatus.UNKNOWN, last_down_reason='', email_recipients='', sms_recipients='', created_at=arrow.now()):
@@ -289,18 +290,6 @@ class Monitoring(db.Model):
             return 'times'
         elif self.status == MonitoringStatus.UNKNOWN:
             return 'question'
-
-    @property
-    def email_recipients_list(self):
-        return [email_recipient.strip() for email_recipient in self.email_recipients.strip().split(',')]
-
-    @property
-    def sms_recipients_list(self):
-        return [sms_recipient.strip() for sms_recipient in self.sms_recipients.strip().split(',')]
-
-    @property
-    def http_headers_dict(self):
-        return {header.split(':', maxsplit=1)[0].strip(): header.split(':', maxsplit=1)[1].strip() for header in self.http_headers.strip().splitlines()}
 
 
 # -----------------------------------------------------------
@@ -370,7 +359,7 @@ def check(force):
         app.logger.info('  Checking: {} {}'.format(monitoring.http_method.value, monitoring.url))
 
         try:
-            response = requests.request(monitoring.http_method.value, monitoring.url, timeout=monitoring.timeout, verify=monitoring.verify_https_cert, headers=monitoring.http_headers_dict)
+            response = requests.request(monitoring.http_method.value, monitoring.url, timeout=monitoring.timeout, verify=monitoring.verify_https_cert, headers=monitoring.http_headers)
             response.raise_for_status()
 
             # Check for the response body if this monitoring is configured to do so
@@ -412,11 +401,11 @@ def check(force):
             monitoring.status = status
 
             if old_status_known: # Only send alerts if the old status is known (i.e not a newly-created monitoring)
-                if app.config['ENABLE_EMAIL_ALERTS'] and monitoring.email_recipients_list: # Email alerts enabled?
-                    app.logger.info('  Sending emails to {}'.format(monitoring.email_recipients_list))
+                if app.config['ENABLE_EMAIL_ALERTS'] and monitoring.email_recipients: # Email alerts enabled?
+                    app.logger.info('  Sending emails to {}'.format(monitoring.email_recipients))
 
                     msg = Message()
-                    msg.recipients = monitoring.email_recipients_list
+                    msg.recipients = monitoring.email_recipients
 
                     if status == MonitoringStatus.DOWN: # The new status is down?
                         msg.subject = _('%(monitoring_name)s is gone', monitoring_name=monitoring.name)
@@ -436,14 +425,14 @@ def check(force):
                     except Exception as e:
                         app.logger.error('  Error sending emails: {}'.format(e))
 
-                if app.config['ENABLE_SMS_ALERTS'] and monitoring.sms_recipients_list: # SMS alerts enabled?
-                    app.logger.info('  Sending SMS to {}'.format(monitoring.sms_recipients_list))
+                if app.config['ENABLE_SMS_ALERTS'] and monitoring.sms_recipients: # SMS alerts enabled?
+                    app.logger.info('  Sending SMS to {}'.format(monitoring.sms_recipients))
 
                     sms_body = render_template('sms/status_changed.txt', monitoring=monitoring)
 
                     twilio_client = twilio.rest.Client(app.config['TWILIO_ACCOUNT_SID'], app.config['TWILIO_AUTH_TOKEN'])
 
-                    for sms_recipient in monitoring.sms_recipients_list:
+                    for sms_recipient in monitoring.sms_recipients:
                         try:
                             twilio_client.messages.create(
                                 to=sms_recipient,

@@ -18,6 +18,13 @@ body {
     max-width: 1024px;
 }
 
+.pill {
+    border-radius: 0.5rem;
+    display: inline-block;
+    white-space: nowrap;
+    background-color: #EEE;
+}
+
 /************************************************************************
  * Monitorings */
 
@@ -133,12 +140,7 @@ select {
 
 form label {
     font-weight: bold;
-}
-
-form input:not([type="checkbox"]):not([type="submit"]),
-form select,
-form textarea {
-    width: 100%;
+    display: block;
 }
 
 /************************************************************************

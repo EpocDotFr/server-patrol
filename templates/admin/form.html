@@ -1,21 +1,21 @@
 {% block jsfiles %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+    <script src="https://unpkg.com/vue@2.4.4/dist/vue{% if not config['DEBUG'] %}.min{% endif %}.js"></script>
 {% endblock %}
 
 {{ form.csrf_token }}
 
 <div class="grid has-gutter pbs">
     <div class="large-w33 tiny-w100">
-        {{ form.name.label(class="inbl") }}
-        {{ form.name(required='') }}
+        {{ form.name.label(class="bl") }}
+        {{ form.name(required='', class='w100 mts') }}
     </div>
     <div class="large-w33 tiny-w100">
-        {{ form.url.label(class="inbl") }}
-        {{ form.url(required='') }}
+        {{ form.url.label() }}
+        {{ form.url(required='', class='w100 mts') }}
     </div>
     <div class="large-w33 tiny-w100">
-        {{ form.http_body_regex.label(class="inbl") }}
-        {{ form.http_body_regex(placeholder=_('Python Regex or empty to disable')) }}
+        {{ form.http_body_regex.label() }}
+        {{ form.http_body_regex(placeholder=_('Python Regex or empty to disable'), class='w100 mts') }}
     </div>
 </div>
 
@@ -34,37 +34,92 @@
 <div class="grid has-gutter">
     <div class="large-w33 tiny-w100">
         {{ form.http_method.label(class="inbl") }}
-        {{ form.http_method }}
+        {{ form.http_method(class='w100 mts') }}
     </div>
     <div class="large-w33 tiny-w100">
         {{ form.timeout.label(class="inbl") }}
-        {{ form.timeout(placeholder=_('Defaults to 10, min 3'), min='3') }}
+        {{ form.timeout(placeholder=_('Defaults to 10, min 3'), min='3', class='w100 mts') }}
     </div>
     <div class="large-w33 tiny-w100">
         {{ form.check_interval.label(class="inbl") }}
-        {{ form.check_interval(placeholder=_('Defaults to 5, min 1'), min='1') }}
+        {{ form.check_interval(placeholder=_('Defaults to 5, min 1'), min='1', class='w100 mts') }}
     </div>
 </div>
 
-{{ form.http_headers.label(class="inbl") }}
-{{ form.http_headers(placeholder=_('One header per line. Format: Header-Name: Value'), class='mtn') }}
+<div id="app" class="grid has-gutter">
+    <div class="large-w33 tiny-w100">
+        {{ form.http_headers.label() }}
+        {{ form.http_headers(placeholder=_('One header per line. Format: Header-Name: Value'), class='w100') }}
+    </div>
+    {% if config['ENABLE_EMAIL_ALERTS'] %}
+        <div class="large-w33 tiny-w100">
+            {{ form.email_recipients.label() }}
 
-{% if config['ENABLE_EMAIL_ALERTS'] %}
-    {{ form.email_recipients.label(class="inbl") }}
-    {{ form.email_recipients(placeholder=_('Comma-separated list of email addresses'), class='mtn') }}
-{% endif %}
+            <simplelist :items.sync="email_recipients" type="email" name="email_recipients" placeholder="{{ _('Type an email address and hit Enter') }}"></simplelist>
+        </div>
+    {% endif %}
+    {% if config['ENABLE_SMS_ALERTS'] %}
+        <div class="large-w33 tiny-w100">
+            {{ form.sms_recipients.label() }}
 
-{% if config['ENABLE_SMS_ALERTS'] %}
-    {{ form.sms_recipients.label(class="inbl") }}
-    {{ form.sms_recipients(placeholder=_('Comma-separated list of mobile phone numbers, in their international format'), class='mtn') }}
-{% endif %}
+            <simplelist :items.sync="sms_recipients" type="tel" name="sms_recipients" placeholder="{{ _('Type a phone number and hit Enter') }}"></simplelist>
+        </div>
+    {% endif %}
+</div>
 
 <p class="txtcenter">
     <a href="{{ url_for('admin') }}" class="btn"><i class="fa fa-arrow-left"></i> {{ _('Back') }}</a> <button type="submit"><i class="fa fa-save"></i> {{ _('Save') }}</button>
 </p>
 
-<script src="https://unpkg.com/vue@2.4.4/dist/vue{% if not config['DEBUG'] %}.min{% endif %}.js"></script>
+<template id="simplelist">
+    <div class="mts">
+        <input type="hidden" :name="name" :value="JSON.stringify(items)">
+
+        <div>
+            <input :type="type" v-model.trim="item_to_add" @keydown.enter.prevent="addItem()" class="w100" :placeholder="placeholder">
+        </div>
+
+        <div v-show="items.length > 0" class="mts">
+            <span v-for="item in items" class="pill pas mrs">${ item } <a href="#" title="{{ _('Remove') }}" @click.prevent="items.splice(items.indexOf(item), 1)"><i class="fa fa-remove"></i></a></span>
+        </div>
+    </div>
+</template>
+
 <script>
     Vue.config.silent = {{ 'false' if config['DEBUG'] else 'true' }};
     Vue.config.productionTip = false;
+
+    var vue_delimiters = ['${', '}']; // Because Jinja2 already uses double brackets
+
+    Vue.component('simplelist', {
+        delimiters: vue_delimiters,
+        template: '#simplelist',
+        props: ['items', 'type', 'name', 'placeholder'],
+        data: function() {
+            return {
+                item_to_add: ''
+            };
+        },
+        methods: {
+            addItem: function() {
+                if (!this.item_to_add) {
+                    return;
+                }
+
+                this.items.push(this.item_to_add);
+
+                this.item_to_add = '';
+            }
+        }
+    });
+
+    var app = new Vue({
+        delimiters: vue_delimiters,
+        el: '#app',
+        data: {
+            http_headers: {{ monitoring.http_headers|tojson if monitoring and monitoring.http_headers else '[]' }},
+            email_recipients: {{ monitoring.email_recipients|tojson if config['ENABLE_EMAIL_ALERTS'] and monitoring and monitoring.email_recipients else '[]' }},
+            sms_recipients: {{ monitoring.sms_recipients|tojson if config['ENABLE_SMS_ALERTS'] and monitoring and monitoring.sms_recipients else '[]' }}
+        }
+    });
 </script>
