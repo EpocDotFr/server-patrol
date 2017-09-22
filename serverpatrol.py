@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, flash, abort, make_response, Response, g, request
 from wtforms import StringField, BooleanField, SelectField, IntegerField, TextAreaField
 from flask_babel import Babel, _, lazy_gettext as __, format_datetime
-from sqlalchemy_utils import ArrowType, JSONType
+from sqlalchemy_utils import ArrowType
 from werkzeug.exceptions import HTTPException
 from flask_httpauth import HTTPBasicAuth
 from flask_sqlalchemy import SQLAlchemy
@@ -13,11 +13,11 @@ import twilio.rest
 import PyRSS2Gen
 import logging
 import requests
-import sys
 import arrow
 import json
 import click
 import time
+import sys
 import os
 import re
 
@@ -238,7 +238,7 @@ class Monitoring(db.Model):
     is_public = db.Column(db.Boolean, default=False)
     url = db.Column(db.String(255), nullable=False)
     http_method = db.Column(db.Enum(MonitoringHttpMethod), default=MonitoringHttpMethod.GET)
-    http_headers = db.Column(JSONType, default=[])
+    _http_headers = db.Column('http_headers', db.Text, default=None)
     http_body_regex = db.Column(db.String(255), default=None)
     verify_https_cert = db.Column(db.Boolean, default=True)
     check_interval = db.Column(db.Integer, default=5)
@@ -247,8 +247,8 @@ class Monitoring(db.Model):
     last_status_change_at = db.Column(ArrowType, default=None)
     status = db.Column(db.Enum(MonitoringStatus), default=MonitoringStatus.UNKNOWN)
     last_down_reason = db.Column(db.Text, default='')
-    email_recipients = db.Column(JSONType, default=[])
-    sms_recipients = db.Column(JSONType, default=[])
+    _email_recipients = db.Column('email_recipients', db.Text, default=None)
+    _sms_recipients = db.Column('sms_recipients', db.Text, default=None)
     created_at = db.Column(ArrowType, default=arrow.now())
 
     def __init__(self, name=None, url=None, is_active=False, is_public=False, http_method=MonitoringHttpMethod.GET, http_headers='', http_body_regex=None, verify_https_cert=True, check_interval=5, timeout=10, last_checked_at=None, last_status_change_at=None, status=MonitoringStatus.UNKNOWN, last_down_reason='', email_recipients='', sms_recipients='', created_at=arrow.now()):
@@ -291,6 +291,38 @@ class Monitoring(db.Model):
         elif self.status == MonitoringStatus.UNKNOWN:
             return 'question'
 
+    @property
+    def http_headers(self):
+        return json.loads(self._http_headers) if self._http_headers else None
+
+    @http_headers.setter
+    def http_headers(self, value):
+        if isinstance(value, str):
+            self._http_headers = value
+        else:
+            self._http_headers = json.dumps(value)
+
+    @property
+    def email_recipients(self):
+        return json.loads(self._email_recipients) if self._email_recipients else None
+
+    @email_recipients.setter
+    def email_recipients(self, value):
+        if isinstance(value, str):
+            self._email_recipients = value
+        else:
+            self._email_recipients = json.dumps(value)
+
+    @property
+    def sms_recipients(self):
+        return json.loads(self._sms_recipients) if self._sms_recipients else None
+
+    @sms_recipients.setter
+    def sms_recipients(self, value):
+        if isinstance(value, str):
+            self._sms_recipients = value
+        else:
+            self._sms_recipients = json.dumps(value)
 
 # -----------------------------------------------------------
 # Forms
