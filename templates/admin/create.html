@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+
+{% block meta_title %}{{ _('Admin') }} › {{ _('Monitorings') }} › {{ _('Create') }}{% endblock %}
+
+{% block content %}
+    <form method="post" action="{{ url_for('admin_create') }}">
+    {% include 'admin/form.html' %}
+    </form>
+{% endblock %}

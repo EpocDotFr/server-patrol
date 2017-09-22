@@ -71,16 +71,10 @@ def home():
 
 @app.route('/admin/')
 def admin():
-    return redirect(url_for('admin_monitorings_list'))
+    return render_template('admin/list.html', monitorings=Monitoring.query.get_for_managing())
 
 
-@app.route('/admin/monitorings')
-@auth.login_required
-def admin_monitorings_list():
-    return render_template('admin/monitorings/list.html', monitorings=Monitoring.query.get_for_managing())
-
-
-@app.route('/admin/monitorings/fetch-page-title')
+@app.route('/admin/fetch-page-title')
 @auth.login_required
 def fetch_page_title():
     ajax_response = {
@@ -126,9 +120,9 @@ def fetch_page_title():
     return jsonify(ajax_response), status
 
 
-@app.route('/admin/monitorings/create', methods=['GET', 'POST'])
+@app.route('/admin/create', methods=['GET', 'POST'])
 @auth.login_required
-def admin_monitorings_create():
+def admin_create():
     form = MonitoringForm()
 
     if form.validate_on_submit():
@@ -142,16 +136,16 @@ def admin_monitorings_create():
 
             flash(_('Monitoring created successfuly.'), 'success')
 
-            return redirect(url_for('admin_monitorings_edit', monitoring_id=monitoring.id))
+            return redirect(url_for('admin_edit', monitoring_id=monitoring.id))
         except Exception as e:
             flash(_('Error creating this monitoring: %(exception)s', exception=str(e)), 'error')
 
-    return render_template('admin/monitorings/create.html', form=form)
+    return render_template('admin/create.html', form=form)
 
 
-@app.route('/admin/monitorings/edit/<monitoring_id>', methods=['GET', 'POST'])
+@app.route('/admin/edit/<monitoring_id>', methods=['GET', 'POST'])
 @auth.login_required
-def admin_monitorings_edit(monitoring_id):
+def admin_edit(monitoring_id):
     monitoring = Monitoring.query.get(monitoring_id)
 
     if not monitoring:
@@ -168,16 +162,16 @@ def admin_monitorings_edit(monitoring_id):
 
             flash(_('Monitoring edited successfuly.'), 'success')
 
-            return redirect(url_for('admin_monitorings_edit', monitoring_id=monitoring.id))
+            return redirect(url_for('admin_edit', monitoring_id=monitoring.id))
         except Exception as e:
             flash(_('Error editing this monitoring: %(exception)s', exception=str(e)), 'error')
 
-    return render_template('admin/monitorings/edit.html', monitoring=monitoring, form=form)
+    return render_template('admin/edit.html', monitoring=monitoring, form=form)
 
 
-@app.route('/admin/monitorings/delete/<monitoring_id>')
+@app.route('/admin/delete/<monitoring_id>')
 @auth.login_required
-def admin_monitorings_delete(monitoring_id):
+def admin_delete(monitoring_id):
     monitoring = Monitoring.query.get(monitoring_id)
 
     if not monitoring:
@@ -191,7 +185,7 @@ def admin_monitorings_delete(monitoring_id):
     except Exception as e:
         flash(_('Error deleting this monitoring: %(exception)s', exception=str(e)), 'error')
 
-    return redirect(url_for('admin_monitorings_list'))
+    return redirect(url_for('admin'))
 
 
 @app.route('/rss')

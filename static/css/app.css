@@ -201,8 +201,7 @@ nav.main {
     font-weight: bold;
 }
 
-nav.main > ul > li > a,
-nav.secondary > ul > li > a {
+nav.main > ul > li > a {
     color: inherit;
     text-decoration: none;
     text-transform: uppercase;
@@ -218,36 +217,6 @@ nav.main > ul > li.active a {
 }
 
 nav.main > ul > li.active > a:hover {
-    background-color: #3898C5;
-}
-
-/************************************************************************
- * Secondary navigation */
-
-nav.secondary > ul {
-    background-color: #3898C5;
-    border-bottom: 0.4rem solid #E6B71D;
-    border-left: 0.4rem solid #E6B71D;
-    border-right: 0.4rem solid #E6B71D;
-    border-bottom-right-radius: 1rem;
-    border-bottom-left-radius: 1rem;
-    color: #FFF;
-    font-weight: bold;
-}
-
-nav.secondary > ul > li.active a {
-    background-color: #3A8CB2;
-}
-
-nav.secondary > ul > li.active:first-child a {
-    border-bottom-left-radius: 1rem;
-}
-
-nav.secondary > ul > li.active:last-child a {
-    border-bottom-right-radius: 1rem;
-}
-
-nav.secondary > ul > li.active > a:hover {
     background-color: #3898C5;
 }
 
