@@ -63,44 +63,8 @@
     <a href="{{ url_for('admin') }}" class="btn"><i class="fa fa-arrow-left"></i> {{ _('Back') }}</a> <button type="submit"><i class="fa fa-save"></i> {{ _('Save') }}</button>
 </p>
 
+<script src="https://unpkg.com/vue@2.4.4/dist/vue{% if not config['DEBUG'] %}.min{% endif %}.js"></script>
 <script>
-Zepto(function () {
-    var $input_name = $('#{{ form.name.label.field_id }}');
-    var $input_url = $('#{{ form.url.label.field_id }}');
-
-    function fetchPageTitle() {
-        var url = $input_url.val();
-
-        if (!url || $input_name.val()) { // Empty URL field or name already defined
-            return;
-        }
-
-        $.ajax({
-            type: 'GET',
-            url: '{{ url_for('fetch_page_title') }}',
-            data: { url: url },
-            success: function(response, status, xhr) {
-                if (response.result == 'success') {
-                    $input_name.val(response.data.page_title)
-                }
-            },
-            error: function(xhr, errorType, error) {
-                var message = '';
-
-                try {
-                    var response = JSON.parse(xhr.responseText);
-                    message = response.data.message;
-                } catch (e) {
-                    message = error;
-                }
-
-                alert('{{ _('Error getting the page URL:') }} ' + message);
-            }
-        });
-    }
-
-    $input_url.on('blur', function() {
-        fetchPageTitle();
-    });
-});
+    Vue.config.silent = {{ 'false' if config['DEBUG'] else 'true' }};
+    Vue.config.productionTip = false;
 </script>

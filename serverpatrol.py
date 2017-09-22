@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash, abort, make_response, Response, g, request, jsonify
+from flask import Flask, render_template, redirect, url_for, flash, abort, make_response, Response, g, request
 from wtforms import StringField, BooleanField, SelectField, IntegerField, TextAreaField
 from werkzeug.exceptions import HTTPException
 from flask_httpauth import HTTPBasicAuth
@@ -9,7 +9,6 @@ from sqlalchemy_utils import ArrowType
 from flask_babel import Babel, _, lazy_gettext as __, format_datetime
 import wtforms.validators as validators
 from enum import Enum
-from lxml import html
 import logging
 import sys
 import arrow
@@ -72,52 +71,6 @@ def home():
 @app.route('/admin/')
 def admin():
     return render_template('admin/list.html', monitorings=Monitoring.query.get_for_managing())
-
-
-@app.route('/admin/fetch-page-title')
-@auth.login_required
-def fetch_page_title():
-    ajax_response = {
-        'result': 'success',
-        'data': {}
-    }
-
-    status = 200
-
-    if not request.is_xhr or 'url' not in request.args:
-        status = 400
-        ajax_response['result'] = 'failure'
-        ajax_response['data']['message'] = 'Invalid request'
-    else:
-        try:
-            headers = {
-                **requests.utils.default_headers(),
-                **{
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:51.0) Gecko/20100101 Firefox/51.0' # Fake a real web browser
-                }
-            }
-
-            response = requests.get(request.args.get('url'), headers=headers)
-            response.raise_for_status()
-
-            if 'text/html' not in response.headers['Content-Type']:
-                raise Exception('Not an HTML document')
-
-            response_parsed = html.fromstring(response.content)
-
-            page_title = response_parsed.xpath('/html/head/title/text()')
-
-            if not page_title or len(page_title) != 1:
-                raise Exception('Unable to find the page title')
-
-            page_title = page_title[0]
-
-            ajax_response['data']['page_title'] = page_title
-        except Exception as e:
-            app.logger.error(e)
-            ajax_response['result'] = 'failure'
-
-    return jsonify(ajax_response), status
 
 
 @app.route('/admin/create', methods=['GET', 'POST'])
