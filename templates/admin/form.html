@@ -46,24 +46,20 @@
     </div>
 </div>
 
-<div id="app" class="grid has-gutter">
-    <div class="large-w33 tiny-w100">
-        {{ form.http_headers.label() }}
-        {{ form.http_headers(placeholder=_('One header per line. Format: Header-Name: Value'), class='w100') }}
-    </div>
+<div id="app">
+    {{ form.http_headers.label() }}
+    {{ form.http_headers(placeholder=_('One header per line. Format: Header-Name: Value'), class='w100') }}
+
     {% if config['ENABLE_EMAIL_ALERTS'] %}
-        <div class="large-w33 tiny-w100">
-            {{ form.email_recipients.label() }}
+        {{ form.email_recipients.label() }}
 
-            <simpleitemslist :items.sync="email_recipients" type="email" name="email_recipients" placeholder="{{ _('Type an email address and hit Enter') }}"></simpleitemslist>
-        </div>
+        <simpleitemslist :items.sync="email_recipients" type="email" name="email_recipients" placeholder="{{ _('Type an email address and hit Enter') }}"></simpleitemslist>
     {% endif %}
-    {% if config['ENABLE_SMS_ALERTS'] %}
-        <div class="large-w33 tiny-w100">
-            {{ form.sms_recipients.label() }}
 
-            <simpleitemslist :items.sync="sms_recipients" type="tel" name="sms_recipients" placeholder="{{ _('Type a phone number and hit Enter') }}"></simpleitemslist>
-        </div>
+    {% if config['ENABLE_SMS_ALERTS'] %}
+        {{ form.sms_recipients.label() }}
+
+        <simpleitemslist :items.sync="sms_recipients" type="tel" name="sms_recipients" placeholder="{{ _('Type a phone number and hit Enter') }}"></simpleitemslist>
     {% endif %}
 </div>
 
@@ -76,7 +72,7 @@
         <input type="hidden" :name="name" :value="JSON.stringify(items)">
 
         <div>
-            <input :type="type" v-model.trim="item_to_add" @keydown.enter.prevent="addItem()" class="w100" :placeholder="placeholder">
+            {{ _('Add new:') }} <input :type="type" v-model.trim="item_to_add" @keydown.enter.prevent="addItem()" class="inbl w300p" :placeholder="placeholder">
         </div>
 
         <div v-show="items.length > 0" class="mts">
