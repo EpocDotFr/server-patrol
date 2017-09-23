@@ -239,7 +239,7 @@ class Monitoring(db.Model):
     is_public = db.Column(db.Boolean, default=False)
     url = db.Column(db.String(255), nullable=False)
     http_method = db.Column(db.Enum(MonitoringHttpMethod), default=MonitoringHttpMethod.GET)
-    _http_headers = db.Column('http_headers', db.Text, default=[])
+    _http_headers = db.Column('http_headers', db.Text, default={})
     http_body_regex = db.Column(db.String(255), default=None)
     verify_https_cert = db.Column(db.Boolean, default=True)
     check_interval = db.Column(db.Integer, default=5)
@@ -294,7 +294,7 @@ class Monitoring(db.Model):
 
     @property
     def http_headers(self):
-        return json.loads(self._http_headers) if self._http_headers else None
+        return json.loads(self._http_headers)
 
     @http_headers.setter
     def http_headers(self, value):
@@ -305,7 +305,7 @@ class Monitoring(db.Model):
 
     @property
     def email_recipients(self):
-        return json.loads(self._email_recipients) if self._email_recipients else None
+        return json.loads(self._email_recipients)
 
     @email_recipients.setter
     def email_recipients(self, value):
@@ -316,7 +316,7 @@ class Monitoring(db.Model):
 
     @property
     def sms_recipients(self):
-        return json.loads(self._sms_recipients) if self._sms_recipients else None
+        return json.loads(self._sms_recipients)
 
     @sms_recipients.setter
     def sms_recipients(self, value):

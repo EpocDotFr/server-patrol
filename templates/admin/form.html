@@ -48,18 +48,19 @@
 
 <div id="app">
     {{ form.http_headers.label() }}
-    {{ form.http_headers(placeholder=_('One header per line. Format: Header-Name: Value'), class='w100') }}
+
+    <kvitemslist :items.sync="http_headers" name="http_headers"></kvitemslist>
 
     {% if config['ENABLE_EMAIL_ALERTS'] %}
         {{ form.email_recipients.label() }}
 
-        <simpleitemslist :items.sync="email_recipients" type="email" name="email_recipients" placeholder="{{ _('Type an email address and hit Enter') }}"></simpleitemslist>
+        <simpleitemslist :items.sync="email_recipients" name="email_recipients" placeholder="{{ _('Type an email address and hit Enter') }}"></simpleitemslist>
     {% endif %}
 
     {% if config['ENABLE_SMS_ALERTS'] %}
         {{ form.sms_recipients.label() }}
 
-        <simpleitemslist :items.sync="sms_recipients" type="tel" name="sms_recipients" placeholder="{{ _('Type a phone number and hit Enter') }}"></simpleitemslist>
+        <simpleitemslist :items.sync="sms_recipients" name="sms_recipients" placeholder="{{ _('Type a phone number and hit Enter') }}"></simpleitemslist>
     {% endif %}
 </div>
 
@@ -72,11 +73,25 @@
         <input type="hidden" :name="name" :value="JSON.stringify(items)">
 
         <div>
-            {{ _('Add new:') }} <input :type="type" v-model.trim="item_to_add" @keydown.enter.prevent="addItem()" class="inbl w300p" :placeholder="placeholder">
+            {{ _('Add new:') }} <input type="text" v-model.trim="item_to_add" @keydown.enter.prevent="addItem()" class="inbl w300p" :placeholder="placeholder">
         </div>
 
         <div v-show="items.length > 0" class="mts">
             <span v-for="item in items" class="pill pas mrs mbs">${ item } <a href="#" title="{{ _('Remove') }}" @click.prevent="items.splice(items.indexOf(item), 1)"><i class="fa fa-remove"></i></a></span>
+        </div>
+    </div>
+</template>
+
+<template id="kvitemslist">
+    <div class="mts">
+        <input type="hidden" :name="name" :value="JSON.stringify(items)">
+
+        <div>
+            {{ _('Add new:') }} <input type="text" v-model.trim="item_to_add.name" @keydown.enter.prevent="addItem()" class="inbl w200p" placeholder="{{ _('Name') }}"> <input type="text" v-model.trim="item_to_add.value" @keydown.enter.prevent="addItem()" class="inbl w200p" placeholder="{{ _('Value') }}">
+        </div>
+
+        <div v-show="items" class="mts">
+            <span v-for="(value, name) in items" class="pill pas mrs mbs">${ name }: ${ value } <a href="#" title="{{ _('Remove') }}" @click.prevent="delete items[name]"><i class="fa fa-remove"></i></a></span>
         </div>
     </div>
 </template>
@@ -90,7 +105,7 @@
     Vue.component('simpleitemslist', {
         delimiters: vue_delimiters,
         template: '#simpleitemslist',
-        props: ['items', 'type', 'name', 'placeholder'],
+        props: ['items', 'name', 'placeholder'],
         data: function() {
             return {
                 item_to_add: ''
@@ -109,11 +124,37 @@
         }
     });
 
+    Vue.component('kvitemslist', {
+        delimiters: vue_delimiters,
+        template: '#kvitemslist',
+        props: ['items', 'name'],
+        data: function() {
+            return {
+                item_to_add: {
+                    name: '',
+                    value: ''
+                }
+            };
+        },
+        methods: {
+            addItem: function() {
+                if (!this.item_to_add.name || !this.item_to_add.value || (this.item_to_add.name in this.items)) {
+                    return;
+                }
+
+                this.items[this.item_to_add.name] = this.item_to_add.value;
+
+                this.item_to_add.name = '';
+                this.item_to_add.value = '';
+            }
+        }
+    });
+
     var app = new Vue({
         delimiters: vue_delimiters,
         el: '#app',
         data: {
-            http_headers: {{ monitoring.http_headers|tojson if monitoring else '[]' }},
+            http_headers: {{ monitoring.http_headers|tojson if monitoring else '{}' }},
             email_recipients: {{ monitoring.email_recipients|tojson if config['ENABLE_EMAIL_ALERTS'] and monitoring else '[]' }},
             sms_recipients: {{ monitoring.sms_recipients|tojson if config['ENABLE_SMS_ALERTS'] and monitoring else '[]' }}
         }
