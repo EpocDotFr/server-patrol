@@ -350,6 +350,7 @@ class MonitoringCheck(db.Model):
     def __repr__(self):
         return '<MonitoringCheck> #{} : {}'.format(self.id, self.monitoring)
 
+
 # -----------------------------------------------------------
 # Forms
 
