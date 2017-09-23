@@ -252,6 +252,8 @@ class Monitoring(db.Model):
     _sms_recipients = db.Column('sms_recipients', db.Text, default=[])
     created_at = db.Column(ArrowType, default=arrow.now())
 
+    checks = db.relationship('MonitoringCheck', backref='monitoring', lazy='dynamic', cascade="all, delete-orphan")
+
     def __init__(self, name=None, url=None, is_active=False, is_public=False, http_method=MonitoringHttpMethod.GET, http_headers='', http_body_regex=None, verify_https_cert=True, check_interval=5, timeout=10, last_checked_at=None, last_status_change_at=None, status=MonitoringStatus.UNKNOWN, last_down_reason='', email_recipients='', sms_recipients='', created_at=arrow.now()):
         self.name = name
         self.url = url
@@ -324,6 +326,29 @@ class Monitoring(db.Model):
             self._sms_recipients = value
         else:
             self._sms_recipients = json.dumps(value)
+
+
+class MonitoringCheck(db.Model):
+    class MonitoringCheckQuery(db.Query):
+        pass
+
+    __tablename__ = 'monitoring_checks'
+    query_class = MonitoringCheckQuery
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    date_time = db.Column(ArrowType, nullable=False)
+    status = db.Column(db.Enum(MonitoringStatus), nullable=False)
+
+    monitoring_id = db.Column(db.Integer, db.ForeignKey('monitorings.id'))
+
+    def __init__(self, date_time=None, status=None, monitoring=None):
+        self.date_time = date_time
+        self.status = status
+        self.monitoring = monitoring
+
+    def __repr__(self):
+        return '<MonitoringCheck> #{} : {}'.format(self.id, self.monitoring)
 
 # -----------------------------------------------------------
 # Forms
@@ -430,8 +455,15 @@ def check(force):
 
             old_status_known = monitoring.status != MonitoringStatus.UNKNOWN
 
-            monitoring.last_status_change_at = arrow.now()
+            monitoring.last_status_change_at = now
             monitoring.status = status
+
+            monitoring_check = MonitoringCheck()
+            monitoring_check.monitoring = monitoring
+            monitoring_check.status = status
+            monitoring_check.date_time = now
+
+            db.session.add(monitoring_check)
 
             if old_status_known: # Only send alerts if the old status is known (i.e not a newly-created monitoring)
                 if app.config['ENABLE_EMAIL_ALERTS'] and monitoring.email_recipients: # Email alerts enabled?
