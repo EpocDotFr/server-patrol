@@ -55,14 +55,14 @@
         <div class="large-w33 tiny-w100">
             {{ form.email_recipients.label() }}
 
-            <simplelist :items.sync="email_recipients" type="email" name="email_recipients" placeholder="{{ _('Type an email address and hit Enter') }}"></simplelist>
+            <simpleitemslist :items.sync="email_recipients" type="email" name="email_recipients" placeholder="{{ _('Type an email address and hit Enter') }}"></simpleitemslist>
         </div>
     {% endif %}
     {% if config['ENABLE_SMS_ALERTS'] %}
         <div class="large-w33 tiny-w100">
             {{ form.sms_recipients.label() }}
 
-            <simplelist :items.sync="sms_recipients" type="tel" name="sms_recipients" placeholder="{{ _('Type a phone number and hit Enter') }}"></simplelist>
+            <simpleitemslist :items.sync="sms_recipients" type="tel" name="sms_recipients" placeholder="{{ _('Type a phone number and hit Enter') }}"></simpleitemslist>
         </div>
     {% endif %}
 </div>
@@ -71,7 +71,7 @@
     <a href="{{ url_for('admin') }}" class="btn"><i class="fa fa-arrow-left"></i> {{ _('Back') }}</a> <button type="submit"><i class="fa fa-save"></i> {{ _('Save') }}</button>
 </p>
 
-<template id="simplelist">
+<template id="simpleitemslist">
     <div class="mts">
         <input type="hidden" :name="name" :value="JSON.stringify(items)">
 
@@ -91,9 +91,9 @@
 
     var vue_delimiters = ['${', '}']; // Because Jinja2 already uses double brackets
 
-    Vue.component('simplelist', {
+    Vue.component('simpleitemslist', {
         delimiters: vue_delimiters,
-        template: '#simplelist',
+        template: '#simpleitemslist',
         props: ['items', 'type', 'name', 'placeholder'],
         data: function() {
             return {
@@ -117,9 +117,9 @@
         delimiters: vue_delimiters,
         el: '#app',
         data: {
-            http_headers: {{ monitoring.http_headers|tojson if monitoring and monitoring.http_headers else '[]' }},
-            email_recipients: {{ monitoring.email_recipients|tojson if config['ENABLE_EMAIL_ALERTS'] and monitoring and monitoring.email_recipients else '[]' }},
-            sms_recipients: {{ monitoring.sms_recipients|tojson if config['ENABLE_SMS_ALERTS'] and monitoring and monitoring.sms_recipients else '[]' }}
+            http_headers: {{ monitoring.http_headers|tojson if monitoring else '[]' }},
+            email_recipients: {{ monitoring.email_recipients|tojson if config['ENABLE_EMAIL_ALERTS'] and monitoring else '[]' }},
+            sms_recipients: {{ monitoring.sms_recipients|tojson if config['ENABLE_SMS_ALERTS'] and monitoring else '[]' }}
         }
     });
 </script>

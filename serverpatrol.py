@@ -70,6 +70,7 @@ def home():
 
 
 @app.route('/admin/')
+@auth.login_required
 def admin():
     return render_template('admin/list.html', monitorings=Monitoring.query.get_for_managing())
 
@@ -238,7 +239,7 @@ class Monitoring(db.Model):
     is_public = db.Column(db.Boolean, default=False)
     url = db.Column(db.String(255), nullable=False)
     http_method = db.Column(db.Enum(MonitoringHttpMethod), default=MonitoringHttpMethod.GET)
-    _http_headers = db.Column('http_headers', db.Text, default=None)
+    _http_headers = db.Column('http_headers', db.Text, default=[])
     http_body_regex = db.Column(db.String(255), default=None)
     verify_https_cert = db.Column(db.Boolean, default=True)
     check_interval = db.Column(db.Integer, default=5)
@@ -247,8 +248,8 @@ class Monitoring(db.Model):
     last_status_change_at = db.Column(ArrowType, default=None)
     status = db.Column(db.Enum(MonitoringStatus), default=MonitoringStatus.UNKNOWN)
     last_down_reason = db.Column(db.Text, default='')
-    _email_recipients = db.Column('email_recipients', db.Text, default=None)
-    _sms_recipients = db.Column('sms_recipients', db.Text, default=None)
+    _email_recipients = db.Column('email_recipients', db.Text, default=[])
+    _sms_recipients = db.Column('sms_recipients', db.Text, default=[])
     created_at = db.Column(ArrowType, default=arrow.now())
 
     def __init__(self, name=None, url=None, is_active=False, is_public=False, http_method=MonitoringHttpMethod.GET, http_headers='', http_body_regex=None, verify_https_cert=True, check_interval=5, timeout=10, last_checked_at=None, last_status_change_at=None, status=MonitoringStatus.UNKNOWN, last_down_reason='', email_recipients='', sms_recipients='', created_at=arrow.now()):
