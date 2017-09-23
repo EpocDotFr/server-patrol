@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 
-{% block meta_title %}{{ _('Admin') }} › {{ _('Monitorings') }} › {{ monitoring.name }}{% endblock %}
+{% block meta_title %}{{ _('Admin') }} › {{ monitoring.name }}{% endblock %}
 
 {% block content %}
     <form method="post" action="{{ url_for('admin_edit', monitoring_id=monitoring.id) }}">
