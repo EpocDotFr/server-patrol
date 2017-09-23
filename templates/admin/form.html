@@ -91,7 +91,7 @@
         </div>
 
         <div v-show="items" class="mts">
-            <span v-for="(value, name) in items" class="pill pas mrs mbs">${ name }: ${ value } <a href="#" title="{{ _('Remove') }}" @click.prevent="delete items[name]"><i class="fa fa-remove"></i></a></span>
+            <span v-for="(value, name) in items" class="pill pas mrs mbs">${ name }: ${ value } <a href="#" title="{{ _('Remove') }}" @click.prevent="$delete(items, name)"><i class="fa fa-remove"></i></a></span>
         </div>
     </div>
 </template>
