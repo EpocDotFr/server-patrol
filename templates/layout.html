@@ -28,6 +28,7 @@
     <nav class="main txtcenter">
         <ul class="unstyled inbl pan man">
             <li class="inbl pan man {% if request.endpoint == 'home' %}active{% endif %}"><a href="{{ url_for('home') }}" class="inbl pas">{{ _('Statuses') }}</a></li>
+            <li class="inbl pan man {% if request.endpoint == 'reports' %}active{% endif %}"><a href="{{ url_for('reports') }}" class="inbl pas">{{ _('Reports') }}</a></li>
             <li class="inbl pan man {% if request.path.startswith('/admin') %}active{% endif %}"><a href="{{ url_for('admin') }}" class="inbl pas">{{ _('Admin') }}</a></li>
         </ul>
     </nav>

@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block jsfiles %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    {% if monitorings %}
+        {% for monitoring in monitorings %}
+            <h2>{% if not monitoring.is_public %}<i class="fa fa-lock"></i> {% endif %}{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a></small></h2>
+
+            <p>Overall availability: 89%</p>
+
+            <canvas id="monitoring_chart_{{ monitoring.id }}" width="100%" height="200"></canvas>
+        {% endfor %}
+
+        <script>
+
+        </script>
+    {% else %}
+        <p class="alert info pas">{{ _('No reports to display a this moment.') }}</p>
+    {% endif %}
+{% endblock %}

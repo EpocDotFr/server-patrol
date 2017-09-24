@@ -69,6 +69,11 @@ def home():
     return render_template('home.html', monitorings=Monitoring.query.get_for_home())
 
 
+@app.route('/reports')
+def reports():
+    return render_template('reports.html', monitorings=Monitoring.query.get_for_home())
+
+
 @app.route('/admin')
 @auth.login_required
 def admin():
