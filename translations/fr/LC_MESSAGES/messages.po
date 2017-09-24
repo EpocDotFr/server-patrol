@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-23 16:09+0200\n"
-"PO-Revision-Date: 2017-09-23 16:23+0200\n"
+"POT-Creation-Date: 2017-09-24 19:02+0200\n"
+"PO-Revision-Date: 2017-09-24 19:03+0200\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -91,97 +91,98 @@ msgstr "<p>Le statut de <b>%(monitoring_name)s</b> est actuellement inconnu.</p>
 msgid "Server Patrol - Monitorings status"
 msgstr "Server Patrol - Etat des surveillances"
 
-#: serverpatrol.py:333 templates/admin/form.html:90 templates/admin/list.html:13
+#: serverpatrol.py:359 templates/admin/form.html:90 templates/admin/form.html:96
+#: templates/admin/list.html:13
 msgid "Name"
 msgstr "Nom"
 
-#: serverpatrol.py:334
+#: serverpatrol.py:360
 msgid "Active?"
 msgstr "Active ?"
 
-#: serverpatrol.py:335
+#: serverpatrol.py:361
 msgid "Public?"
 msgstr "Publique ?"
 
-#: serverpatrol.py:336
+#: serverpatrol.py:362
 msgid "URL to check"
 msgstr "URL à vérifier"
 
-#: serverpatrol.py:337
+#: serverpatrol.py:363
 msgid "HTTP method to use"
 msgstr "Méthode HTTP à utiliser"
 
-#: serverpatrol.py:338
+#: serverpatrol.py:364
 msgid "HTTP headers to send"
 msgstr "En-têtes HTTP à envoyer"
 
-#: serverpatrol.py:339
+#: serverpatrol.py:365
 msgid "HTTP response body Regex check"
 msgstr "Regex de vérification"
 
-#: serverpatrol.py:340
+#: serverpatrol.py:366
 msgid "Verify HTTPS certificate?"
 msgstr "Vérifier le certificat HTTPS ?"
 
-#: serverpatrol.py:341
+#: serverpatrol.py:367
 msgid "Check interval (minutes)"
 msgstr "Intervalle de vérification (minutes)"
 
-#: serverpatrol.py:342
+#: serverpatrol.py:368
 msgid "Connection timeout (seconds)"
 msgstr "Durée de grâce de la connexion (secondes)"
 
-#: serverpatrol.py:343
+#: serverpatrol.py:369
 msgid "Recipients of the email alerts"
 msgstr "Destinataires des alertes mail"
 
-#: serverpatrol.py:344
+#: serverpatrol.py:370
 msgid "Recipients of the SMS alerts"
 msgstr "Destinataires des alertes SMS"
 
-#: serverpatrol.py:403
+#: serverpatrol.py:429
 #, python-format
 msgid "The server responded with an HTTP error: %(status_code)i %(reason)s."
 msgstr "Le serveur a répondu par une erreur HTTP : %(status_code)i %(reason)s."
 
-#: serverpatrol.py:406
+#: serverpatrol.py:432
 msgid "There were too many HTTP redirects (3xx HTTP status code)."
 msgstr "Trop de redirections HTTP (code de statut HTTP 3xx)."
 
-#: serverpatrol.py:409
+#: serverpatrol.py:435
 msgid "Connection to the server timed out."
 msgstr "La connexion au serveur a prit trop de temps."
 
-#: serverpatrol.py:412
+#: serverpatrol.py:438
 msgid "The server took too long to respond."
 msgstr "Le serveur a prit trop de temps à répondre."
 
-#: serverpatrol.py:415
+#: serverpatrol.py:441
 #, python-format
 msgid "An SSL error occured: %(exception)s"
 msgstr "Une erreur SSL est survenue : %(exception)s"
 
-#: serverpatrol.py:418
+#: serverpatrol.py:444
 #, python-format
 msgid "A proxy error occured: %(exception)s"
 msgstr "Une erreur de proxy est survenue : %(exception)s"
 
-#: serverpatrol.py:421
+#: serverpatrol.py:447
 msgid "Network error: unable to connect to the server."
 msgstr "Erreur réseau : impossible de se connecter au serveur."
 
-#: serverpatrol.py:424
+#: serverpatrol.py:450
 msgid "Response body check failed: the Regex doesn't match anything."
 msgstr ""
 "Vérification du corps de la réponse échouée : l'expression régulière ne "
 "corresponds à rien."
 
-#: serverpatrol.py:444
+#: serverpatrol.py:477
 #, python-format
 msgid "%(monitoring_name)s is gone"
 msgstr "%(monitoring_name)s est parti"
 
-#: serverpatrol.py:451
+#: serverpatrol.py:484
 #, python-format
 msgid "%(monitoring_name)s is back up"
 msgstr "%(monitoring_name)s est revenu"
@@ -280,11 +281,15 @@ msgstr "Enregistrer"
 msgid "Add new:"
 msgstr "Ajouter nouveau :"
 
-#: templates/admin/form.html:80 templates/admin/form.html:94
+#: templates/admin/form.html:76 templates/admin/form.html:90
+msgid "Add"
+msgstr "Ajouter"
+
+#: templates/admin/form.html:80 templates/admin/form.html:102
 msgid "Remove"
 msgstr "Supprimer"
 
-#: templates/admin/form.html:90
+#: templates/admin/form.html:90 templates/admin/form.html:97
 msgid "Value"
 msgstr "Valeur"
 
