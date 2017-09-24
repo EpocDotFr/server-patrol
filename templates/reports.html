@@ -9,14 +9,38 @@
         {% for monitoring in monitorings %}
             <h2>{% if not monitoring.is_public %}<i class="fa fa-lock"></i> {% endif %}{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a></small></h2>
 
-            <p>Overall availability: 89%</p>
+            <p>{{ _('Overall availability: %(overall_availability)d', overall_availability=monitoring.overall_availability) }}</p>
 
-            <canvas id="monitoring_chart_{{ monitoring.id }}" width="100%" height="200"></canvas>
+            <canvas id="monitoring_chart_{{ monitoring.id }}" width="100%"></canvas>
+
+            <script>
+                var monitoring_chart_{{ monitoring.id }} = new Chart('monitoring_chart_{{ monitoring.id }}', {
+                    type: 'line',
+                    data: {
+                        labels: ['{{ monitoring.name }}'],
+                        datasets: [{
+                            label: '{{ _('Availability') }}',
+                            steppedLine: true,
+                            fill: false,
+                            data: {{ monitoring.get_data_for_graph|tojson }},
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255,99,132,1)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        title: {
+                            display: true,
+                            text: '{{ _('Past %(monitoring_name)s availability', monitoring_name=monitoring.name) }}',
+                        }
+                    }
+                });
+            </script>
         {% endfor %}
-
-        <script>
-
-        </script>
     {% else %}
         <p class="alert info pas">{{ _('No reports to display a this moment.') }}</p>
     {% endif %}

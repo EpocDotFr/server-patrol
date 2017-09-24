@@ -332,6 +332,14 @@ class Monitoring(db.Model):
         else:
             self._sms_recipients = json.dumps(value)
 
+    @property
+    def overall_availability(self):
+        return 90 # TODO
+
+    @property
+    def get_data_for_graph(self):
+        return [] # TODO
+
 
 class MonitoringCheck(db.Model):
     class MonitoringCheckQuery(db.Query):
