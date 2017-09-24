@@ -69,7 +69,7 @@ def home():
     return render_template('home.html', monitorings=Monitoring.query.get_for_home())
 
 
-@app.route('/admin/')
+@app.route('/admin')
 @auth.login_required
 def admin():
     return render_template('admin/list.html', monitorings=Monitoring.query.get_for_managing())

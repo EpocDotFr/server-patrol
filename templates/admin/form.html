@@ -73,7 +73,7 @@
         <input type="hidden" :name="name" :value="JSON.stringify(items)">
 
         <div>
-            {{ _('Add new:') }} <input type="text" v-model.trim="item_to_add" @keydown.enter.prevent="addItem()" class="inbl w300p" :placeholder="placeholder">
+            {{ _('Add new:') }} <input type="text" v-model.trim="item_to_add" @keydown.enter.prevent="addItem()" class="inbl w300p" :placeholder="placeholder"> <a href="#" @click.prevent="addItem()" title="{{ _('Add') }}" class="btn"><i class="fa fa-plus"></i></a>
         </div>
 
         <div v-show="items.length > 0" class="mts">
@@ -87,7 +87,7 @@
         <input type="hidden" :name="name" :value="JSON.stringify(items)">
 
         <div>
-            {{ _('Add new:') }} <input type="text" v-model.trim="item_to_add.name" @keydown.enter.prevent="addItem()" class="inbl w200p" placeholder="{{ _('Name') }}"> <input type="text" v-model.trim="item_to_add.value" @keydown.enter.prevent="addItem()" class="inbl w200p" placeholder="{{ _('Value') }}">
+            {{ _('Add new:') }} <input type="text" v-model.trim="item_to_add.name" @keydown.enter.prevent="addItem()" class="inbl w200p" placeholder="{{ _('Name') }}"> <input type="text" v-model.trim="item_to_add.value" @keydown.enter.prevent="addItem()" class="inbl w200p" placeholder="{{ _('Value') }}"> <a href="#" @click.prevent="addItem()" title="{{ _('Add') }}" class="btn"><i class="fa fa-plus"></i></a>
         </div>
 
         <div v-show="items" class="mts">
