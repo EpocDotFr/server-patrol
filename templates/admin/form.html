@@ -90,9 +90,20 @@
             {{ _('Add new:') }} <input type="text" v-model.trim="item_to_add.name" @keydown.enter.prevent="addItem()" class="inbl w200p" placeholder="{{ _('Name') }}"> <input type="text" v-model.trim="item_to_add.value" @keydown.enter.prevent="addItem()" class="inbl w200p" placeholder="{{ _('Value') }}"> <a href="#" @click.prevent="addItem()" title="{{ _('Add') }}" class="btn"><i class="fa fa-plus"></i></a>
         </div>
 
-        <div v-show="items" class="mts">
-            <span v-for="(value, name) in items" class="pill pas mrs mbs">${ name }: ${ value } <a href="#" title="{{ _('Remove') }}" @click.prevent="$delete(items, name)"><i class="fa fa-remove"></i></a></span>
-        </div>
+        <table v-show="Object.keys(items).length > 0" class="mts">
+            <thead>
+                <tr>
+                    <th>{{ _('Name') }}</th>
+                    <th>{{ _('Value') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(value, name) in items">
+                    <td><a href="#" title="{{ _('Remove') }}" @click.prevent="$delete(items, name)"><i class="fa fa-remove"></i></a> ${ name }</td>
+                    <td>${ value }</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 

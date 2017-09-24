@@ -18,13 +18,6 @@ body {
     max-width: 1024px;
 }
 
-.pill {
-    border-radius: 0.5rem;
-    display: inline-block;
-    white-space: nowrap;
-    background-color: #EEE;
-}
-
 /************************************************************************
  * Monitorings */
 
