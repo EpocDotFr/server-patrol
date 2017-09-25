@@ -337,8 +337,8 @@ class Monitoring(db.Model):
         return 90 # TODO
 
     @property
-    def get_data_for_graph(self):
-        return [] # TODO
+    def availability_data(self):
+        return [{'x': check.date_time.format(), 'y': check.status.value} for check in self.checks]
 
 
 class MonitoringCheck(db.Model):

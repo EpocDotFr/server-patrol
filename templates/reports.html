@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block jsfiles %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
 {% endblock %}
 
@@ -9,20 +10,23 @@
         {% for monitoring in monitorings %}
             <h2>{% if not monitoring.is_public %}<i class="fa fa-lock"></i> {% endif %}{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a></small></h2>
 
-            <p>{{ _('Overall availability: %(overall_availability)d', overall_availability=monitoring.overall_availability) }}</p>
+            <p>{{ _('Overall availability: %(overall_availability)d%%', overall_availability=monitoring.overall_availability) }}</p>
 
             <canvas id="monitoring_chart_{{ monitoring.id }}" width="100%"></canvas>
+        {% endfor %}
 
-            <script>
-                var monitoring_chart_{{ monitoring.id }} = new Chart('monitoring_chart_{{ monitoring.id }}', {
+        <script>
+            moment.locale('{{ g.CURRENT_LOCALE }}');
+
+            {% for monitoring in monitorings %}
+                new Chart('monitoring_chart_{{ monitoring.id }}', {
                     type: 'line',
                     data: {
-                        labels: ['{{ monitoring.name }}'],
                         datasets: [{
                             label: '{{ _('Availability') }}',
                             steppedLine: true,
                             fill: false,
-                            data: {{ monitoring.get_data_for_graph|tojson }},
+                            data: {{ monitoring.availability_data|tojson }},
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)'
                             ],
@@ -33,14 +37,43 @@
                     },
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
                         title: {
                             display: true,
                             text: '{{ _('Past %(monitoring_name)s availability', monitoring_name=monitoring.name) }}',
+                        },
+                        legend: {
+                            display: false
+                        },
+                        scales: {
+                            xAxes: [{
+                                type: 'time',
+                                display: true,
+                                distribution: 'series',
+                                time: {
+                                    displayFormats: {
+                                        minute: 'LT',
+                                        week: 'L'
+                                    }
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: '{{ _('Date') }}'
+                                }
+                            }],
+                            yAxes: [{
+                                type: 'category',
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: '{{ _('Availability') }}'
+                                }
+                            }]
                         }
                     }
                 });
-            </script>
-        {% endfor %}
+            {% endfor %}
+        </script>
     {% else %}
         <p class="alert info pas">{{ _('No reports to display a this moment.') }}</p>
     {% endif %}
