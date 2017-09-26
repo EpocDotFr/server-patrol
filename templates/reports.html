@@ -8,7 +8,7 @@
 {% block content %}
     {% if monitorings %}
         {% for monitoring in monitorings %}
-            <h2>{% if not monitoring.is_public %}<i class="fa fa-lock"></i> {% endif %}{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a></small></h2>
+            <h2 class="bigger">{% if not monitoring.is_public %}<i class="fa fa-lock"></i> {% endif %}{{ monitoring.name }} <small><a href="{{ monitoring.url }}"><i class="fa fa-external-link"></i></a></small></h2>
 
             <p>{{ _('Overall availability: %(overall_availability)d%%', overall_availability=monitoring.overall_availability) }}</p>
 
@@ -23,16 +23,15 @@
                     type: 'line',
                     data: {
                         datasets: [{
-                            label: '{{ _('Availability') }}',
                             steppedLine: true,
                             fill: false,
-                            data: {{ monitoring.availability_data|tojson }},
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)'
                             ],
                             borderColor: [
                                 'rgba(255,99,132,1)'
-                            ]
+                            ],
+                            data: {{ monitoring.availability_data|tojson }}
                         }]
                     },
                     options: {
@@ -49,7 +48,6 @@
                             xAxes: [{
                                 type: 'time',
                                 display: true,
-                                distribution: 'series',
                                 time: {
                                     displayFormats: {
                                         minute: 'LT',
@@ -62,8 +60,9 @@
                                 }
                             }],
                             yAxes: [{
-                                type: 'category',
+                                //type: 'category',
                                 display: true,
+                                //labels: ['{{ _('Up') }}', '{{ _('Down') }}'],
                                 scaleLabel: {
                                     display: true,
                                     labelString: '{{ _('Availability') }}'

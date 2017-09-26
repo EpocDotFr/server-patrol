@@ -168,12 +168,14 @@ def rss():
             title = _('%(monitoring_name)s status is unknown', monitoring_name=monitoring.name)
             description = _('<p>The status of <b>%(monitoring_name)s</b> is currently unknown.</p>', monitoring_name=monitoring.name)
 
+        date = monitoring.last_status_change_at if monitoring.last_status_change_at else monitoring.created_at
+
         rss_items.append(PyRSS2Gen.RSSItem(
             title=title,
             link=monitoring.url,
             description=description,
-            guid=PyRSS2Gen.Guid(':'.join([str(monitoring.id), monitoring.status.value, monitoring.last_status_change_at.format()]), isPermaLink=False),
-            pubDate=monitoring.last_status_change_at.datetime,
+            guid=PyRSS2Gen.Guid(':'.join([str(monitoring.id), monitoring.status.value, date.format()]), isPermaLink=False),
+            pubDate=date.datetime,
             categories=[monitoring.status.value]
         ))
 
@@ -338,7 +340,7 @@ class Monitoring(db.Model):
 
     @property
     def availability_data(self):
-        return [{'x': check.date_time.format(), 'y': check.status.value} for check in self.checks]
+        return [{'x': check.date_time.format(), 'y': check.binary_status} for check in self.checks]
 
 
 class MonitoringCheck(db.Model):
@@ -352,16 +354,22 @@ class MonitoringCheck(db.Model):
 
     date_time = db.Column(ArrowType, nullable=False)
     status = db.Column(db.Enum(MonitoringStatus), nullable=False)
+    down_reason = db.Column(db.Text, default='')
 
     monitoring_id = db.Column(db.Integer, db.ForeignKey('monitorings.id'))
 
-    def __init__(self, date_time=None, status=None, monitoring=None):
+    def __init__(self, date_time=None, status=None, monitoring=None, down_reason=''):
         self.date_time = date_time
         self.status = status
         self.monitoring = monitoring
+        self.down_reason = down_reason
 
     def __repr__(self):
         return '<MonitoringCheck> #{} : {}'.format(self.id, self.monitoring)
+
+    @property
+    def binary_status(self):
+        return 1 if self.status == MonitoringStatus.UP else 0
 
 
 # -----------------------------------------------------------
@@ -474,8 +482,9 @@ def check(force):
 
             monitoring_check = MonitoringCheck()
             monitoring_check.monitoring = monitoring
-            monitoring_check.status = status
-            monitoring_check.date_time = now
+            monitoring_check.status = monitoring.status
+            monitoring_check.date_time = monitoring.last_status_change_at
+            monitoring_check.down_reason = monitoring.last_down_reason
 
             db.session.add(monitoring_check)
 
