@@ -5,14 +5,15 @@ from sqlalchemy_utils import ArrowType
 from werkzeug.exceptions import HTTPException
 from flask_httpauth import HTTPBasicAuth
 from flask_sqlalchemy import SQLAlchemy
-import wtforms.validators as validators
 from flask_mail import Mail, Message
 from flask_wtf import FlaskForm
 from enum import Enum
+import wtforms.validators as validators
 import twilio.rest
 import PyRSS2Gen
 import logging
 import requests
+import math
 import arrow
 import json
 import click
@@ -482,15 +483,6 @@ def check(force):
             monitoring.last_status_change_at = now
             monitoring.status = status
 
-            monitoring_check = MonitoringCheck()
-            monitoring_check.monitoring = monitoring
-            monitoring_check.status = monitoring.status
-            monitoring_check.date_time = monitoring.last_status_change_at
-            monitoring_check.down_reason = monitoring.last_down_reason
-            monitoring_check.request_duration = response.elapsed if monitoring.status == MonitoringStatus.UP else 0
-
-            db.session.add(monitoring_check)
-
             if old_status_known: # Only send alerts if the old status is known (i.e not a newly-created monitoring)
                 if app.config['ENABLE_EMAIL_ALERTS'] and monitoring.email_recipients: # Email alerts enabled?
                     app.logger.info('  Sending emails to {}'.format(monitoring.email_recipients))
@@ -537,6 +529,15 @@ def check(force):
                             app.logger.error('  Error sending SMS: {}'.format(e))
 
         monitoring.last_checked_at = now
+
+        monitoring_check = MonitoringCheck()
+        monitoring_check.monitoring = monitoring
+        monitoring_check.status = monitoring.status
+        monitoring_check.date_time = now
+        monitoring_check.down_reason = monitoring.last_down_reason if monitoring.status != MonitoringStatus.UP else ''
+        monitoring_check.request_duration = math.floor(response.elapsed.total_seconds() * 1000) if monitoring.status == MonitoringStatus.UP else 0
+
+        db.session.add(monitoring_check)
 
         db.session.add(monitoring)
         db.session.commit()
