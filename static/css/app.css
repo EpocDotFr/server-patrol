@@ -18,6 +18,14 @@ body {
     max-width: 1024px;
 }
 
+h2 {
+    border-bottom: 0.2rem solid #E6B71D;
+}
+
+.bold {
+    font-weight: bold;
+}
+
 /************************************************************************
  * Monitorings */
 

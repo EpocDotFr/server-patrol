@@ -339,8 +339,12 @@ class Monitoring(db.Model):
         return 90 # TODO
 
     @property
-    def availability_data(self):
-        return [{'x': check.date_time.format(), 'y': check.binary_status} for check in self.checks]
+    def average_request_duration(self):
+        return 94 # TODO
+
+    @property
+    def request_duration_data(self):
+        return [{'x': check.date_time.format(), 'y': check.request_duration} for check in self.checks]
 
 
 class MonitoringCheck(db.Model):
@@ -355,21 +359,19 @@ class MonitoringCheck(db.Model):
     date_time = db.Column(ArrowType, nullable=False)
     status = db.Column(db.Enum(MonitoringStatus), nullable=False)
     down_reason = db.Column(db.Text, default='')
+    request_duration = db.Column(db.Integer, default=0)
 
     monitoring_id = db.Column(db.Integer, db.ForeignKey('monitorings.id'))
 
-    def __init__(self, date_time=None, status=None, monitoring=None, down_reason=''):
+    def __init__(self, date_time=None, status=None, monitoring=None, down_reason='', request_duration=0):
         self.date_time = date_time
         self.status = status
         self.monitoring = monitoring
         self.down_reason = down_reason
+        self.request_duration = request_duration
 
     def __repr__(self):
         return '<MonitoringCheck> #{} : {}'.format(self.id, self.monitoring)
-
-    @property
-    def binary_status(self):
-        return 1 if self.status == MonitoringStatus.UP else 0
 
 
 # -----------------------------------------------------------
@@ -485,6 +487,7 @@ def check(force):
             monitoring_check.status = monitoring.status
             monitoring_check.date_time = monitoring.last_status_change_at
             monitoring_check.down_reason = monitoring.last_down_reason
+            monitoring_check.request_duration = response.elapsed if monitoring.status == MonitoringStatus.UP else 0
 
             db.session.add(monitoring_check)
 
