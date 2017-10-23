@@ -5,6 +5,17 @@ body {
     color: #000545;
 }
 
+h2 {
+    border-bottom: 0.2rem solid #E6B71D;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+/************************************************************************
+ * Text colors */
+
 .txtmuted {
     color: #AAA;
 }
@@ -12,18 +23,6 @@ body {
 .txtred {
     color: #C31C1C;
     cursor: help;
-}
-
-.page {
-    max-width: 1024px;
-}
-
-h2 {
-    border-bottom: 0.2rem solid #E6B71D;
-}
-
-.bold {
-    font-weight: bold;
 }
 
 /************************************************************************
@@ -97,6 +96,7 @@ a:focus {
  * Buttons */
 
 button,
+input[type="button"][type="submit"],
 .btn,
 .btn:visited {
     border-radius: 0.5rem;
@@ -109,8 +109,9 @@ button,
     cursor: pointer;
 }
 
-button:hover, .btn:hover,
-button:focus, .btn:focus {
+button:hover, button:focus,
+.btn:hover, .btn:focus,
+input[type="button"][type="submit"]:hover, input[type="button"][type="submit"]:focus {
     background-color: #3A8CB2;
     color: #FFF;
     outline: none;
@@ -119,21 +120,25 @@ button:focus, .btn:focus {
 /************************************************************************
  * Inputs */
 
-input,
+button,
+input[type="text"],
+optgroup,
+select,
+textarea,
+.btn {
+    line-height: 1.5;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+
+input[type="text"],
 select,
 textarea {
     background-color: #FFF;
     border: 0.2rem solid #E6B71D;
     border-radius: 0.5rem;
-}
-
-input,
-textarea {
-    padding: 0.5rem 1rem;
-}
-
-select {
-    padding: 0.2rem 1rem;
 }
 
 /************************************************************************
@@ -194,7 +199,7 @@ header a:hover {
 }
 
  /************************************************************************
- * Navigations */
+ * Navigation */
 
 nav.main {
     background-color: #000545;
@@ -235,6 +240,12 @@ table td,
 table th {
     border: 0.2rem solid #E6B71D;
     table-layout: auto;
+    vertical-align: middle;
+}
+
+table td,
+table th {
+    padding: 0.4em;
 }
 
 table th {

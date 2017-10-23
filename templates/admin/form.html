@@ -1,5 +1,5 @@
 {% block jsfiles %}
-    <script src="https://unpkg.com/vue@2.4.4/dist/vue{% if not config['DEBUG'] %}.min{% endif %}.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue{{ '.min' if not config['DEBUG'] else '' }}.js"></script>
 {% endblock %}
 
 {{ form.csrf_token }}
@@ -20,14 +20,17 @@
 </div>
 
 <div class="grid has-gutter">
-    <div class="large-w33 tiny-w100">
+    <div class="large-w25 tiny-w100">
         <label for="{{ form.is_active.label.field_id }}">{{ form.is_active }} {{ form.is_active.label.text }}</label>
     </div>
-    <div class="large-w33 tiny-w100">
+    <div class="large-w25 tiny-w100">
         <label for="{{ form.is_public.label.field_id }}">{{ form.is_public }} {{ form.is_public.label.text }}</label>
     </div>
-    <div class="large-w33 tiny-w100">
+    <div class="large-w25 tiny-w100">
         <label for="{{ form.verify_https_cert.label.field_id }}">{{ form.verify_https_cert }} {{ form.verify_https_cert.label.text }}</label>
+    </div>
+    <div class="large-w25 tiny-w100">
+        <label for="{{ form.http_status_error_is_ok.label.field_id }}">{{ form.http_status_error_is_ok }} {{ form.http_status_error_is_ok.label.text }}</label>
     </div>
 </div>
 

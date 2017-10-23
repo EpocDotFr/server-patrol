@@ -259,10 +259,11 @@ class Monitoring(db.Model):
     _email_recipients = db.Column('email_recipients', db.Text, default=[])
     _sms_recipients = db.Column('sms_recipients', db.Text, default=[])
     created_at = db.Column(ArrowType, default=arrow.now())
+    http_status_error_is_ok = db.Column(db.Boolean, default=False)
 
     checks = db.relationship('MonitoringCheck', backref='monitoring', lazy='dynamic', cascade="all, delete-orphan")
 
-    def __init__(self, name=None, url=None, is_active=False, is_public=False, http_method=MonitoringHttpMethod.GET, http_headers='', http_body_regex=None, verify_https_cert=True, check_interval=5, timeout=10, last_checked_at=None, last_status_change_at=None, status=MonitoringStatus.UNKNOWN, last_down_reason='', email_recipients='', sms_recipients='', created_at=arrow.now()):
+    def __init__(self, name=None, url=None, is_active=False, is_public=False, http_method=MonitoringHttpMethod.GET, http_headers='', http_body_regex=None, verify_https_cert=True, check_interval=5, timeout=10, last_checked_at=None, last_status_change_at=None, status=MonitoringStatus.UNKNOWN, last_down_reason='', email_recipients='', sms_recipients='', created_at=arrow.now(), http_status_error_is_ok=False):
         self.name = name
         self.url = url
         self.is_active = is_active
@@ -280,6 +281,7 @@ class Monitoring(db.Model):
         self.email_recipients = email_recipients
         self.sms_recipients = sms_recipients
         self.created_at = created_at
+        self.http_status_error_is_ok = http_status_error_is_ok
 
     def __repr__(self):
         return '<Monitoring> #{} : {}'.format(self.id, self.name)
@@ -392,6 +394,7 @@ class MonitoringForm(FlaskForm):
     timeout = IntegerField(__('Connection timeout (seconds)'), default=10)
     email_recipients = TextAreaField(__('Recipients of the email alerts'))
     sms_recipients = TextAreaField(__('Recipients of the SMS alerts'))
+    http_status_error_is_ok = BooleanField(__('Ignore HTTP errors?'), default=False)
 
 
 # -----------------------------------------------------------
@@ -443,12 +446,15 @@ def check(force):
 
         try:
             response = requests.request(monitoring.http_method.value, monitoring.url, timeout=monitoring.timeout, verify=monitoring.verify_https_cert, headers=monitoring.http_headers)
-            response.raise_for_status()
 
-            # Check for the response body if this monitoring is configured to do so
+            # Only raise an HTTPError exception if we don't allow error HTTP statuses
+            if not monitoring.http_status_error_is_ok:
+                response.raise_for_status()
+
+            # Check the response body if this monitoring has a regex
             if monitoring.http_body_regex and not re.match(monitoring.http_body_regex, response.text):
                 raise InvalidResponseBody()
-        except requests.exceptions.HTTPError:
+        except requests.exceptions.HTTPError: # Should not be encountered if monitoring.http_status_error_is_ok == True
             status = MonitoringStatus.DOWN
             monitoring.last_down_reason = _('The server responded with an HTTP error: %(status_code)i %(reason)s.', status_code=response.status_code, reason=response.reason)
         except requests.exceptions.TooManyRedirects:

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-24 19:02+0200\n"
-"PO-Revision-Date: 2017-09-24 19:03+0200\n"
+"POT-Creation-Date: 2017-10-23 12:49+0200\n"
+"PO-Revision-Date: 2017-10-23 12:50+0200\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -19,39 +19,39 @@ msgstr ""
 "Generated-By: Babel 2.5.1\n"
 "X-Generator: Poedit 2.0.4\n"
 
-#: serverpatrol.py:92
+#: serverpatrol.py:98
 msgid "Monitoring created successfuly."
 msgstr "Surveillance créée avec succès."
 
-#: serverpatrol.py:96
+#: serverpatrol.py:102
 #, python-format
 msgid "Error creating this monitoring: %(exception)s"
 msgstr "Erreur lors de la création de cette surveillance : %(exception)s"
 
-#: serverpatrol.py:118
+#: serverpatrol.py:124
 msgid "Monitoring edited successfuly."
 msgstr "Surveillance modifiée avec succès."
 
-#: serverpatrol.py:122
+#: serverpatrol.py:128
 #, python-format
 msgid "Error editing this monitoring: %(exception)s"
 msgstr "Erreur lors de la modification de cette surveillance : %(exception)s"
 
-#: serverpatrol.py:139
+#: serverpatrol.py:145
 msgid "Monitoring deleted successfuly."
 msgstr "Surveillance supprimée avec succès."
 
-#: serverpatrol.py:141
+#: serverpatrol.py:147
 #, python-format
 msgid "Error deleting this monitoring: %(exception)s"
 msgstr "Erreur lors de la suppression de cette surveillance : %(exception)s"
 
-#: serverpatrol.py:157
+#: serverpatrol.py:163
 #, python-format
 msgid "%(monitoring_name)s is down"
 msgstr "%(monitoring_name)s n'est pas joignable"
 
-#: serverpatrol.py:158
+#: serverpatrol.py:164
 #, python-format
 msgid ""
 "<p><b>%(monitoring_name)s</b> seems to encounter issues and is unreachable "
@@ -62,12 +62,12 @@ msgstr ""
 "injoignable depuis le <b>%(last_status_change)s</b>. La raison est :</p><p>"
 "%(last_down_reason)s</p>"
 
-#: serverpatrol.py:160
+#: serverpatrol.py:166
 #, python-format
 msgid "%(monitoring_name)s is up"
 msgstr "%(monitoring_name)s est joignable"
 
-#: serverpatrol.py:161
+#: serverpatrol.py:167
 #, python-format
 msgid ""
 "<p><b>%(monitoring_name)s</b> is up and reachable since the <b>"
@@ -76,113 +76,117 @@ msgstr ""
 "<p><b>%(monitoring_name)s</b> est en ligne et joignable depuis le <b>"
 "%(last_status_change)s</b>.</p>"
 
-#: serverpatrol.py:163
+#: serverpatrol.py:169
 #, python-format
 msgid "%(monitoring_name)s status is unknown"
 msgstr "Le statut de %(monitoring_name)s est inconnu"
 
-#: serverpatrol.py:164
+#: serverpatrol.py:170
 #, python-format
 msgid "<p>The status of <b>%(monitoring_name)s</b> is currently unknown.</p>"
 msgstr "<p>Le statut de <b>%(monitoring_name)s</b> est actuellement inconnu.</p>"
 
-#: serverpatrol.py:176 serverpatrol.py:178 serverpatrol.py:181
+#: serverpatrol.py:184 serverpatrol.py:186 serverpatrol.py:189
 #: templates/layout.html:21
 msgid "Server Patrol - Monitorings status"
 msgstr "Server Patrol - Etat des surveillances"
 
-#: serverpatrol.py:359 templates/admin/form.html:90 templates/admin/form.html:96
+#: serverpatrol.py:385 templates/admin/form.html:93 templates/admin/form.html:99
 #: templates/admin/list.html:13
 msgid "Name"
 msgstr "Nom"
 
-#: serverpatrol.py:360
+#: serverpatrol.py:386
 msgid "Active?"
 msgstr "Active ?"
 
-#: serverpatrol.py:361
+#: serverpatrol.py:387
 msgid "Public?"
 msgstr "Publique ?"
 
-#: serverpatrol.py:362
+#: serverpatrol.py:388
 msgid "URL to check"
 msgstr "URL à vérifier"
 
-#: serverpatrol.py:363
+#: serverpatrol.py:389
 msgid "HTTP method to use"
 msgstr "Méthode HTTP à utiliser"
 
-#: serverpatrol.py:364
+#: serverpatrol.py:390
 msgid "HTTP headers to send"
 msgstr "En-têtes HTTP à envoyer"
 
-#: serverpatrol.py:365
+#: serverpatrol.py:391
 msgid "HTTP response body Regex check"
 msgstr "Regex de vérification"
 
-#: serverpatrol.py:366
+#: serverpatrol.py:392
 msgid "Verify HTTPS certificate?"
 msgstr "Vérifier le certificat HTTPS ?"
 
-#: serverpatrol.py:367
+#: serverpatrol.py:393
 msgid "Check interval (minutes)"
 msgstr "Intervalle de vérification (minutes)"
 
-#: serverpatrol.py:368
+#: serverpatrol.py:394
 msgid "Connection timeout (seconds)"
 msgstr "Durée de grâce de la connexion (secondes)"
 
-#: serverpatrol.py:369
+#: serverpatrol.py:395
 msgid "Recipients of the email alerts"
 msgstr "Destinataires des alertes mail"
 
-#: serverpatrol.py:370
+#: serverpatrol.py:396
 msgid "Recipients of the SMS alerts"
 msgstr "Destinataires des alertes SMS"
 
-#: serverpatrol.py:429
+#: serverpatrol.py:397
+msgid "Ignore HTTP errors?"
+msgstr "Ignorer les erreurs HTTP ?"
+
+#: serverpatrol.py:459
 #, python-format
 msgid "The server responded with an HTTP error: %(status_code)i %(reason)s."
 msgstr "Le serveur a répondu par une erreur HTTP : %(status_code)i %(reason)s."
 
-#: serverpatrol.py:432
+#: serverpatrol.py:462
 msgid "There were too many HTTP redirects (3xx HTTP status code)."
 msgstr "Trop de redirections HTTP (code de statut HTTP 3xx)."
 
-#: serverpatrol.py:435
+#: serverpatrol.py:465
 msgid "Connection to the server timed out."
 msgstr "La connexion au serveur a prit trop de temps."
 
-#: serverpatrol.py:438
+#: serverpatrol.py:468
 msgid "The server took too long to respond."
 msgstr "Le serveur a prit trop de temps à répondre."
 
-#: serverpatrol.py:441
+#: serverpatrol.py:471
 #, python-format
 msgid "An SSL error occured: %(exception)s"
 msgstr "Une erreur SSL est survenue : %(exception)s"
 
-#: serverpatrol.py:444
+#: serverpatrol.py:474
 #, python-format
 msgid "A proxy error occured: %(exception)s"
 msgstr "Une erreur de proxy est survenue : %(exception)s"
 
-#: serverpatrol.py:447
+#: serverpatrol.py:477
 msgid "Network error: unable to connect to the server."
 msgstr "Erreur réseau : impossible de se connecter au serveur."
 
-#: serverpatrol.py:450
+#: serverpatrol.py:480
 msgid "Response body check failed: the Regex doesn't match anything."
 msgstr ""
 "Vérification du corps de la réponse échouée : l'expression régulière ne "
 "corresponds à rien."
 
-#: serverpatrol.py:477
+#: serverpatrol.py:500
 #, python-format
 msgid "%(monitoring_name)s is gone"
 msgstr "%(monitoring_name)s est parti"
 
-#: serverpatrol.py:484
+#: serverpatrol.py:507
 #, python-format
 msgid "%(monitoring_name)s is back up"
 msgstr "%(monitoring_name)s est revenu"
@@ -231,19 +235,48 @@ msgstr "Aucune surveillance à afficher pour le moment."
 msgid "Statuses"
 msgstr "Statuts"
 
+#: templates/layout.html:31
+msgid "Reports"
+msgstr ""
+
 #: templates/admin/create.html:3 templates/admin/edit.html:3
-#: templates/admin/list.html:3 templates/layout.html:31
+#: templates/admin/list.html:3 templates/layout.html:32
 msgid "Admin"
 msgstr "Gestion"
 
-#: templates/layout.html:47
+#: templates/layout.html:48
 msgid "Source code on GitHub"
 msgstr "Code source sur GitHub"
 
-#: templates/layout.html:47
+#: templates/layout.html:48
 #, python-format
 msgid "Licensed under the %(license)s"
 msgstr "Sous licence %(license)s"
+
+#: templates/reports.html:14
+msgid "Overall availability:"
+msgstr ""
+
+#: templates/reports.html:16
+msgid "Average request duration:"
+msgstr ""
+
+#: templates/reports.html:45
+#, python-format
+msgid "Past %(monitoring_name)s requests duration"
+msgstr ""
+
+#: templates/reports.html:66
+msgid "Date / time"
+msgstr ""
+
+#: templates/reports.html:73
+msgid "Request duration (ms)"
+msgstr ""
+
+#: templates/reports.html:82
+msgid "No reports to display a this moment."
+msgstr ""
 
 #: templates/admin/create.html:3 templates/admin/list.html:6
 msgid "Create"
@@ -253,43 +286,43 @@ msgstr "Créer"
 msgid "Python Regex or empty to disable"
 msgstr "Regex Python ou vide pour désactiver"
 
-#: templates/admin/form.html:41
+#: templates/admin/form.html:44
 msgid "Defaults to 10, min 3"
 msgstr "Par défaut 10, mini 3"
 
-#: templates/admin/form.html:45
+#: templates/admin/form.html:48
 msgid "Defaults to 5, min 1"
 msgstr "Par défaut 5, mini 1"
 
-#: templates/admin/form.html:57
+#: templates/admin/form.html:60
 msgid "Type an email address and hit Enter"
 msgstr "Tapez adresse mail puis Entrée"
 
-#: templates/admin/form.html:63
+#: templates/admin/form.html:66
 msgid "Type a phone number and hit Enter"
 msgstr "Tapez numéro de tel. puis Entrée"
 
-#: templates/admin/form.html:68
+#: templates/admin/form.html:71
 msgid "Back"
 msgstr "Retour"
 
-#: templates/admin/form.html:68
+#: templates/admin/form.html:71
 msgid "Save"
 msgstr "Enregistrer"
 
-#: templates/admin/form.html:76 templates/admin/form.html:90
+#: templates/admin/form.html:79 templates/admin/form.html:93
 msgid "Add new:"
 msgstr "Ajouter nouveau :"
 
-#: templates/admin/form.html:76 templates/admin/form.html:90
+#: templates/admin/form.html:79 templates/admin/form.html:93
 msgid "Add"
 msgstr "Ajouter"
 
-#: templates/admin/form.html:80 templates/admin/form.html:102
+#: templates/admin/form.html:83 templates/admin/form.html:105
 msgid "Remove"
 msgstr "Supprimer"
 
-#: templates/admin/form.html:90 templates/admin/form.html:97
+#: templates/admin/form.html:93 templates/admin/form.html:100
 msgid "Value"
 msgstr "Valeur"
 
