@@ -1,8 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block jsfiles %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -17,64 +16,19 @@
                 <div>{{ monitoring.average_request_duration }} ms</div>
             </div>
 
-            <canvas id="monitoring_chart_{{ monitoring.id }}" width="100%"></canvas>
+            <div id="monitoring_chart_{{ monitoring.id }}" class="request-duration-chart"></div>
         {% endfor %}
 
         <script>
-            moment.locale('{{ g.CURRENT_LOCALE }}');
-
             {% for monitoring in monitorings %}
-                new Chart('monitoring_chart_{{ monitoring.id }}', {
-                    type: 'line',
-                    data: {
-                        datasets: [
-                            {
-                                backgroundColor: 'rgba(230, 183, 29, 0.1)',
-                                borderColor: 'rgba(230, 183, 29, 1)',
-                                borderWidth: 2,
-                                lineTension: 0,
-                                data: {{ monitoring.request_duration_data|tojson }}
-                            }
-                        ]
+                Highcharts.stockChart('monitoring_chart_{{ monitoring.id }}', {
+                    title: {
+                        text: '{{ _('Past %(monitoring_name)s requests duration', monitoring_name=monitoring.name) }}'
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        title: {
-                            display: true,
-                            text: '{{ _('Past %(monitoring_name)s requests duration', monitoring_name=monitoring.name) }}'
-                        },
-                        legend: {
-                            display: false
-                        },
-                        scales: {
-                            xAxes: [{
-                                type: 'time',
-                                display: true,
-                                distribution: 'series',
-                                time: {
-                                    displayFormats: {
-                                        millisecond: 'LT',
-                                        second: 'LT',
-                                        minute: 'LT',
-                                        week: 'L'
-                                    },
-                                    tooltipFormat: 'LLL'
-                                },
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: '{{ _('Date / time') }}'
-                                }
-                            }],
-                            yAxes: [{
-                                display: true,
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: '{{ _('Request duration (ms)') }}'
-                                }
-                            }]
-                        }
-                    }
+                    series: [{
+                        name: '{{ _('Duration') }}',
+                        data: {{ monitoring.request_duration_data|tojson }}
+                    }]
                 });
             {% endfor %}
         </script>

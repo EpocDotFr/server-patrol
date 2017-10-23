@@ -347,7 +347,7 @@ class Monitoring(db.Model):
 
     @property
     def request_duration_data(self):
-        return [{'x': check.date_time.format(), 'y': check.request_duration} for check in self.checks]
+        return [[check.date_time.timestamp * 1000, check.request_duration] for check in self.checks]
 
 
 class MonitoringCheck(db.Model):
@@ -360,15 +360,13 @@ class MonitoringCheck(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     date_time = db.Column(ArrowType, nullable=False)
-    status = db.Column(db.Enum(MonitoringStatus), nullable=False)
     down_reason = db.Column(db.Text, default='')
     request_duration = db.Column(db.Integer, default=0)
 
     monitoring_id = db.Column(db.Integer, db.ForeignKey('monitorings.id'))
 
-    def __init__(self, date_time=None, status=None, monitoring=None, down_reason='', request_duration=0):
+    def __init__(self, date_time=None, monitoring=None, down_reason='', request_duration=0):
         self.date_time = date_time
-        self.status = status
         self.monitoring = monitoring
         self.down_reason = down_reason
         self.request_duration = request_duration
@@ -538,7 +536,6 @@ def check(force):
 
         monitoring_check = MonitoringCheck()
         monitoring_check.monitoring = monitoring
-        monitoring_check.status = monitoring.status
         monitoring_check.date_time = now
         monitoring_check.down_reason = monitoring.last_down_reason if monitoring.status != MonitoringStatus.UP else ''
         monitoring_check.request_duration = math.floor(response.elapsed.total_seconds() * 1000) if monitoring.status == MonitoringStatus.UP else 0
