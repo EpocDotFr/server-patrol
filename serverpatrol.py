@@ -338,14 +338,6 @@ class Monitoring(db.Model):
             self._sms_recipients = json.dumps(value)
 
     @property
-    def overall_availability(self):
-        return 90 # TODO
-
-    @property
-    def average_request_duration(self):
-        return 94 # TODO
-
-    @property
     def request_duration_data(self):
         return [[check.date_time.timestamp * 1000, check.request_duration] for check in self.checks]
 
