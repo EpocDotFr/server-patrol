@@ -293,7 +293,7 @@ class Monitoring(db.Model):
         else:
             attr = self.created_at
 
-        return attr.floor('minute').replace(minutes=self.check_interval)
+        return attr.floor('minute').shift(minutes=self.check_interval)
 
     @property
     def status_icon(self):
