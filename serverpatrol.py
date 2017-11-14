@@ -263,26 +263,6 @@ class Monitoring(db.Model):
 
     checks = db.relationship('MonitoringCheck', backref='monitoring', lazy='dynamic', cascade="all, delete-orphan")
 
-    def __init__(self, name=None, url=None, is_active=False, is_public=False, http_method=MonitoringHttpMethod.GET, http_headers='', http_body_regex=None, verify_https_cert=True, check_interval=5, timeout=10, last_checked_at=None, last_status_change_at=None, status=MonitoringStatus.UNKNOWN, last_down_reason='', email_recipients='', sms_recipients='', created_at=arrow.now(), ignore_http_errors=False):
-        self.name = name
-        self.url = url
-        self.is_active = is_active
-        self.is_public = is_public
-        self.http_method = http_method
-        self.http_headers = http_headers
-        self.http_body_regex = http_body_regex
-        self.verify_https_cert = verify_https_cert
-        self.check_interval = check_interval
-        self.timeout = timeout
-        self.last_checked_at = last_checked_at
-        self.last_status_change_at = last_status_change_at
-        self.status = status
-        self.last_down_reason = last_down_reason
-        self.email_recipients = email_recipients
-        self.sms_recipients = sms_recipients
-        self.created_at = created_at
-        self.ignore_http_errors = ignore_http_errors
-
     def __repr__(self):
         return '<Monitoring> #{} : {}'.format(self.id, self.name)
 
@@ -356,12 +336,6 @@ class MonitoringCheck(db.Model):
     request_duration = db.Column(db.Integer, default=0)
 
     monitoring_id = db.Column(db.Integer, db.ForeignKey('monitorings.id'))
-
-    def __init__(self, date_time=None, monitoring=None, down_reason='', request_duration=0):
-        self.date_time = date_time
-        self.monitoring = monitoring
-        self.down_reason = down_reason
-        self.request_duration = request_duration
 
     def __repr__(self):
         return '<MonitoringCheck> #{} : {}'.format(self.id, self.monitoring)
