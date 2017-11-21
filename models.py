@@ -100,7 +100,7 @@ class Monitoring(db.Model):
 
     @property
     def http_headers(self):
-        return json.loads(self._http_headers)
+        return json.loads(self._http_headers) if self._http_headers else {}
 
     @http_headers.setter
     def http_headers(self, value):
@@ -111,7 +111,7 @@ class Monitoring(db.Model):
 
     @property
     def email_recipients(self):
-        return json.loads(self._email_recipients)
+        return json.loads(self._email_recipients) if self._email_recipients else []
 
     @email_recipients.setter
     def email_recipients(self, value):
@@ -122,7 +122,7 @@ class Monitoring(db.Model):
 
     @property
     def sms_recipients(self):
-        return json.loads(self._sms_recipients)
+        return json.loads(self._sms_recipients) if self._sms_recipients else []
 
     @sms_recipients.setter
     def sms_recipients(self, value):
