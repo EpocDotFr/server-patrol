@@ -1,6 +1,5 @@
 SECRET_KEY = 'secretkeyhere'
 DEBUG = False
-LOGGER_HANDLER_POLICY = 'production'
 USERS = {'username': 'password'}
 SERVER_NAME = 'localhost:8080'
 FORCE_LANGUAGE = None
