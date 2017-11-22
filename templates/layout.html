@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex,nofollow,noarchive"/>
 
-    <title>{% block meta_title %}{% endblock %}{% if self.meta_title() | trim %} • {% endif %}Server Patrol</title>
+    <title>{% block meta_title %}{% endblock %}{% if self.meta_title() | trim %} • {% endif %}{{ config['TITLE'] }}</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.rawgit.com/alsacreations/KNACSS/6.1.2/css/knacss.css">
@@ -18,11 +18,11 @@
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}" />
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
 
-    <link rel="alternate" type="application/rss+xml" title="{{ _('Server Patrol - Monitorings status') }}" href="{{ url_for('rss', _external=True) }}" />
+    <link rel="alternate" type="application/rss+xml" title="{{ _('%(title)s - Monitorings status', title=config['TITLE']) }}" href="{{ url_for('rss', _external=True) }}" />
 </head>
 <body class="man pan">
     <header class="txtcenter pas">
-        <a href="{{ url_for('home') }}" class="biggest"><img src="{{ url_for('static', filename='images/logo.png') }}"> Server Patrol</a>
+        <a href="{{ url_for('home') }}" class="biggest"><img src="{{ url_for('static', filename='images/logo.png') }}"> {{ config['TITLE'] }}</a>
     </header>
 
     <nav class="main txtcenter">

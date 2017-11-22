@@ -123,12 +123,12 @@ def rss():
         ))
 
     rss = PyRSS2Gen.RSS2(
-        title=_('Server Patrol - Monitorings status'),
+        title=_('%(title)s - Monitorings status', title=app.config['TITLE']),
         link=url_for('home', _external=True),
-        description=_('Server Patrol - Monitorings status'),
+        description=_('%(title)s - Monitorings status', title=app.config['TITLE']),
         language=g.CURRENT_LOCALE,
         image=PyRSS2Gen.Image(url_for('static', filename='images/logo.png', _external=True),
-                              _('Server Patrol - Monitorings status'),
+                              _('%(title)s - Monitorings status', title=app.config['TITLE']),
                               url_for('home', _external=True)),
         lastBuildDate=arrow.now().datetime,
         items=rss_items

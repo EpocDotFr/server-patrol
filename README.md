@@ -44,7 +44,7 @@ Simple HTTP-based server status check tool with email/SMS alerts.
 On a **Linux-based OS**, create this [Cron](https://en.wikipedia.org/wiki/Cron) entry:
 
 ```
-* * * * * cd /path/to/server-patrol && export FLASK_APP=serverpatrol.py && flask check 2>&1
+* * * * * cd /path/to/server-patrol && export FLASK_APP=serverpatrol.py && flask check >/dev/null 2>&1
 ```
 
 On **Windows**, create this scheduled task using the command line:
@@ -66,6 +66,7 @@ Available configuration parameters are:
 
 More informations on the three above can be found [here](http://flask.pocoo.org/docs/0.12/config/#builtin-configuration-values).
 
+  - `TITLE` If set to a string, will be used to replace the default app title (which is "Server Patrol")
   - `USERS` The credentials required to access the app. You can specify multiple ones. **It is highly recommended to serve Server Patrol through HTTPS** because it uses [HTTP basic auth](https://en.wikipedia.org/wiki/Basic_access_authentication)
   - `SERVER_NAME` The IP or hostname where Server Patrol will be available
   - `FORCE_LANGUAGE` Force the lang to be one of the supported ones (defaults to `None`: auto-detection from the `Accept-Language` HTTP header). See in the features section above for a list of available lang keys

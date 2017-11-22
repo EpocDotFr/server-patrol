@@ -26,7 +26,7 @@ def check(force):
 
     if os.path.isfile(lock_file):
         click.echo('Checks already running, aborting', err=True)
-        click.echo('If Server Patrol crashed, please delete the storage/.running file before running this command again', err=True)
+        click.echo('Maybe Server Patrol crashed. Please delete the storage/.running file before running this command again.', err=True)
         click.echo('If this happens too many times, please open an issue.', err=True)
 
         return
