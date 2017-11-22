@@ -14,8 +14,20 @@ import re
 @app.cli.command()
 def create_database():
     """Delete then create all the database tables."""
+    if not click.confirm('Are you sure?'):
+        click.secho('Aborted', fg='red')
+
+        return
+
+    click.echo('Dropping everything')
+
     db.drop_all()
+
+    click.echo('Creating tables')
+
     db.create_all()
+
+    click.secho('Done', fg='green')
 
 
 @app.cli.command()
