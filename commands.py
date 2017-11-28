@@ -1,4 +1,5 @@
 from serverpatrol import app, db, mail
+from flask import render_template
 from flask_mail import Message
 from flask_babel import _
 from models import *
