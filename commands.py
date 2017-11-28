@@ -1,5 +1,6 @@
 from serverpatrol import app, db, mail
 from flask_mail import Message
+from flask_babel import _
 from models import *
 import twilio.rest
 import requests
