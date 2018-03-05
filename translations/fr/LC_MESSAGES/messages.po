@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-11-22 13:08+0100\n"
+"POT-Creation-Date: 2018-03-05 13:04+0100\n"
 "PO-Revision-Date: 2017-11-22 13:07+0100\n"
 "Last-Translator: \n"
 "Language: fr\n"
@@ -18,49 +18,49 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.1\n"
 
-#: commands.py:70
+#: commands.py:84
 #, python-format
 msgid "The server responded with an HTTP error: %(status_code)i %(reason)s."
 msgstr "Le serveur a répondu par une erreur HTTP : %(status_code)i %(reason)s."
 
-#: commands.py:73
+#: commands.py:87
 msgid "There were too many HTTP redirects (3xx HTTP status code)."
 msgstr "Trop de redirections HTTP (code de statut HTTP 3xx)."
 
-#: commands.py:76
+#: commands.py:90
 msgid "Connection to the server timed out."
 msgstr "La connexion au serveur a prit trop de temps."
 
-#: commands.py:79
+#: commands.py:93
 msgid "The server took too long to respond."
 msgstr "Le serveur a prit trop de temps à répondre."
 
-#: commands.py:82
+#: commands.py:96
 #, python-format
 msgid "An SSL error occured: %(exception)s"
 msgstr "Une erreur SSL est survenue : %(exception)s"
 
-#: commands.py:85
+#: commands.py:99
 #, python-format
 msgid "A proxy error occured: %(exception)s"
 msgstr "Une erreur de proxy est survenue : %(exception)s"
 
-#: commands.py:88
+#: commands.py:102
 msgid "Network error: unable to connect to the server."
 msgstr "Erreur réseau : impossible de se connecter au serveur."
 
-#: commands.py:91
+#: commands.py:105
 msgid "Response body check failed: the Regex doesn't match anything."
 msgstr ""
 "Vérification du corps de la réponse échouée : l'expression régulière ne "
 "corresponds à rien."
 
-#: commands.py:111
+#: commands.py:125
 #, python-format
 msgid "%(monitoring_name)s is gone"
 msgstr "%(monitoring_name)s est parti"
 
-#: commands.py:118
+#: commands.py:132
 #, python-format
 msgid "%(monitoring_name)s is back up"
 msgstr "%(monitoring_name)s est revenu"
@@ -118,39 +118,39 @@ msgstr "Destinataires des alertes SMS"
 msgid "Ignore HTTP errors?"
 msgstr "Ignorer les erreurs HTTP ?"
 
-#: routes.py:40
+#: routes.py:35
 msgid "Monitoring created successfuly."
 msgstr "Surveillance créée avec succès."
 
-#: routes.py:44
+#: routes.py:39
 #, python-format
 msgid "Error creating this monitoring: %(exception)s"
 msgstr "Erreur lors de la création de cette surveillance : %(exception)s"
 
-#: routes.py:66
+#: routes.py:61
 msgid "Monitoring edited successfuly."
 msgstr "Surveillance modifiée avec succès."
 
-#: routes.py:70
+#: routes.py:65
 #, python-format
 msgid "Error editing this monitoring: %(exception)s"
 msgstr "Erreur lors de la modification de cette surveillance : %(exception)s"
 
-#: routes.py:87
+#: routes.py:82
 msgid "Monitoring deleted successfuly."
 msgstr "Surveillance supprimée avec succès."
 
-#: routes.py:89
+#: routes.py:84
 #, python-format
 msgid "Error deleting this monitoring: %(exception)s"
 msgstr "Erreur lors de la suppression de cette surveillance : %(exception)s"
 
-#: routes.py:105
+#: routes.py:100
 #, python-format
 msgid "%(monitoring_name)s is down"
 msgstr "%(monitoring_name)s n'est pas joignable"
 
-#: routes.py:106
+#: routes.py:101
 #, python-format
 msgid ""
 "<p><b>%(monitoring_name)s</b> seems to encounter issues and is "
@@ -161,12 +161,12 @@ msgstr ""
 "injoignable depuis le <b>%(last_status_change)s</b>. La raison est "
 ":</p><p>%(last_down_reason)s</p>"
 
-#: routes.py:108
+#: routes.py:103
 #, python-format
 msgid "%(monitoring_name)s is up"
 msgstr "%(monitoring_name)s est joignable"
 
-#: routes.py:109
+#: routes.py:104
 #, python-format
 msgid ""
 "<p><b>%(monitoring_name)s</b> is up and reachable since the "
@@ -175,17 +175,17 @@ msgstr ""
 "<p><b>%(monitoring_name)s</b> est en ligne et joignable depuis le "
 "<b>%(last_status_change)s</b>.</p>"
 
-#: routes.py:111
+#: routes.py:106
 #, python-format
 msgid "%(monitoring_name)s status is unknown"
 msgstr "Le statut de %(monitoring_name)s est inconnu"
 
-#: routes.py:112
+#: routes.py:107
 #, python-format
 msgid "<p>The status of <b>%(monitoring_name)s</b> is currently unknown.</p>"
 msgstr "<p>Le statut de <b>%(monitoring_name)s</b> est actuellement inconnu.</p>"
 
-#: routes.py:126 routes.py:128 routes.py:131 templates/layout.html:21
+#: routes.py:121 routes.py:123 routes.py:126 templates/layout.html:21
 #, python-format
 msgid "%(title)s - Monitorings status"
 msgstr "%(title)s - Etat des surveillances"
@@ -234,184 +234,19 @@ msgstr "Aucune surveillance à afficher pour le moment."
 msgid "Statuses"
 msgstr "Statuts"
 
-#: templates/layout.html:31
-msgid "Reports"
-msgstr ""
-
 #: templates/admin/create.html:3 templates/admin/edit.html:3
-#: templates/admin/list.html:3 templates/layout.html:32
+#: templates/admin/list.html:3 templates/layout.html:31
 msgid "Admin"
 msgstr "Gestion"
 
-#: templates/layout.html:48
+#: templates/layout.html:47
 msgid "Source code on GitHub"
 msgstr "Code source sur GitHub"
 
-#: templates/layout.html:48
+#: templates/layout.html:47
 #, python-format
 msgid "Licensed under the %(license)s"
 msgstr "Sous licence %(license)s"
-
-#: templates/reports.html:19
-msgid "January"
-msgstr ""
-
-#: templates/reports.html:20
-msgid "February"
-msgstr ""
-
-#: templates/reports.html:21
-msgid "March"
-msgstr ""
-
-#: templates/reports.html:22
-msgid "April"
-msgstr ""
-
-#: templates/reports.html:23 templates/reports.html:37
-msgid "May"
-msgstr ""
-
-#: templates/reports.html:24
-msgid "June"
-msgstr ""
-
-#: templates/reports.html:25
-msgid "July"
-msgstr ""
-
-#: templates/reports.html:26
-msgid "August"
-msgstr ""
-
-#: templates/reports.html:27
-msgid "September"
-msgstr ""
-
-#: templates/reports.html:28
-msgid "October"
-msgstr ""
-
-#: templates/reports.html:29
-msgid "November"
-msgstr ""
-
-#: templates/reports.html:30
-msgid "December"
-msgstr ""
-
-#: templates/reports.html:33
-msgid "Jan"
-msgstr ""
-
-#: templates/reports.html:34
-msgid "Feb"
-msgstr ""
-
-#: templates/reports.html:35
-msgid "Mar"
-msgstr ""
-
-#: templates/reports.html:36
-msgid "Apr"
-msgstr ""
-
-#: templates/reports.html:38
-msgid "Jun"
-msgstr ""
-
-#: templates/reports.html:39
-msgid "Jul"
-msgstr ""
-
-#: templates/reports.html:40
-msgid "Aug"
-msgstr ""
-
-#: templates/reports.html:41
-msgid "Sep"
-msgstr ""
-
-#: templates/reports.html:42
-msgid "Oct"
-msgstr ""
-
-#: templates/reports.html:43
-msgid "Nov"
-msgstr ""
-
-#: templates/reports.html:44
-msgid "Dec"
-msgstr ""
-
-#: templates/reports.html:47
-msgid "Sunday"
-msgstr ""
-
-#: templates/reports.html:48
-msgid "Monday"
-msgstr ""
-
-#: templates/reports.html:49
-msgid "Tuesday"
-msgstr ""
-
-#: templates/reports.html:50
-msgid "Wednesday"
-msgstr ""
-
-#: templates/reports.html:51
-msgid "Thursday"
-msgstr ""
-
-#: templates/reports.html:52
-msgid "Friday"
-msgstr ""
-
-#: templates/reports.html:53
-msgid "Saturday"
-msgstr ""
-
-#: templates/reports.html:56
-msgid "Sun"
-msgstr ""
-
-#: templates/reports.html:57
-msgid "Mon"
-msgstr ""
-
-#: templates/reports.html:58
-msgid "Tue"
-msgstr ""
-
-#: templates/reports.html:59
-msgid "Wed"
-msgstr ""
-
-#: templates/reports.html:60
-msgid "Thu"
-msgstr ""
-
-#: templates/reports.html:61
-msgid "Fri"
-msgstr ""
-
-#: templates/reports.html:62
-msgid "Sat"
-msgstr ""
-
-#: templates/reports.html:70
-#, python-format
-msgid "Past %(monitoring_name)s requests duration"
-msgstr ""
-
-#: templates/reports.html:73
-msgid "Duration"
-msgstr ""
-
-#: templates/reports.html:83
-msgid "No reports to display a this moment."
-msgstr ""
 
 #: templates/admin/create.html:3 templates/admin/list.html:6
 msgid "Create"
@@ -636,53 +471,3 @@ msgstr "%(monitoring_name)s est injoignable. Raison :"
 #, python-format
 msgid "%(monitoring_name)s is now reachable. Downtime reason was:"
 msgstr "%(monitoring_name)s est maintenant joignable. Le problème était :"
-
-#~ msgid "If empty, will try to get it automatically"
-#~ msgstr "Vide pour tenter de récupérer le titre automatiquement"
-
-#~ msgid "Must be accessible by Server Patrol"
-#~ msgstr "Doit être accessible par Server Patrol"
-
-#~ msgid "Error getting the page URL:"
-#~ msgstr "Erreur lors de la récupération du titre de la page :"
-
-#~ msgid "Monitorings"
-#~ msgstr "Surveillances"
-
-#~ msgid "One header per line. Format: Header-Name: Value"
-#~ msgstr "Un en-tête par ligne. Format : Nom-En-Tete: Valeur"
-
-#~ msgid "Comma-separated list of email addresses"
-#~ msgstr "Liste d'adresses mail séparée par des virgules"
-
-#~ msgid ""
-#~ "Comma-separated list of mobile phone "
-#~ "numbers, in their international format"
-#~ msgstr "Liste de numéros de téléphone portable séparée par des virgules"
-
-#~ msgid "Server Patrol - Monitorings status"
-#~ msgstr "Server Patrol - Etat des surveillances"
-
-#~ msgid ""
-#~ "This email was automatically sent by "
-#~ "<a href=\"%(home_link)s\">Server Patrol</a>. Please"
-#~ " don't reply."
-#~ msgstr ""
-#~ "Cet email vous a été envoyé "
-#~ "automatiquement par <a href=\"%(home_link)s\">Server"
-#~ " Patrol</a>. Merci de ne pas y "
-#~ "répondre."
-
-#~ msgid ""
-#~ "This email was automatically sent by "
-#~ "Server Patrol (%(home_link)s). Please don't"
-#~ " reply."
-#~ msgstr ""
-#~ "Cet email vous a été envoyé "
-#~ "automatiquement par Server Patrol "
-#~ "(%(home_link)s). Merci de ne pas y "
-#~ "répondre."
-
-#~ msgid "%(monitoring_name)s - Monitorings status"
-#~ msgstr ""
-
