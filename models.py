@@ -8,8 +8,7 @@ import json
 __all__ = [
     'MonitoringHttpMethod',
     'MonitoringStatus',
-    'Monitoring',
-    'MonitoringCheck'
+    'Monitoring'
 ]
 
 
@@ -75,8 +74,6 @@ class Monitoring(db.Model):
     created_at = db.Column(ArrowType, default=arrow.now())
     ignore_http_errors = db.Column(db.Boolean, default=False)
 
-    checks = db.relationship('MonitoringCheck', backref='monitoring', lazy='dynamic', cascade="all, delete-orphan")
-
     def __repr__(self):
         return '<Monitoring> #{} : {}'.format(self.id, self.name)
 
@@ -134,22 +131,3 @@ class Monitoring(db.Model):
     @property
     def request_duration_data(self):
         return [[check.date_time.timestamp * 1000, check.request_duration] for check in self.checks]
-
-
-class MonitoringCheck(db.Model):
-    class MonitoringCheckQuery(db.Query):
-        pass
-
-    __tablename__ = 'monitoring_checks'
-    query_class = MonitoringCheckQuery
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-
-    date_time = db.Column(ArrowType, nullable=False)
-    down_reason = db.Column(db.Text, default='')
-    request_duration = db.Column(db.Integer, default=0)
-
-    monitoring_id = db.Column(db.Integer, db.ForeignKey('monitorings.id'))
-
-    def __repr__(self):
-        return '<MonitoringCheck> #{} : {}'.format(self.id, self.monitoring)

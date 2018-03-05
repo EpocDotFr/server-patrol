@@ -161,14 +161,6 @@ def check(force):
 
         monitoring.last_checked_at = now
 
-        monitoring_check = MonitoringCheck()
-        monitoring_check.monitoring = monitoring
-        monitoring_check.date_time = now
-        monitoring_check.down_reason = monitoring.last_down_reason if monitoring.status != MonitoringStatus.UP else ''
-        monitoring_check.request_duration = math.floor(response.elapsed.total_seconds() * 1000) if monitoring.status == MonitoringStatus.UP else 0
-
-        db.session.add(monitoring_check)
-
         db.session.add(monitoring)
         db.session.commit()
 
