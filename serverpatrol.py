@@ -18,7 +18,6 @@ app.config.from_pyfile('config.py')
 if not app.config['TITLE']:
     app.config['TITLE'] = 'Server Patrol'
 
-app.config['LOGGER_HANDLER_POLICY'] = 'production'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///storage/data/db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_DEBUG'] = False
