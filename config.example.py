@@ -1,5 +1,4 @@
 SECRET_KEY = 'secretkeyhere'
-ENV = 'production'
 USERS = {'username': 'password'}
 SERVER_NAME = 'localhost:8080'
 FORCE_LANGUAGE = None

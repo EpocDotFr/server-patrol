@@ -62,9 +62,8 @@ Copy the `config.example.py` file to `config.py` and fill in the configuration p
 Available configuration parameters are:
 
   - `SECRET_KEY` Set this to a complex random value
-  - `ENV` Either `production` or `development` (debug mode enabled in this last)
 
-More informations on the three above can be found [here](http://flask.pocoo.org/docs/0.12/config/#builtin-configuration-values).
+More informations about Flask config values can be found [here](http://flask.pocoo.org/docs/1.0/config/#builtin-configuration-values).
 
   - `TITLE` If set to a string, will be used to replace the default app title (which is "Server Patrol")
   - `USERS` The credentials required to access the app. You can specify multiple ones. **It is highly recommended to serve Server Patrol through HTTPS** because it uses [HTTP basic auth](https://en.wikipedia.org/wiki/Basic_access_authentication)
