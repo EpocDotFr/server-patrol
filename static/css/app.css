@@ -146,6 +146,11 @@ textarea {
     border-radius: 0.5rem;
 }
 
+select {
+    -webkit-appearance: menulist;
+    -moz-appearance: menulist;
+}
+
 /************************************************************************
  * Forms */
 
